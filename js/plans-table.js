@@ -1,0 +1,373 @@
+import { escapeHtml, safeExternalUrl } from './render.js';
+import { t } from './i18n.js';
+import { PROVIDER_NAME_MAP, brandForProvider } from './shared/brands.js';
+import {
+  displayNameForProvider,
+  filterPlansByProviderInfo,
+  formatPriceNumber,
+  hasDisplayPrice,
+  planDetailSlug,
+  planIsInternational,
+  planKey,
+  providerMetadata,
+  providerSortOrder,
+  safeIconUrl,
+  seoBrandSlugForProvider,
+  sortPlansBySortOrder,
+  supportedModelDisplay
+} from './shared/plan-utils.js';
+import {
+  PLAN_TABLE_FILTER_COLUMNS,
+  applyPlanTableFilter,
+  isPlanTableFilterActive,
+  renderPlanTableFilterHeader,
+  renderPlanTableFilterSummary
+} from './plans-filters.js';
+import {
+  PLAN_TYPE_LABELS,
+  outboundTrackingAttributes,
+  renderPlanPriceBlock,
+  renderSelectedPlanDetail
+} from './plans-detail.js';
+
+const PLAN_TABLE_GROUP_PREVIEW = 2;
+
+function planDetailHref(plan, providerInfo) {
+  const brandSlug = seoBrandSlugForProvider(plan.provider, providerInfo, PROVIDER_NAME_MAP);
+  const detailSlug = planDetailSlug(plan, brandSlug);
+  return detailSlug ? `/plans/${encodeURIComponent(detailSlug)}/` : '';
+}
+
+function planIconUrl(plan, providerInfo = {}) {
+  const metadata = providerMetadata(plan.provider, providerInfo, PROVIDER_NAME_MAP);
+  return safeIconUrl(metadata.icon_url)
+    || safeIconUrl(plan.providerIconUrl)
+    || safeIconUrl(brandForProvider(plan.provider)?.iconUrl);
+}
+
+export function renderBrandIcon(iconUrl, label, className = 'brand-icon') {
+  const safeUrl = safeIconUrl(iconUrl);
+  const initial = String(label || '?').trim().slice(0, 1).toUpperCase() || '?';
+  const fallbackClass = safeUrl ? 'brand-icon-fallback hidden' : 'brand-icon-fallback';
+  return `<span class="${className}" aria-hidden="true">
+    ${safeUrl ? `<img class="brand-icon-img" src="${escapeHtml(safeUrl)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}
+    <span class="${fallbackClass}">${escapeHtml(initial)}</span>
+  </span>`;
+}
+
+function groupPlansByProvider(plans, providerInfo) {
+  const groups = [];
+  let current = null;
+  for (const plan of plans) {
+    if (!current || plan.provider !== current.provider) {
+      current = {
+        provider: plan.provider,
+        label: displayNameForProvider(plan.provider, providerInfo, PROVIDER_NAME_MAP),
+        iconUrl: planIconUrl(plan, providerInfo),
+        plans: []
+      };
+      groups.push(current);
+    }
+    current.plans.push(plan);
+  }
+  for (const group of groups) {
+    group.plans = sortPlansBySortOrder(group.plans);
+  }
+  groups.sort((a, b) => (
+    providerSortOrder(a.provider, providerInfo, PROVIDER_NAME_MAP)
+      - providerSortOrder(b.provider, providerInfo, PROVIDER_NAME_MAP)
+  ));
+  return groups;
+}
+
+function planIsAvailable(plan) {
+  return plan.status === 'available' || plan.statusLabel === '可用' || plan.statusLabel === '可购买';
+}
+
+function planCheapestMonthlyValue(plans) {
+  let min = null;
+  for (const plan of plans) {
+    let value = null;
+    if (Number.isFinite(plan.monthlyPriceValue)) {
+      value = plan.monthlyPriceValue;
+    } else {
+      const match = String(plan.monthlyPrice || '').match(/[\d.]+/);
+      const parsed = match ? parseFloat(match[0]) : NaN;
+      if (Number.isFinite(parsed)) value = parsed;
+    }
+    if (value == null || value < 0) continue;
+    if (min == null || value < min) min = value;
+  }
+  return min;
+}
+
+function renderGroupSummary(group) {
+  const cheapest = planCheapestMonthlyValue(group.plans);
+  const availableCount = group.plans.filter(planIsAvailable).length;
+  const parts = [];
+  if (cheapest != null) {
+    parts.push(cheapest === 0 ? t('group.summary.free') : t('group.summary.from', { price: formatPriceNumber(cheapest) }));
+  }
+  if (availableCount > 0) {
+    parts.push(t('group.summary.available', { n: availableCount }));
+  }
+  const text = parts.join(' · ');
+  return `<span class="plan-table-group-summary">${escapeHtml(text)}</span>`;
+}
+
+function planStatusClass(plan) {
+  if (plan.status === 'available' || plan.statusLabel === '可用' || plan.statusLabel === '可购买') {
+    return 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300';
+  }
+  if (plan.status === 'rush_sale') {
+    return 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400';
+  }
+  return 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400';
+}
+
+function planPriceCard(plan, trustHtml = '', domesticHtml = '', isExpanded = false) {
+  const statusColor = planStatusClass(plan);
+  const hasSpecificPricing = plan.includedCalls && plan.includedCalls.length > 10
+    && (plan.includedCalls.includes('¥') || plan.includedCalls.includes('元') || plan.includedCalls.includes('百万'));
+  const typeLabel = PLAN_TYPE_LABELS[plan.planType] || plan.planType || '';
+
+  let priceHtml;
+  const subscriptionPriceHtml = renderPlanPriceBlock(plan);
+  if (subscriptionPriceHtml) {
+    priceHtml = subscriptionPriceHtml;
+  } else if (hasSpecificPricing) {
+    priceHtml = `<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">${escapeHtml(plan.includedCalls)}</span>`;
+  } else if (plan.includedCalls || plan.planType !== 'api-usage') {
+    priceHtml = `<span class="text-lg font-bold text-slate-500 dark:text-slate-400">${escapeHtml(t('table.price.official'))}</span>`;
+  } else {
+    priceHtml = `<span class="text-lg font-bold text-slate-400 dark:text-slate-500">${escapeHtml(t('table.price.usage'))}</span>`;
+  }
+
+  return `
+    <div class="plan-card">
+      <div class="plan-card-head">
+        <div class="plan-card-title-row flex items-start justify-between gap-2">
+          <div class="flex min-w-0 flex-1 items-start gap-2">
+            ${trustHtml}
+            <div class="min-w-0 flex-1">
+              <p class="plan-card-title">${escapeHtml(plan.name)}</p>
+            </div>
+          </div>
+          <div class="plan-card-meta flex shrink-0 flex-col items-end gap-1.5">
+            <span class="whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${escapeHtml(plan.statusLabel)}</span>
+            ${domesticHtml}
+            ${typeLabel ? `<span class="whitespace-nowrap rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-medium text-brand-600 dark:bg-brand-950/40 dark:text-brand-300">${escapeHtml(typeLabel)}</span>` : ''}
+          </div>
+          <span class="plan-card-disclosure" aria-hidden="true">
+            <span>${isExpanded ? t('card.detail.collapse') : t('card.detail.expand')}</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="m6 8 4 4 4-4" />
+            </svg>
+          </span>
+        </div>
+        <div class="plan-card-price-row mt-3 flex items-baseline gap-1.5">
+          ${priceHtml}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderAllPlansCards(plans, selectedPlanKey, providerInfo, expandedProviders, showAllGroups) {
+  if (!plans.length) return '';
+  return groupPlansByProvider(plans, providerInfo).map(group => {
+    const isGroupExpanded = showAllGroups || expandedProviders.has(group.provider);
+    const visibleGroupPlans = isGroupExpanded
+      ? group.plans
+      : group.plans.slice(0, PLAN_TABLE_GROUP_PREVIEW);
+    const cards = visibleGroupPlans.map(plan => {
+      const key = planKey(plan);
+      const isSelected = key === selectedPlanKey;
+      const confidence = plan.confidenceScore;
+      let dotClass = 'trust-dot--yellow';
+      if (confidence && confidence >= 0.8) dotClass = 'trust-dot--high';
+      else if (confidence && confidence < 0.5) dotClass = 'trust-dot--red';
+      const domesticHtml = [
+        plan.domesticPayment ? `<span class="plan-card-badge">${escapeHtml(t('badge.domesticPayment'))}</span>` : '',
+        planIsInternational(plan)
+          ? `<span class="plan-card-badge plan-card-badge--intl" title="${escapeHtml(t('badge.intl.title'))}">${escapeHtml(String(plan.monthlyCurrency || 'USD').toUpperCase())}</span>`
+          : ''
+      ].filter(Boolean).join('');
+      const trustHtml = `<span class="trust-dot ${dotClass}" title="${escapeHtml(t('trust.label'))}: ${confidence != null ? Math.round(confidence * 100) + '%' : t('common.unknown')}"></span>`;
+      return `
+        <article class="plan-card-mobile${isSelected ? ' is-selected' : ''}">
+          <div class="plan-card-toggle" role="button" tabindex="0" data-plan-key="${escapeHtml(key)}" aria-expanded="${isSelected ? 'true' : 'false'}">
+            ${planPriceCard(plan, trustHtml, domesticHtml, isSelected)}
+          </div>
+          ${isSelected ? renderSelectedPlanDetail(plan) : ''}
+        </article>`;
+    }).join('');
+    const remainingCount = Math.max(0, group.plans.length - PLAN_TABLE_GROUP_PREVIEW);
+    const groupToggle = !showAllGroups && remainingCount > 0
+      ? `<button type="button" class="plan-group-toggle" data-plan-group-toggle="${escapeHtml(group.provider)}" aria-expanded="${isGroupExpanded ? 'true' : 'false'}">${isGroupExpanded ? t('group.collapseExtra') : t('group.viewRemaining', { n: remainingCount })}</button>`
+      : '';
+    return `
+      <section class="plan-card-group">
+        <div class="mb-2 flex items-center gap-2">
+          ${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--section')}
+          <h3 class="text-sm font-bold text-brand-800 dark:text-brand-200">${escapeHtml(group.label)}</h3>
+          <span class="rounded-full bg-brand-100 px-1.5 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">${group.plans.length}</span>
+        </div>
+        <div class="plan-card-grid">
+          ${cards}
+        </div>
+        ${groupToggle}
+      </section>`;
+  }).join('');
+}
+
+function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, previewCount = PLAN_TABLE_GROUP_PREVIEW) {
+  const rowPlans = isGroupExpanded ? group.plans : group.plans.slice(0, previewCount);
+  if (!rowPlans.length) return '';
+  return rowPlans.map(plan => {
+    const key = planKey(plan);
+    const isSelected = key === selectedPlanKey;
+    const statusColor = planStatusClass(plan);
+    const monthlyDisplay = hasDisplayPrice(plan.monthlyPrice)
+      ? escapeHtml(plan.monthlyPrice)
+      : '<span class="text-slate-400">—</span>';
+    const quarterlyDisplay = hasDisplayPrice(plan.quarterlyPrice)
+      ? `<div>${escapeHtml(plan.quarterlyPrice)}</div>${hasDisplayPrice(plan.quarterlyMonthlyPrice) ? `<div class="plan-table-price-sub">${escapeHtml(t('table.price.approx'))} ${escapeHtml(plan.quarterlyMonthlyPrice)}</div>` : ''}`
+      : '<span class="text-slate-400">—</span>';
+    const annualDisplay = hasDisplayPrice(plan.annualPrice)
+      ? `<div>${escapeHtml(plan.annualPrice)}</div>${hasDisplayPrice(plan.annualMonthlyPrice) ? `<div class="plan-table-price-sub">${escapeHtml(t('table.price.approx'))} ${escapeHtml(plan.annualMonthlyPrice)}</div>` : ''}`
+      : '<span class="text-slate-400">—</span>';
+    const verifiedDisplay = plan.lastVerifiedAt
+      ? `<span class="text-xs text-slate-600 dark:text-slate-400">${escapeHtml(plan.lastVerifiedAt)}</span>`
+      : `<span class="text-xs text-slate-400">${escapeHtml(t('table.verified.pending'))}</span>`;
+    const planUrl = safeExternalUrl(plan.url);
+    const sourceHtml = planUrl
+      ? `<a href="${escapeHtml(planUrl)}" target="_blank" rel="noopener noreferrer nofollow" ${outboundTrackingAttributes(plan)} class="text-sm font-medium text-brand-600 hover:text-brand-800 dark:text-brand-400 dark:hover:text-brand-300">${escapeHtml(t('table.source.site'))}</a>`
+      : '<span class="text-slate-400">—</span>';
+    const domesticPayDisplay = plan.domesticPayment
+      ? `<span class="rounded-md bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">${escapeHtml(t('common.supported'))}</span>`
+      : `<span class="text-slate-400">${escapeHtml(t('common.notSupported'))}</span>`;
+    const intlNetworkDisplay = plan.intlNetwork
+      ? `<span class="rounded-md bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">${escapeHtml(t('common.supported'))}</span>`
+      : `<span class="text-slate-400">${escapeHtml(t('common.notSupported'))}</span>`;
+    const detailRow = isSelected
+      ? `<tr class="plan-detail-row">
+          <td colspan="11" class="plan-inline-detail-cell">
+            ${renderSelectedPlanDetail(plan)}
+          </td>
+        </tr>`
+      : '';
+    const href = planDetailHref(plan, providerInfo);
+    const label = escapeHtml(plan.name);
+    const intlBadge = planIsInternational(plan)
+      ? ` <span class="plan-intl-tag" title="${escapeHtml(t('badge.intl.title'))}">${escapeHtml(String(plan.monthlyCurrency || 'USD').toUpperCase())}</span>`
+      : '';
+    const nameHtml = (href
+      ? `<a href="${escapeHtml(href)}" class="font-medium text-brand-700 hover:text-brand-900 hover:underline dark:text-brand-300 dark:hover:text-brand-200">${label}</a>`
+      : label) + intlBadge;
+    return `
+      <tr class="plan-select-row${isSelected ? ' is-selected' : ''}" data-plan-key="${escapeHtml(key)}" tabindex="0" aria-selected="${isSelected ? 'true' : 'false'}">
+        <td class="px-3 py-3 font-medium text-slate-900 dark:text-white"><div class="plan-provider-cell">${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--table')}<span>${escapeHtml(group.label)}</span></div></td>
+        <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${nameHtml}</td>
+        <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${monthlyDisplay}</td>
+        <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${quarterlyDisplay}</td>
+        <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${annualDisplay}</td>
+        <td class="break-words px-3 py-3 text-slate-600 dark:text-slate-300">${escapeHtml(supportedModelDisplay(plan) || '—')}</td>
+        <td class="plan-table-nowrap px-3 py-3"><span class="rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${escapeHtml(plan.statusLabel)}</span></td>
+        <td class="plan-table-nowrap px-3 py-3">${domesticPayDisplay}</td>
+        <td class="plan-table-nowrap px-3 py-3">${intlNetworkDisplay}</td>
+        <td class="plan-table-nowrap px-3 py-3">${verifiedDisplay}</td>
+        <td class="plan-table-nowrap px-3 py-3">${sourceHtml}</td>
+      </tr>
+      ${detailRow}`;
+  }).join('');
+}
+
+function renderAllPlansTable(plans, visiblePlans, selectedPlanKey, providerInfo, expandedProviders, showAllGroups) {
+  const body = visiblePlans.length
+    ? groupPlansByProvider(visiblePlans, providerInfo).map(group => {
+      if (group.plans.length === 1) {
+        return renderPlanRows(group, selectedPlanKey, true, providerInfo);
+      }
+      const canCollapse = !showAllGroups && group.plans.length > PLAN_TABLE_GROUP_PREVIEW;
+      const isGroupExpanded = showAllGroups || !canCollapse || expandedProviders.has(group.provider);
+      const summary = renderGroupSummary(group);
+      const headerInner = `
+              ${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--section')}
+              <span class="text-sm font-bold text-brand-800 dark:text-brand-200">${escapeHtml(group.label)}</span>
+              <span class="rounded-full bg-brand-100 px-1.5 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">${group.plans.length}</span>
+              <span class="plan-table-group-right">
+                ${summary}
+                ${canCollapse ? '<svg class="plan-table-group-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg>' : ''}
+              </span>`;
+      const header = canCollapse
+        ? `<button type="button" class="plan-table-group-toggle" data-plan-group-toggle="${escapeHtml(group.provider)}" aria-expanded="${isGroupExpanded ? 'true' : 'false'}" aria-label="${isGroupExpanded ? t('group.collapse') : t('group.expand')} ${escapeHtml(group.label)}">${headerInner}</button>`
+        : `<div class="plan-table-group-toggle plan-table-group-toggle--static">${headerInner}</div>`;
+      return `
+        <tr class="border-y border-slate-200 dark:border-slate-700">
+          <td colspan="11" class="bg-brand-50/70 p-0 dark:bg-brand-950/20">
+            ${header}
+          </td>
+        </tr>
+        ${renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo)}`;
+    }).join('')
+    : `<tr>
+        <td colspan="11" class="px-3 py-10 text-center text-sm text-slate-500 dark:text-slate-400">${escapeHtml(t('table.empty.match'))}</td>
+      </tr>`;
+
+  return `
+    <div class="plan-table-wrap">
+      <table class="w-full table-fixed text-sm">
+        <caption class="sr-only">${escapeHtml(t('table.caption'))}</caption>
+        <colgroup>
+          <col style="width: 9%">
+          <col style="width: 12%">
+          <col style="width: 8%">
+          <col style="width: 8%">
+          <col style="width: 9%">
+          <col style="width: 11%">
+          <col style="width: 8%">
+          <col style="width: 9%">
+          <col style="width: 9%">
+          <col style="width: 7%">
+          <col style="width: 6%">
+        </colgroup>
+        <thead>
+          <tr>
+            ${PLAN_TABLE_FILTER_COLUMNS.map(column => renderPlanTableFilterHeader(column, plans)).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${body}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+export function renderAllPlansDualView(
+  plans,
+  selectedPlanKey = '',
+  providerInfo = {},
+  expandedProviders = new Set(),
+  showAllGroups = false
+) {
+  if (!plans.length) {
+    return `<p class="text-sm text-slate-500 dark:text-slate-400">${escapeHtml(t('table.empty.none'))}</p>`;
+  }
+  const brandFilteredPlans = filterPlansByProviderInfo(plans, providerInfo, PROVIDER_NAME_MAP);
+  if (!brandFilteredPlans.length) {
+    return `<p class="text-sm text-slate-500 dark:text-slate-400">${escapeHtml(t('table.empty.none'))}</p>`;
+  }
+  const filteredPlans = applyPlanTableFilter(brandFilteredPlans);
+  const showAllFilteredGroups = showAllGroups || isPlanTableFilterActive();
+  return `
+    <div>
+      ${renderPlanTableFilterSummary(filteredPlans, brandFilteredPlans)}
+      <div class="plan-view-cards">
+        ${renderAllPlansCards(filteredPlans, selectedPlanKey, providerInfo, expandedProviders, showAllFilteredGroups)}
+      </div>
+      <div class="plan-view-table">
+        ${renderAllPlansTable(brandFilteredPlans, filteredPlans, selectedPlanKey, providerInfo, expandedProviders, showAllFilteredGroups)}
+      </div>
+    </div>`;
+}

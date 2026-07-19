@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth" data-default-theme="light" data-i18n-title="changelog.pageTitle">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Changelog - New brands, plans & features on CreditsPlan</title>
+  <meta name="description" content="See the AI Coding brands, plan data, verification rules and site features CreditsPlan has recently added.">
+  <link rel="canonical" href="https://creditsplan.com/changelog.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creditsplan.com/changelog.html">
+  <meta property="og:title" content="Changelog - CreditsPlan">
+  <meta property="og:description" content="An ongoing record of new brands, plan data and feature updates on CreditsPlan.">
+  <meta property="og:image" content="https://creditsplan.com/logo.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:image:width" content="640">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="CreditsPlan logo">
+  <meta property="og:site_name" content="CreditsPlan">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Changelog - CreditsPlan">
+  <meta name="twitter:description" content="An ongoing record of new brands, plan data and feature updates on CreditsPlan.">
+  <meta name="twitter:image" content="https://creditsplan.com/logo.webp">
+  <meta name="twitter:image:alt" content="CreditsPlan logo">
+  <link rel="icon" href="./logo.png?v=20260704" type="image/png" sizes="64x64">
+  <link rel="stylesheet" href="./styles.tailwind.2206c0280fcf.css">
+  <script src="./js/theme-init.js"></script>
+</head>
+<body class="text-slate-950 antialiased dark:text-slate-100" data-page="changelog.html">
+  <div class="min-h-screen">
+    <div id="header-root"></div>
+
+    <main>
+      <section class="changelog-shell" aria-labelledby="changelogTitle">
+        <header class="changelog-hero">
+          <p class="changelog-kicker"><span aria-hidden="true"></span><span data-i18n="changelog.kicker">Changelog</span></p>
+          <h1 id="changelogTitle" data-i18n="changelog.title">Every content expansion, recorded.</h1>
+          <p class="changelog-lead" data-i18n="changelog.lead">See which brands, plans and site capabilities CreditsPlan has added, and when key data was verified.</p>
+
+          <dl class="changelog-overview" aria-label="Changelog summary" aria-live="polite">
+            <div><dt data-i18n="changelog.overview.updated">Last updated</dt><dd><time id="changelogUpdatedAt">—</time></dd></div>
+            <div><dt data-i18n="changelog.overview.count">Public records</dt><dd><strong id="changelogEntryCount">—</strong> <span data-i18n="changelog.overview.countUnit">entries</span></dd></div>
+            <div><dt data-i18n="changelog.overview.scope">Scope</dt><dd data-i18n="changelog.overview.scopeValue">Brands · Plans · Features</dd></div>
+          </dl>
+        </header>
+
+        <section class="changelog-section" aria-labelledby="allChangesTitle">
+          <div class="changelog-section-head">
+            <div><p data-i18n="changelog.section.kicker">All updates</p><h2 id="allChangesTitle" data-i18n="changelog.section.title">All updates</h2></div>
+            <p data-i18n="changelog.section.order">Sorted by publish date, newest first</p>
+          </div>
+
+          <div id="changelogLoading" class="changelog-loading" aria-label="Loading changelog">
+            <span></span><span></span><span></span>
+          </div>
+
+          <div id="changelogError" class="changelog-message" role="alert" hidden>
+            <span class="changelog-message-icon" aria-hidden="true">!</span>
+            <div><h3 data-i18n="changelog.error.title">Changelog is temporarily unavailable</h3><p data-i18n="changelog.error.body">Please refresh later, or return to the plans page for currently listed content.</p></div>
+          </div>
+
+          <div id="changelogList" class="changelog-list" aria-live="polite" hidden></div>
+        </section>
+
+        <aside class="changelog-note">
+          <p><span data-i18n="changelog.note">The changelog records site content and feature changes; subscribe to ongoing plan price changes via the price-change RSS.</span> <a class="focus-ring" href="./price-changes.xml" data-i18n="changelog.note.rss">price-change RSS</a></p>
+        </aside>
+      </section>
+    </main>
+
+    <div id="footer-root"></div>
+  </div>
+  <script type="module" src="./js/system-changelog-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth" data-default-theme="dark" data-i18n-title="news.pageTitle">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="alternate" type="application/rss+xml" title="CreditsPlan price changes" href="https://creditsplan.com/price-changes.xml">
+  <title>International AI Coding News - CreditsPlan</title>
+  <meta name="description" content="Track model releases, plan changes on international platforms, product updates and industry news related to AI Coding.">
+  <link rel="canonical" href="https://creditsplan.com/news.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creditsplan.com/news.html">
+  <meta property="og:title" content="International AI Coding News - CreditsPlan">
+  <meta property="og:description" content="Track model releases, plan changes on international platforms, product updates and industry news related to AI Coding.">
+  <meta property="og:image" content="https://creditsplan.com/logo.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:image:width" content="640">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="CreditsPlan logo">
+  <meta property="og:site_name" content="CreditsPlan">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="International AI Coding News - CreditsPlan">
+  <meta name="twitter:description" content="Track model releases, plan changes on international platforms, product updates and industry news related to AI Coding.">
+  <meta name="twitter:image" content="https://creditsplan.com/logo.webp">
+  <meta name="twitter:image:alt" content="CreditsPlan logo">
+  <link rel="icon" href="./logo.png?v=20260704" type="image/png" sizes="64x64">
+  <link rel="stylesheet" href="./styles.tailwind.2206c0280fcf.css">
+  <script src="./js/theme-init.js"></script>
+  <script src="./js/news-guard.js"></script>
+</head>
+<body class="text-slate-950 antialiased dark:text-slate-100" data-page="news.html">
+  <div class="min-h-screen">
+    <div id="header-root"></div>
+
+    <main class="pb-16">
+      <div class="aihot-layout">
+        <aside class="aihot-sidebar" id="sidebar">
+          <div class="aihot-sidebar-inner">
+            <div class="aihot-sidebar-brand">
+              <span class="aihot-logo-dot"></span>
+              <span class="aihot-logo-text" data-i18n="news.brand">AI News</span>
+            </div>
+            <nav class="aihot-sidebar-nav" id="sidebarNav">
+              <button class="aihot-nav-item is-active" data-view="selected">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span data-i18n="news.view.selected">Featured</span>
+              </button>
+              <button class="aihot-nav-item" data-view="all">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                <span data-i18n="news.view.all">All</span>
+              </button>
+              <button class="aihot-nav-item" data-view="daily">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span data-i18n="news.view.daily">Daily digest</span>
+              </button>
+              <div class="aihot-nav-divider"></div>
+              <p class="aihot-nav-label" data-i18n="news.filter.label">Filter by category</p>
+              <button class="aihot-nav-item aihot-cat-item" data-category="">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg>
+                <span data-i18n="news.cat.all">All categories</span>
+                <span class="aihot-cat-count" id="catAll">-</span>
+              </button>
+              <button class="aihot-nav-item aihot-cat-item" data-category="ai-models">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                <span data-i18n="news.cat.models">Model releases</span>
+                <span class="aihot-cat-count" id="catModels">-</span>
+              </button>
+              <button class="aihot-nav-item aihot-cat-item" data-category="ai-products">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span data-i18n="news.cat.products">Product releases</span>
+                <span class="aihot-cat-count" id="catProducts">-</span>
+              </button>
+              <button class="aihot-nav-item aihot-cat-item" data-category="industry">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span data-i18n="news.cat.industry">Industry</span>
+                <span class="aihot-cat-count" id="catIndustry">-</span>
+              </button>
+              <button class="aihot-nav-item aihot-cat-item" data-category="paper">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span data-i18n="news.cat.paper">Research</span>
+                <span class="aihot-cat-count" id="catPaper">-</span>
+              </button>
+              <button class="aihot-nav-item aihot-cat-item" data-category="tip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span data-i18n="news.cat.tip">Tips &amp; takes</span>
+                <span class="aihot-cat-count" id="catTip">-</span>
+              </button>
+            </nav>
+          </div>
+        </aside>
+
+        <section class="aihot-main" id="mainContent" aria-labelledby="aihotTitle">
+          <h1 class="aihot-page-title" id="aihotTitle" data-i18n="news.title">AI News</h1>
+          <div class="aihot-toolbar" id="toolbar">
+            <div class="aihot-search-box">
+              <svg class="aihot-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" id="searchInput" class="aihot-search-input" placeholder="Search title / summary..." data-i18n-attr="placeholder:news.search.placeholder;aria-label:news.search.aria" autocomplete="off" aria-label="Search news titles and summaries">
+            </div>
+            <div class="aihot-filter-chips" id="filterChips">
+              <button type="button" class="aihot-chip is-active" data-filter="selected" aria-pressed="true" data-i18n="news.chip.selected">Featured</button>
+              <button type="button" class="aihot-chip" data-filter="all" aria-pressed="false" data-i18n="news.chip.all">All</button>
+            </div>
+          </div>
+
+          <div class="aihot-feed" id="feedView">
+            <div class="aihot-skeleton" id="skeletonLoading">
+              <div class="aihot-skeleton-group">
+                <div class="aihot-skeleton-date shimmer"></div>
+                <div class="aihot-skeleton-card shimmer"></div>
+                <div class="aihot-skeleton-card shimmer"></div>
+                <div class="aihot-skeleton-card shimmer"></div>
+              </div>
+            </div>
+
+            <div class="aihot-error-state hidden" id="errorState">
+              <div class="aihot-error-inner">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p id="errorMessage" data-i18n="news.error">The AI news service is temporarily unavailable. Please try again later.</p>
+                <button class="aihot-retry-btn" id="retryBtn" data-i18n="news.retry">Reload</button>
+              </div>
+            </div>
+
+            <div class="aihot-empty-state hidden" id="emptyState">
+              <div class="aihot-empty-inner">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                <p data-i18n="news.empty">No news yet</p>
+              </div>
+            </div>
+
+            <div class="aihot-feed-content" id="feedContent"></div>
+
+            <div class="aihot-load-more hidden" id="loadMoreWrap">
+              <button class="aihot-load-more-btn" id="loadMoreBtn" data-i18n="news.loadMore">Load more</button>
+            </div>
+          </div>
+
+          <div class="aihot-daily-view hidden" id="dailyView">
+            <div class="aihot-daily-toolbar">
+              <label class="aihot-date-select-wrap">
+                <span data-i18n="news.date.select">Select date</span>
+                <select id="dailyDateSelect" class="aihot-date-select">
+                  <option value="" data-i18n="news.loading">Loading...</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="aihot-skeleton" id="dailySkeleton">
+              <div class="aihot-skeleton-group">
+                <div class="aihot-skeleton-card shimmer"></div>
+                <div class="aihot-skeleton-card shimmer"></div>
+              </div>
+            </div>
+
+            <div class="aihot-error-state hidden" id="dailyErrorState">
+              <div class="aihot-error-inner">
+                <p id="dailyErrorMessage" data-i18n="news.daily.error">The AI daily digest is temporarily unavailable. Please try again later.</p>
+                <button class="aihot-retry-btn" id="dailyRetryBtn" data-i18n="news.retry">Reload</button>
+              </div>
+            </div>
+
+            <div class="aihot-empty-state hidden" id="dailyEmptyState">
+              <div class="aihot-empty-inner">
+                <p data-i18n="news.daily.empty">No digest yet</p>
+              </div>
+            </div>
+
+            <div class="aihot-daily-content hidden" id="dailyContent">
+              <div class="daily-report-shell">
+                <div class="daily-report">
+                  <div class="daily-header">
+                    <span class="daily-badge" data-i18n="news.daily.badge">AI Daily</span>
+                    <span id="reportDate" class="daily-date"></span>
+                  </div>
+                  <div id="leadSection" class="daily-lead"></div>
+                  <div id="dailySections" class="daily-sections"></div>
+                </div>
+              </div>
+              <div id="flashesSection" class="daily-report-shell mt-4 hidden">
+                <div class="daily-card">
+                  <h3 class="daily-section-title" data-i18n="news.flashes">Flashes</h3>
+                  <div id="flashesList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="footer-root"></div>
+
+    <nav class="aihot-tabbar" id="tabbar">
+      <button class="aihot-tab is-active" data-view="selected">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span data-i18n="news.tab.selected">Featured</span>
+      </button>
+      <button class="aihot-tab" data-view="all">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span data-i18n="news.tab.all">All</span>
+      </button>
+      <button class="aihot-tab" data-view="daily">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span data-i18n="news.tab.daily">Daily</span>
+      </button>
+    </nav>
+  </div>
+
+  <script type="module" src="./js/news.js"></script>
+</body>
+</html>
