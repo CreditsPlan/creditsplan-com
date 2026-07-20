@@ -1,4 +1,22 @@
 {
-  "last_updated": "",
-  "entries": []
+  "last_updated": "2026-07-19",
+  "entries": [
+    {
+      "id": "changelog-launch-20260719",
+      "date": "2026-07-19",
+      "edition": "2026.07.19",
+      "kind": "catalog",
+      "title": "CreditsPlan 正式上线",
+      "title_en": "CreditsPlan Officially Launched",
+      "summary": "CreditsPlan 完成首批 AI 编程品牌与套餐数据收录，面向国际用户正式上线。首批上线 4 个品牌、12 个套餐。",
+      "summary_en": "CreditsPlan completes its initial AI Coding brand and plan data collection, officially launching for international users. Launching with 4 brands and 12 plans.",
+      "items": [
+        "首批上线 4 个 AI 编程品牌：Qoder、BytePlus、Z.ai、OpenCode",
+        "收录 12 个套餐完整数据：Qoder（Community / Pro / Pro+ / Ultra / Teams / Enterprise）、BytePlus（Lite / Pro）、Z.ai GLM Coding（Lite / Pro / Max）、OpenCode Go",
+        "支持中英文双语浏览，套餐价格与额度对比一目了然",
+        "提供品牌专属 SEO 页面，方便搜索引擎收录",
+        "支持套餐价格变动追踪与历史对比"
+      ]
+    }
+  ]
 }
