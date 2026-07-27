@@ -1,0 +1,43 @@
+版权声明 / Copyright Notice
+
+Copyright (c) 2025-2026 CreditsPlan (https://www.creditsplan.com)
+
+本仓库为 CreditsPlan 国际站（creditsplan.com）的静态站点发布仓库，
+包含页面代码与结构化数据文件。
+
+This repository is the static-site release repository of
+CreditsPlan (creditsplan.com), containing page code and
+structured data files.
+
+1. 页面与代码 / Page & Code
+   本仓库中的 HTML / CSS / JavaScript 等页面与代码保留所有权利
+   （All Rights Reserved），仅供浏览、学习与参考。未经书面授权，
+   不得用于搭建镜像站点、竞品站点或其他对外提供的公开服务。
+   All rights reserved. For viewing and learning purposes only.
+   Building mirror sites, competing sites or public services based
+   on this code without written permission is prohibited.
+
+2. 数据文件 / Data Files
+   数据文件（data.json、price-history.json、changelog.json、
+   price-changes.xml 等）采用 CC BY-NC-ND 4.0 许可
+   （署名 - 非商业性使用 - 禁止演绎）：
+   - 允许在注明来源（CreditsPlan 与对应页面链接）并说明核对日期的
+     前提下进行非商业性引用；
+   - 禁止商业用途、二次分发与改作。
+   Data files are licensed under CC BY-NC-ND 4.0:
+   https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+3. 第三方权利 / Third-Party Rights
+   本仓库中出现的品牌名称、商标、Logo 及产品信息归各自权利人所有，
+   仅用于信息展示与对比说明，不代表相关厂商的授权或背书。
+   All brand names, trademarks and product information belong to
+   their respective owners.
+
+4. 免责声明 / Disclaimer
+   套餐价格与额度信息以各厂商官方页面为准，本仓库数据仅供参考，
+   不构成任何购买建议。
+   Pricing information is for reference only; always verify with
+   the official vendor pages.
+
+引用与合作 / Contact: GitHub Issues
+（https://github.com/CreditsPlan/creditsplan-com/issues）
