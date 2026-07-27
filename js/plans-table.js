@@ -2,6 +2,7 @@ import { escapeHtml, safeExternalUrl } from './render.js';
 import { t } from './i18n.js';
 import { PROVIDER_NAME_MAP, brandForProvider } from './shared/brands.js';
 import {
+  currencySymbol,
   displayNameForProvider,
   filterPlansByProviderInfo,
   formatPriceNumber,
@@ -38,6 +39,15 @@ function planDetailHref(plan, providerInfo) {
   return detailSlug ? `/plans/${encodeURIComponent(detailSlug)}/` : '';
 }
 
+// 品牌页链接：仅当品牌主数据已配置 SEO Slug、介绍与 Logo（即已生成 /brands/<slug>/ 页面）时返回
+function brandDetailHref(provider, providerInfo) {
+  const metadata = providerMetadata(provider, providerInfo, PROVIDER_NAME_MAP);
+  const slug = String(metadata.seo_slug || '').trim();
+  const intro = String(metadata.seo_intro || '').trim();
+  const icon = String(metadata.icon_url || '').trim();
+  return slug && intro && icon ? `/brands/${encodeURIComponent(slug)}/` : '';
+}
+
 function planIconUrl(plan, providerInfo = {}) {
   const metadata = providerMetadata(plan.provider, providerInfo, PROVIDER_NAME_MAP);
   return safeIconUrl(metadata.icon_url)
@@ -56,20 +66,21 @@ export function renderBrandIcon(iconUrl, label, className = 'brand-icon') {
 }
 
 function groupPlansByProvider(plans, providerInfo) {
-  const groups = [];
-  let current = null;
+  const groupMap = new Map();
   for (const plan of plans) {
-    if (!current || plan.provider !== current.provider) {
-      current = {
+    const key = PROVIDER_NAME_MAP[plan.provider] || plan.provider;
+    if (!groupMap.has(key)) {
+      groupMap.set(key, {
         provider: plan.provider,
         label: displayNameForProvider(plan.provider, providerInfo, PROVIDER_NAME_MAP),
         iconUrl: planIconUrl(plan, providerInfo),
+        brandHref: brandDetailHref(plan.provider, providerInfo),
         plans: []
-      };
-      groups.push(current);
+      });
     }
-    current.plans.push(plan);
+    groupMap.get(key).plans.push(plan);
   }
+  const groups = [...groupMap.values()];
   for (const group of groups) {
     group.plans = sortPlansBySortOrder(group.plans);
   }
@@ -84,19 +95,25 @@ function planIsAvailable(plan) {
   return plan.status === 'available' || plan.statusLabel === '可用' || plan.statusLabel === '可购买';
 }
 
+function planCheapestMonthly(plan) {
+  let value = null;
+  if (Number.isFinite(plan.monthlyPriceValue)) {
+    value = plan.monthlyPriceValue;
+  } else {
+    const match = String(plan.monthlyPrice || '').match(/[\d.]+/);
+    const parsed = match ? parseFloat(match[0]) : NaN;
+    if (Number.isFinite(parsed)) value = parsed;
+  }
+  if (value == null || value < 0) return null;
+  return { value, currency: plan.monthlyCurrency || 'USD' };
+}
+
 function planCheapestMonthlyValue(plans) {
   let min = null;
   for (const plan of plans) {
-    let value = null;
-    if (Number.isFinite(plan.monthlyPriceValue)) {
-      value = plan.monthlyPriceValue;
-    } else {
-      const match = String(plan.monthlyPrice || '').match(/[\d.]+/);
-      const parsed = match ? parseFloat(match[0]) : NaN;
-      if (Number.isFinite(parsed)) value = parsed;
-    }
-    if (value == null || value < 0) continue;
-    if (min == null || value < min) min = value;
+    const entry = planCheapestMonthly(plan);
+    if (!entry) continue;
+    if (min == null || entry.value < min.value) min = entry;
   }
   return min;
 }
@@ -106,7 +123,9 @@ function renderGroupSummary(group) {
   const availableCount = group.plans.filter(planIsAvailable).length;
   const parts = [];
   if (cheapest != null) {
-    parts.push(cheapest === 0 ? t('group.summary.free') : t('group.summary.from', { price: formatPriceNumber(cheapest) }));
+    parts.push(cheapest.value === 0
+      ? t('group.summary.free')
+      : t('group.summary.from', { symbol: currencySymbol(cheapest.currency), price: formatPriceNumber(cheapest.value) }));
   }
   if (availableCount > 0) {
     parts.push(t('group.summary.available', { n: availableCount }));
@@ -206,11 +225,12 @@ function renderAllPlansCards(plans, selectedPlanKey, providerInfo, expandedProvi
     const groupToggle = !showAllGroups && remainingCount > 0
       ? `<button type="button" class="plan-group-toggle" data-plan-group-toggle="${escapeHtml(group.provider)}" aria-expanded="${isGroupExpanded ? 'true' : 'false'}">${isGroupExpanded ? t('group.collapseExtra') : t('group.viewRemaining', { n: remainingCount })}</button>`
       : '';
+    const groupHeading = `${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--section')}
+          <h3 class="text-sm font-bold text-brand-800 dark:text-brand-200">${escapeHtml(group.label)}</h3>`;
     return `
       <section class="plan-card-group">
         <div class="mb-2 flex items-center gap-2">
-          ${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--section')}
-          <h3 class="text-sm font-bold text-brand-800 dark:text-brand-200">${escapeHtml(group.label)}</h3>
+          ${group.brandHref ? `<a href="${escapeHtml(group.brandHref)}" class="plan-group-brand-link">${groupHeading}</a>` : groupHeading}
           <span class="rounded-full bg-brand-100 px-1.5 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">${group.plans.length}</span>
         </div>
         <div class="plan-card-grid">
@@ -248,7 +268,7 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
       ? `<span class="rounded-md bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">${escapeHtml(t('common.supported'))}</span>`
       : `<span class="text-slate-400">${escapeHtml(t('common.notSupported'))}</span>`;
     const intlNetworkDisplay = plan.intlNetwork
-      ? `<span class="rounded-md bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">${escapeHtml(t('common.supported'))}</span>`
+      ? `<span class="rounded-md bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">${escapeHtml(t('common.required'))}</span>`
       : `<span class="text-slate-400">${escapeHtml(t('common.notSupported'))}</span>`;
     const detailRow = isSelected
       ? `<tr class="plan-detail-row">
@@ -265,9 +285,13 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
     const nameHtml = (href
       ? `<a href="${escapeHtml(href)}" class="font-medium text-brand-700 hover:text-brand-900 hover:underline dark:text-brand-300 dark:hover:text-brand-200">${label}</a>`
       : label) + intlBadge;
+    const providerInner = `${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--table')}<span>${escapeHtml(group.label)}</span>`;
+    const providerCell = group.brandHref
+      ? `<a href="${escapeHtml(group.brandHref)}" class="plan-provider-cell plan-provider-cell--link">${providerInner}</a>`
+      : `<div class="plan-provider-cell">${providerInner}</div>`;
     return `
       <tr class="plan-select-row${isSelected ? ' is-selected' : ''}" data-plan-key="${escapeHtml(key)}" tabindex="0" aria-selected="${isSelected ? 'true' : 'false'}">
-        <td class="px-3 py-3 font-medium text-slate-900 dark:text-white"><div class="plan-provider-cell">${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--table')}<span>${escapeHtml(group.label)}</span></div></td>
+        <td class="px-3 py-3 font-medium text-slate-900 dark:text-white">${providerCell}</td>
         <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${nameHtml}</td>
         <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${monthlyDisplay}</td>
         <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${quarterlyDisplay}</td>
@@ -292,16 +316,18 @@ function renderAllPlansTable(plans, visiblePlans, selectedPlanKey, providerInfo,
       const canCollapse = !showAllGroups && group.plans.length > PLAN_TABLE_GROUP_PREVIEW;
       const isGroupExpanded = showAllGroups || !canCollapse || expandedProviders.has(group.provider);
       const summary = renderGroupSummary(group);
+      const brandInner = `${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--section')}
+              <span class="text-sm font-bold text-brand-800 dark:text-brand-200">${escapeHtml(group.label)}</span>`;
       const headerInner = `
-              ${renderBrandIcon(group.iconUrl, group.label, 'brand-icon brand-icon--section')}
-              <span class="text-sm font-bold text-brand-800 dark:text-brand-200">${escapeHtml(group.label)}</span>
+              ${group.brandHref ? `<a href="${escapeHtml(group.brandHref)}" class="plan-table-group-brand">${brandInner}</a>` : brandInner}
               <span class="rounded-full bg-brand-100 px-1.5 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">${group.plans.length}</span>
               <span class="plan-table-group-right">
                 ${summary}
                 ${canCollapse ? '<svg class="plan-table-group-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg>' : ''}
               </span>`;
+      // 折叠头改用 div[role=button]，便于内部嵌入品牌页链接（button 内嵌 a 为非法结构）
       const header = canCollapse
-        ? `<button type="button" class="plan-table-group-toggle" data-plan-group-toggle="${escapeHtml(group.provider)}" aria-expanded="${isGroupExpanded ? 'true' : 'false'}" aria-label="${isGroupExpanded ? t('group.collapse') : t('group.expand')} ${escapeHtml(group.label)}">${headerInner}</button>`
+        ? `<div class="plan-table-group-toggle" role="button" tabindex="0" data-plan-group-toggle="${escapeHtml(group.provider)}" aria-expanded="${isGroupExpanded ? 'true' : 'false'}" aria-label="${isGroupExpanded ? t('group.collapse') : t('group.expand')} ${escapeHtml(group.label)}">${headerInner}</div>`
         : `<div class="plan-table-group-toggle plan-table-group-toggle--static">${headerInner}</div>`;
       return `
         <tr class="border-y border-slate-200 dark:border-slate-700">

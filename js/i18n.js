@@ -58,8 +58,9 @@ export function isZh() {
 export const translations = {
   // —— Header / navigation ——
   'nav.aria.main': { en: 'Main navigation', zh: '主导航' },
-  'nav.models': { en: 'Plans', zh: '模型套餐' },
+  'nav.models': { en: 'Plans', zh: '套餐' },
   'nav.brands': { en: 'Brands', zh: '品牌' },
+  'nav.pricing': { en: 'Models', zh: '模型' },
   'nav.news': { en: 'AI News', zh: 'AI动态' },
   'nav.changelog': { en: 'Changelog', zh: '更新日志' },
   'header.theme.aria': { en: 'Toggle theme', zh: '切换主题' },
@@ -83,6 +84,7 @@ export const translations = {
   'footer.copyright': { en: '© 2026 CreditsPlan', zh: '© 2026 CreditsPlan' },
 
   // —— Home / plans overview (plans-page.js) ——
+  'home.pageTitle': { en: 'CreditsPlan - International AI Coding Plan Comparison & Subscription Decisions', zh: 'CreditsPlan - 国际 AI Coding 套餐对比与订阅决策' },
   'home.kicker': { en: 'AI developer subscription decision platform', zh: 'AI 开发者订阅决策平台' },
   'home.title': { en: 'International AI Coding plan comparison & decisions', zh: '国际 AI Coding 套餐对比与决策' },
   'home.summary': {
@@ -91,6 +93,12 @@ export const translations = {
   },
   'home.meta.records': { en: 'records', zh: '条记录' },
   'home.meta.brands': { en: 'brands', zh: '个品牌' },
+  'home.meta.models': { en: 'models', zh: '个模型' },
+  'home.dimension.brand': { en: 'By brand', zh: '按品牌' },
+  'home.dimension.model': { en: 'By model', zh: '按模型' },
+  'home.search.brand': { en: 'Search brands…', zh: '搜索品牌…' },
+  'home.search.model': { en: 'Search models…', zh: '搜索模型…' },
+  'home.search.aria': { en: 'Search brands or models', zh: '搜索品牌或模型' },
   'home.hero.usd': { en: 'USD billing', zh: '美元结算' },
   'home.hero.card': { en: 'International card / PayPal', zh: '国际卡 / PayPal' },
   'home.hero.global': { en: 'Global access', zh: '全球可用' },
@@ -109,6 +117,63 @@ export const translations = {
     en: 'The data.json in the deployment package is currently unavailable. Re-export the database snapshot and redeploy.',
     zh: '部署包中的 data.json 当前不可用，请重新导出数据库快照并部署。'
   },
+
+  // —— Model price comparison (/model, model-price-table.js) ——
+  'pricing.title': { en: 'International AI model price comparison', zh: '国际 AI 模型价格对比' },
+  'pricing.summary': {
+    en: 'Compare official API prices (input/output, ¥ per 1M tokens) and context length of leading international models, sourced from vendor pricing pages. Check official sites for actual prices.',
+    zh: '对比国际主流模型的官方 API 单价（输入/输出，¥/百万 tokens）与上下文长度，数据来自厂商官方定价页。真实价格请以厂商官网为准。'
+  },
+  'pricing.meta.models': { en: 'models', zh: '个模型' },
+  'pricing.meta.vendors': { en: 'vendors', zh: '个厂商' },
+  'pricing.th.name': { en: 'Model', zh: '模型' },
+  'pricing.th.provider': { en: 'Brand', zh: '品牌' },
+  'pricing.th.context': { en: 'Context', zh: '上下文' },
+  'pricing.th.input': { en: 'Input (official)', zh: '输入（官方价）' },
+  'pricing.th.output': { en: 'Output (official)', zh: '输出（官方价）' },
+  'pricing.pending': { en: 'TBD', zh: '待更新' },
+  'pricing.unit': { en: '/1M tokens', zh: '/百万tokens' },
+  'pricing.legacy': { en: 'Legacy', zh: '旧版' },
+  'pricing.unknownVendor': { en: 'Unknown', zh: '未知' },
+  'pricing.empty': { en: 'No model price data for this vendor yet', zh: '暂无该厂商的模型价格数据' },
+  'pricing.table.aria': { en: 'Model price comparison table', zh: '模型价格对比表' },
+  'pricing.group.inputFrom': { en: 'Input from {symbol}{price}', zh: '输入 {symbol}{price} 起' },
+  'pricing.footnote': {
+    en: 'Prices per 1M tokens in the currency shown ($ USD / ¥ CNY, as officially priced by each vendor) · data from official vendor pricing pages; check official sites for actual prices.',
+    zh: '价格单位：表内符号所示币种（$ 美元 / ¥ 人民币，按厂商官方计价）/ 百万 tokens · 数据来源为各厂商官方定价页，真实价格请以官网为准'
+  },
+
+  // —— Export (plans-export.js) ——
+
+  'export.trigger': { en: 'Export', zh: '导出数据' },
+
+  'export.trigger.title': { en: 'Export current plan data', zh: '导出当前套餐数据' },
+
+  'export.excel.desc': { en: 'Spreadsheet, best for analysis', zh: '表格文件，适合数据分析' },
+
+  'export.word.desc': { en: 'Document, best for reports', zh: '文档文件，适合报告引用' },
+
+  'export.pdf.desc': { en: 'Fixed layout, best for sharing', zh: '固定版式，适合分享存档' },
+
+  'export.title': { en: 'International AI Coding Plan Comparison Data', zh: '国际 AI Coding 套餐对比数据' },
+
+  'export.source': { en: 'Source: creditsplan.com', zh: '数据来源：creditsplan.com' },
+
+  'export.date': { en: 'Exported', zh: '导出日期' },
+
+  'export.page': { en: 'Page {n} of {total}', zh: '第 {n}/{total} 页' },
+
+  'export.records': { en: '{n} records', zh: '共 {n} 条记录' },
+
+  'export.disclaimer': { en: 'Always confirm real prices on the vendor\u2019s official site.', zh: '真实价格请以厂商官网为准。' },
+
+  'export.footer': { en: 'Real prices prevail on vendor official sites \u2014 creditsplan.com', zh: '真实价格请以厂商官网为准 \u2014 creditsplan.com' },
+
+  'export.col.planType': { en: 'Plan type', zh: '套餐类型' },
+
+  'export.col.url': { en: 'Source URL', zh: '来源链接' },
+
+
 
   // —— Plan table & filters (plans-table.js / plans-filters.js) ——
   'table.caption': { en: 'International AI Coding plan comparison', zh: '国际 AI Coding 套餐对比' },
@@ -147,7 +212,7 @@ export const translations = {
   'group.expand': { en: 'Expand', zh: '展开' },
   'group.collapse': { en: 'Collapse', zh: '收起' },
   'group.summary.free': { en: 'From free', zh: '免费起' },
-  'group.summary.from': { en: 'From \u00a5{price}', zh: '\u00a5{price} 起' },
+  'group.summary.from': { en: 'From {symbol}{price}', zh: '{symbol}{price} 起' },
   'group.summary.available': { en: '{n} available', zh: '{n} 个可用' },
   'badge.domesticPayment': { en: 'Domestic payment', zh: '支持国内支付' },
   'badge.intl.title': { en: 'International plan, billed in USD.', zh: '国际站套餐，以美元结算。' },
@@ -289,6 +354,7 @@ export const translations = {
   'price.byYear': { en: 'Billed yearly', zh: '按年计费' },
   'price.byQuarter': { en: 'Billed quarterly', zh: '按季计费' },
   'detail.type': { en: 'Plan type', zh: '套餐类型' },
+  'detail.supportedModels': { en: 'Supported models', zh: '支持模型' },
   'detail.firstMonth': { en: 'First-month price', zh: '首月价格' },
   'detail.domesticPay': { en: 'Domestic payment', zh: '国内支付' },
   'detail.includedCalls': { en: 'Included calls', zh: '包含调用量' },
@@ -322,6 +388,7 @@ export const translations = {
   'detail.verifiedOn': { en: 'Verified', zh: '核对日期' },
   'detail.openOfficial': { en: 'Open official site', zh: '打开官网' },
   'common.supported': { en: 'Yes', zh: '支持' },
+  'common.required': { en: 'Required', zh: '需要' },
   'common.notSupported': { en: 'No', zh: '否' },
 
   // —— Generated SEO pages chrome (build-seo-pages.mjs output) ——

@@ -73,6 +73,11 @@ function getTrafficSource() {
 let pageViewSent = false;
 export function trackPageView() {
   if (pageViewSent || typeof document === 'undefined') return;
+  // Speculation Rules 预渲染阶段不发送 pageview，等激活后再发
+  if (document.prerendering) {
+    document.addEventListener('prerenderingchange', () => trackPageView(), { once: true });
+    return;
+  }
   pageViewSent = true;
   const source = getTrafficSource();
   fire({

@@ -23,7 +23,7 @@ export const PLAN_TABLE_FILTER_COLUMNS = [
   { key: 'model', labelKey: 'table.col.model', value: plan => supportedModelDisplay(plan) || EMPTY_TABLE_VALUE },
   { key: 'status', labelKey: 'table.col.status', value: plan => cleanValue(plan.statusLabel) || EMPTY_TABLE_VALUE },
   { key: 'domesticPayment', labelKey: 'table.col.domesticPayment', value: plan => plan.domesticPayment ? t('common.supported') : '—' },
-  { key: 'intlNetwork', labelKey: 'table.col.intlNetwork', value: plan => plan.intlNetwork ? t('common.supported') : '—' },
+  { key: 'intlNetwork', labelKey: 'table.col.intlNetwork', value: plan => plan.intlNetwork ? t('common.required') : '—' },
   { key: 'verifiedAt', labelKey: 'table.col.verified', value: plan => cleanValue(plan.lastVerifiedAt) || t('table.verified.pending') },
   { key: 'source', labelKey: 'table.col.source', value: plan => plan.url ? t('table.source.name') : EMPTY_TABLE_VALUE }
 ];

@@ -29,7 +29,9 @@ function formatDate(value) {
 function renderEntry(entry) {
   const kind = Object.hasOwn(kindLabels, entry?.kind) ? entry.kind : 'data';
   const date = String(entry?.date || '');
-  const items = Array.isArray(entry?.items) ? entry.items : [];
+  const defaultItems = Array.isArray(entry?.items) ? entry.items : [];
+  const englishItems = Array.isArray(entry?.items_en) ? entry.items_en : [];
+  const items = getLang() === 'en' && englishItems.length ? englishItems : defaultItems;
 
   return `
     <article class="changelog-release" data-changelog-kind="${escapeHtml(kind)}">
@@ -97,6 +99,7 @@ function normalizeChangelogApi(payload) {
       summary: item.summary,
       summary_en: item.summary_en,
       items: parseDetailsToItems(item.details),
+      items_en: parseDetailsToItems(item.details_en),
     }));
   const last_updated = entries[0]?.date || '';
   return { entries, last_updated };

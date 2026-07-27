@@ -11,8 +11,7 @@ function setStoredTheme(theme) {
 
 export function initTheme() {
   const stored = getStoredTheme();
-  const isNewsPage = document.body?.dataset.page === 'news.html';
-  const theme = stored || (isNewsPage ? 'dark' : 'light');
+  const theme = stored || 'light';
   applyTheme(theme);
 }
 

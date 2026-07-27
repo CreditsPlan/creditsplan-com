@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20",
+  "generated_at": "2026-07-27",
   "schema_version": 1,
   "plans": {
     "qoder-community": {
@@ -107,6 +107,294 @@
         {
           "date": "2026-07-19",
           "monthly_price": 10
+        }
+      ]
+    },
+    "chart-gpt.free": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "chart-gpt.go": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 8
+        }
+      ]
+    },
+    "chart-gpt.plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "chart-gpt.pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 100
+        }
+      ]
+    },
+    "chart-gpt.pro-20x": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 200
+        }
+      ]
+    },
+    "chart-gpt.business": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 25
+        }
+      ]
+    },
+    "claude.free": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "google-antigravity.individual": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "grok.supergrok-lite": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 10
+        }
+      ]
+    },
+    "grok.supergrok": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 30
+        }
+      ]
+    },
+    "grok.supergrok-heavy": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 300
+        }
+      ]
+    },
+    "grok.grok-business": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 30
+        }
+      ]
+    },
+    "claude.pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "claude.max-5x": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 100
+        }
+      ]
+    },
+    "claude.max-20x": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 200
+        }
+      ]
+    },
+    "claude.team-standard": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 25
+        }
+      ]
+    },
+    "claude.team-premium": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 125
+        }
+      ]
+    },
+    "claude.enterprise": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "google-antigravity.google-ai-pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 19.99
+        }
+      ]
+    },
+    "google-antigravity.google-ai-ultra-5x": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 99.99
+        }
+      ]
+    },
+    "google-antigravity.google-ai-ultra-20x": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 199.99
+        }
+      ]
+    },
+    "cursor.hobby": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "cursor.pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "cursor.proplus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 60
+        }
+      ]
+    },
+    "cursor.ultra": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 200
+        }
+      ]
+    },
+    "cursor.teams-standard": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 40
+        }
+      ]
+    },
+    "cursor.teams-premium": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 120
+        }
+      ]
+    },
+    "cursor.enterprise": {
+      "currency": "CNY",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": null
+        }
+      ]
+    },
+    "stepfun.flash-mini": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-26",
+          "monthly_price": 6.99
+        }
+      ]
+    },
+    "stepfun.flash-plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-26",
+          "monthly_price": 9.99
+        }
+      ]
+    },
+    "stepfun.flash-pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-26",
+          "monthly_price": 29
+        }
+      ]
+    },
+    "stepfun.flash-max": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-26",
+          "monthly_price": 99
         }
       ]
     }

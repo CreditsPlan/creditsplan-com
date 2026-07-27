@@ -1,8 +1,10 @@
 import { initAppShell } from './app.js';
+import { exportPlansExcel, exportPlansPdf, exportPlansWord } from './plans-export.js';
 import {
   bindPlanTableFilters,
   clearPlanTableFilter
 } from './plans-filters.js';
+import { renderModelPriceView } from './model-price-table.js';
 import { renderAllPlansDualView, renderBrandIcon } from './plans-table.js';
 import { loadPlanDataset } from './public-data.js';
 import { escapeHtml } from './render.js';
@@ -23,9 +25,21 @@ const VIRTUAL_TABS = [
   { id: 'free', labelKey: 'home.tab.free' }
 ];
 
+function modelHasPrice(model) {
+  const input = model.raw?.input_price;
+  const output = model.raw?.output_price;
+  return (input != null && input !== '') || (output != null && output !== '');
+}
+
 const els = {
   codingPlanOverview: document.getElementById('codingPlanOverview')
 };
+
+function finishPlansLoading() {
+  if (!els.codingPlanOverview) return;
+  els.codingPlanOverview.classList.remove('plans-loading-shell');
+  els.codingPlanOverview.setAttribute('aria-busy', 'false');
+}
 
 function groupPlansByBrand(plans, providerInfo) {
   const grouped = new Map();
@@ -62,6 +76,27 @@ function groupPlansByBrand(plans, providerInfo) {
   return grouped;
 }
 
+function groupPlansByModel(plans, modelCatalog, providerInfo = {}) {
+  const grouped = new Map();
+  for (const model of modelCatalog) {
+    const matched = plans.filter(plan => Array.isArray(plan.modelIds) && plan.modelIds.includes(model.id));
+    if (!matched.length) continue;
+    const metadata = providerMetadata(model.provider, providerInfo, PROVIDER_NAME_MAP);
+    const iconUrl = safeIconUrl(model.logoUrl)
+      || safeIconUrl(metadata.icon_url)
+      || safeIconUrl(model.providerIconUrl)
+      || safeIconUrl(brandForProvider(model.provider)?.iconUrl);
+    grouped.set(`model:${model.id}`, {
+      id: `model:${model.id}`,
+      label: model.name || model.id,
+      iconUrl,
+      sortOrder: Number.isFinite(model.sortOrder) ? model.sortOrder : 99,
+      plans: sortPlansBySortOrder(matched)
+    });
+  }
+  return grouped;
+}
+
 function renderHeroBanner() {
   return `
     <div class="cn-hero-banner" role="complementary" aria-label="${escapeHtml(t('home.hero.aria'))}">
@@ -92,12 +127,74 @@ function initPlansBackTop(workbench) {
   syncVisibility();
 }
 
-function renderCodingPlanOverview(plans, providerInfo = {}) {
+function renderExportMenu() {
+  return `
+    <div class="plans-export" id="plansExport">
+      <button type="button" class="plans-export-trigger" id="plansExportTrigger" aria-haspopup="menu" aria-expanded="false" title="${escapeHtml(t('export.trigger.title'))}">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M10 3v10m0 0 3.5-3.5M10 13 6.5 9.5M4 15.5h12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>${escapeHtml(t('export.trigger'))}</span>
+      </button>
+      <div class="plans-export-menu" id="plansExportMenu" role="menu" hidden>
+        <button type="button" class="plans-export-option" role="menuitem" data-export-format="excel">
+          <span class="plans-export-option-icon plans-export-option-icon--excel" aria-hidden="true">X</span>
+          <span class="plans-export-option-text"><strong>Excel</strong><small>${escapeHtml(t('export.excel.desc'))}</small></span>
+        </button>
+        <button type="button" class="plans-export-option" role="menuitem" data-export-format="word">
+          <span class="plans-export-option-icon plans-export-option-icon--word" aria-hidden="true">W</span>
+          <span class="plans-export-option-text"><strong>Word</strong><small>${escapeHtml(t('export.word.desc'))}</small></span>
+        </button>
+        <button type="button" class="plans-export-option" role="menuitem" data-export-format="pdf">
+          <span class="plans-export-option-icon plans-export-option-icon--pdf" aria-hidden="true">P</span>
+          <span class="plans-export-option-text"><strong>PDF</strong><small>${escapeHtml(t('export.pdf.desc'))}</small></span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function bindExportMenu(root, getExportPlans, providerInfo) {
+  const trigger = root.querySelector('#plansExportTrigger');
+  const menu = root.querySelector('#plansExportMenu');
+  if (!trigger || !menu) return;
+
+  const closeMenu = () => {
+    menu.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+  };
+  trigger.addEventListener('click', () => {
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    trigger.setAttribute('aria-expanded', String(willOpen));
+  });
+  document.addEventListener('click', event => {
+    if (!root.querySelector('#plansExport')?.contains(event.target)) closeMenu();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
+  menu.addEventListener('click', event => {
+    const option = event.target.closest('[data-export-format]');
+    if (!option) return;
+    closeMenu();
+    const plans = getExportPlans();
+    const format = option.dataset.exportFormat;
+    if (format === 'excel') exportPlansExcel(plans, providerInfo);
+    else if (format === 'word') exportPlansWord(plans, providerInfo);
+    else if (format === 'pdf') exportPlansPdf(plans, providerInfo);
+  });
+}
+
+function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], models = []) {
   if (!els.codingPlanOverview) return;
   const displayablePlans = filterPlansByProviderInfo(plans, providerInfo, PROVIDER_NAME_MAP);
   const grouped = groupPlansByBrand(displayablePlans, providerInfo);
   const visibleBrands = [...grouped.values()]
     .sort((a, b) => a.sortOrder - b.sortOrder);
+  const modelGrouped = groupPlansByModel(displayablePlans, modelCatalog, providerInfo);
+  const visibleModels = [...modelGrouped.values()]
+    .sort((a, b) => (a.sortOrder - b.sortOrder) || a.label.localeCompare(b.label, 'zh-CN'));
   const counts = { all: displayablePlans.length, free: filterFreePlans(displayablePlans).length };
 
   els.codingPlanOverview.innerHTML = `
@@ -106,16 +203,30 @@ function renderCodingPlanOverview(plans, providerInfo = {}) {
         <div class="workbench-intro">
           <p class="workbench-kicker">${escapeHtml(t('home.kicker'))}</p>
           <h1 id="codingPlanTitle" class="workbench-title">${escapeHtml(t('home.title'))}</h1>
-          <p class="workbench-summary">${escapeHtml(t('home.summary'))}</p>
+          <p id="workbenchSummary" class="workbench-summary">${escapeHtml(t('home.summary'))}</p>
         </div>
         <div class="workbench-meta">
-          <span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span>
-          <span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span>
+          <span id="workbenchStats">
+            <span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span>
+            <span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span>
+            <span>${visibleModels.length} ${escapeHtml(t('home.meta.models'))}</span>
+          </span>
+          ${renderExportMenu()}
         </div>
       </div>
       ${renderHeroBanner()}
       <div class="workbench-body">
         <div id="brandFilterBar" class="brand-filter-bar">
+          <div class="brand-filter-row">
+            <div id="dimensionSwitch" class="brand-tab-list">
+              <button type="button" data-dimension="brand" class="brand-tab is-active"><span>${escapeHtml(t('home.dimension.brand'))}</span></button>
+              <button type="button" data-dimension="model" class="brand-tab"><span>${escapeHtml(t('home.dimension.model'))}</span></button>
+            </div>
+            <div class="brand-search-box">
+              <svg class="brand-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4" stroke-linecap="round"/></svg>
+              <input id="brandSearchInput" type="search" class="brand-search-input" placeholder="${escapeHtml(t('home.search.brand'))}" autocomplete="off" aria-label="${escapeHtml(t('home.search.aria'))}">
+            </div>
+          </div>
           <div id="brandTabs" class="brand-tab-list">
             ${VIRTUAL_TABS.map(tab => `
               <button type="button" data-brand="${tab.id}" data-brand-label="${escapeHtml(t(tab.labelKey))}" class="brand-tab${tab.id === 'all' ? ' is-active' : ''}">
@@ -132,6 +243,20 @@ function renderCodingPlanOverview(plans, providerInfo = {}) {
               </button>`;
             }).join('')}
           </div>
+          <div id="modelTabs" class="brand-tab-list" hidden>
+            <button type="button" data-brand="all" data-brand-label="${escapeHtml(t('home.tab.all'))}" class="brand-tab is-active">
+              <span>${escapeHtml(t('home.tab.all'))}</span>
+              ${counts.all > 0 ? `<span class="brand-count">${counts.all}</span>` : ''}
+            </button>
+            <span class="brand-divider"></span>
+            ${visibleModels.map(model => {
+              return `<button type="button" data-brand="${escapeHtml(model.id)}" data-brand-label="${escapeHtml(model.label)}" class="brand-tab">
+                ${renderBrandIcon(model.iconUrl, model.label, 'brand-icon brand-icon--tab')}
+                <span>${escapeHtml(model.label)}</span>
+                <span class="brand-count">${model.plans.length}</span>
+              </button>`;
+            }).join('')}
+          </div>
         </div>
         <div id="brandDetail" class="brand-detail">
           ${renderAllPlansDualView(displayablePlans, '', providerInfo)}
@@ -143,16 +268,26 @@ function renderCodingPlanOverview(plans, providerInfo = {}) {
     </button>
   `;
 
+  finishPlansLoading();
+
   const workbench = els.codingPlanOverview.querySelector('.plans-workbench');
+  const filterBar = els.codingPlanOverview.querySelector('#brandFilterBar');
   const brandTabs = els.codingPlanOverview.querySelector('#brandTabs');
+  const modelTabs = els.codingPlanOverview.querySelector('#modelTabs');
   const detail = els.codingPlanOverview.querySelector('#brandDetail');
   initPlansBackTop(workbench);
 
   let currentPlans = displayablePlans;
+  bindExportMenu(els.codingPlanOverview, () => currentPlans, providerInfo);
   let activeBrandId = 'all';
+  let activeDimension = 'brand';
   let selectedPlanKey = '';
   const expandedProviders = new Set();
   const renderCurrentView = () => {
+    if (activeDimension === 'pricing') {
+      renderModelPriceView(detail, models, providerInfo);
+      return;
+    }
     detail.innerHTML = renderAllPlansDualView(
       currentPlans,
       selectedPlanKey,
@@ -176,28 +311,136 @@ function renderCodingPlanOverview(plans, providerInfo = {}) {
     selectedPlanKey = selectedPlanKey === key ? '' : key;
     renderCurrentView();
   });
-  detail.addEventListener('click', event => {
-    const toggle = event.target.closest('[data-plan-group-toggle]');
-    if (!toggle) return;
-    const provider = toggle.dataset.planGroupToggle;
+  const togglePlanGroup = provider => {
     if (expandedProviders.has(provider)) expandedProviders.delete(provider);
     else expandedProviders.add(provider);
     renderCurrentView();
+  };
+  detail.addEventListener('click', event => {
+    // 分组头内的品牌页链接点击不触发折叠，交给浏览器跳转
+    if (event.target.closest('a')) return;
+    const toggle = event.target.closest('[data-plan-group-toggle]');
+    if (!toggle) return;
+    togglePlanGroup(toggle.dataset.planGroupToggle);
   });
-  brandTabs.addEventListener('click', event => {
+  // 表格分组折叠头为 div[role=button]，需补齐键盘操作（真正的 button 由原生 click 处理）
+  detail.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const toggle = event.target.closest('[data-plan-group-toggle]');
+    if (!toggle || toggle.tagName === 'BUTTON' || event.target.closest('a')) return;
+    event.preventDefault();
+    togglePlanGroup(toggle.dataset.planGroupToggle);
+  });
+  const clearTabSelection = () => {
+    [brandTabs, modelTabs].forEach(container => {
+      container.querySelectorAll('.brand-tab').forEach(tab => tab.classList.remove('is-active'));
+    });
+  };
+
+  const setCurrentPlansById = id => {
+    if (id === 'all') currentPlans = displayablePlans;
+    else if (id === 'free') currentPlans = filterFreePlans(displayablePlans);
+    else if (grouped.has(id)) currentPlans = grouped.get(id).plans;
+    else if (modelGrouped.has(id)) currentPlans = modelGrouped.get(id).plans;
+  };
+
+  // 根据当前视图切换头部标题、摘要与统计数据
+  const syncWorkbenchHead = mode => {
+    const title = els.codingPlanOverview.querySelector('#codingPlanTitle');
+    const summary = els.codingPlanOverview.querySelector('#workbenchSummary');
+    const stats = els.codingPlanOverview.querySelector('#workbenchStats');
+    if (title) title.textContent = t(mode === 'pricing' ? 'pricing.title' : 'home.title');
+    if (summary) summary.textContent = t(mode === 'pricing' ? 'pricing.summary' : 'home.summary');
+    if (!stats) return;
+    if (mode === 'pricing') {
+      const priced = models.filter(modelHasPrice);
+      const vendorCount = new Set(priced.map(m => PROVIDER_NAME_MAP[m.vendor] || m.vendor)).size;
+      stats.innerHTML = `<span>${priced.length} ${escapeHtml(t('pricing.meta.models'))}</span><span>${vendorCount} ${escapeHtml(t('pricing.meta.vendors'))}</span>`;
+    } else {
+      stats.innerHTML = `<span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span><span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span><span>${visibleModels.length} ${escapeHtml(t('home.meta.models'))}</span>`;
+    }
+  };
+
+  const switchDimension = mode => {
+    if (mode === activeDimension) return;
+    activeDimension = mode;
+    filterBar.querySelectorAll('[data-dimension]').forEach(button => {
+      button.classList.toggle('is-active', button.dataset.dimension === mode);
+    });
+    brandTabs.hidden = mode !== 'brand';
+    modelTabs.hidden = mode !== 'model';
+    if (searchInput) searchInput.placeholder = t(mode === 'brand' ? 'home.search.brand' : 'home.search.model');
+    resetViewState();
+    activeBrandId = 'all';
+    currentPlans = displayablePlans;
+    clearTabSelection();
+    if (mode === 'pricing') {
+      // 「模型」菜单页：只展示价格对比表，隐藏整个筛选栏（价格表自带厂商筛选）；
+      // 导出菜单仅适用于套餐表，价格视图下一并隐藏
+      filterBar.hidden = true;
+    } else {
+      filterBar.hidden = false;
+      (mode === 'brand' ? brandTabs : modelTabs).querySelector('[data-brand="all"]')?.classList.add('is-active');
+    }
+    const exportRoot = els.codingPlanOverview.querySelector('#plansExport');
+    if (exportRoot) exportRoot.hidden = mode === 'pricing';
+    if (searchInput) { searchInput.value = ''; }
+    filterTabsBySearch();
+    syncWorkbenchHead(mode);
+    syncPricingViewToLocation(mode);
+    renderCurrentView();
+  };
+
+  const searchInput = els.codingPlanOverview.querySelector('#brandSearchInput');
+
+  const filterTabsBySearch = () => {
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    const activeTabs = activeDimension === 'brand' ? brandTabs : modelTabs;
+    activeTabs.querySelectorAll('.brand-tab[data-brand]').forEach(tab => {
+      const id = tab.dataset.brand;
+      if (id === 'all' || id === 'free') { tab.hidden = false; return; }
+      const label = (tab.dataset.brandLabel || '').toLowerCase();
+      tab.hidden = query ? !label.includes(query) : false;
+    });
+    const divider = activeTabs.querySelector('.brand-divider');
+    if (divider) divider.hidden = false;
+  };
+
+  searchInput?.addEventListener('input', filterTabsBySearch);
+
+  filterBar.addEventListener('click', event => {
+    const dimension = event.target.closest('[data-dimension]');
+    if (dimension) {
+      switchDimension(dimension.dataset.dimension);
+      return;
+    }
     const button = event.target.closest('.brand-tab');
     if (!button) return;
-    const brandId = button.dataset.brand;
+    if (!brandTabs.contains(button) && !modelTabs.contains(button)) return;
+    const id = button.dataset.brand;
     resetViewState();
-    activeBrandId = brandId;
-    brandTabs.querySelectorAll('.brand-tab').forEach(tab => tab.classList.remove('is-active'));
+    activeBrandId = id;
+    clearTabSelection();
     button.classList.add('is-active');
-
-    if (brandId === 'all') currentPlans = displayablePlans;
-    else if (brandId === 'free') currentPlans = filterFreePlans(displayablePlans);
-    else if (grouped.has(brandId)) currentPlans = grouped.get(brandId).plans;
+    setCurrentPlansById(id);
     renderCurrentView();
   });
+
+  // 导航菜单「模型」入口：/model 直达模型价格对比视图
+  const entryPath = (globalThis.location?.pathname || '').replace(/\/+$/, '') || '/';
+  if (entryPath === '/model') {
+    switchDimension('pricing');
+  }
+}
+
+// 将价格对比视图状态同步到 URL（/model 与 / 互切），使链接可分享、导航高亮正确
+function syncPricingViewToLocation(mode) {
+  if (typeof globalThis.history?.replaceState !== 'function') return;
+  try {
+    const url = new URL(globalThis.location.href);
+    const pathname = mode === 'pricing' ? '/model' : '/';
+    globalThis.history.replaceState(null, '', `${pathname}${url.search}${url.hash}`);
+  } catch { /* ignore invalid locations */ }
 }
 
 function renderPlanDataUnavailable(source) {
@@ -217,6 +460,7 @@ function renderPlanDataUnavailable(source) {
       </div>
     </section>
   `;
+  finishPlansLoading();
 }
 
 async function initPlansPage() {
@@ -226,7 +470,7 @@ async function initPlansPage() {
     renderPlanDataUnavailable(dataset.source);
     return;
   }
-  renderCodingPlanOverview(dataset.plans, dataset.providerInfo || {});
+  renderCodingPlanOverview(dataset.plans, dataset.providerInfo || {}, dataset.modelCatalog || [], dataset.models || []);
 }
 
 initPlansPage();

@@ -1,17 +1,22 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth" data-default-theme="light">
+<html lang="en" class="scroll-smooth" data-default-theme="light" data-i18n-title="home.pageTitle">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="baidu-site-verification" content="codeva-plYT17aKBw" />
   <link rel="alternate" type="application/rss+xml" title="CreditsPlan price changes" href="https://www.creditsplan.com/price-changes.xml">
   <title>CreditsPlan - International AI Coding Plan Comparison & Subscription Decisions</title>
   <meta name="description" content="A subscription decision platform for AI developers: structured comparison of international AI Coding plans by price, quota, models and usage conditions, with official-source verification, price history and change tracking.">
   <link rel="canonical" href="https://www.creditsplan.com/">
+  <link rel="alternate" hreflang="en" href="https://www.creditsplan.com/">
+  <link rel="alternate" hreflang="zh-CN" href="https://creditsplan.cn/">
+  <link rel="alternate" hreflang="x-default" href="https://www.creditsplan.com/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.creditsplan.com/#organization","name":"CreditsPlan","url":"https://www.creditsplan.com/","logo":"https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp","description":"A subscription decision platform for AI developers: structured, source-verified comparison of international AI Coding plans by price, quota, models and usage conditions.","sameAs":["https://creditsplan.cn/"]},{"@type":"WebSite","@id":"https://www.creditsplan.com/#website","name":"CreditsPlan","url":"https://www.creditsplan.com/","inLanguage":"en","publisher":{"@id":"https://www.creditsplan.com/#organization"}}]}</script>
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.creditsplan.com/">
   <meta property="og:title" content="CreditsPlan - International AI Coding Plan Comparison & Subscription Decisions">
   <meta property="og:description" content="A subscription decision platform for AI developers: structured comparison of international AI Coding plans by price, quota, models and usage conditions, with official-source verification, price history and change tracking.">
-  <meta property="og:image" content="https://www.creditsplan.com/logo.webp">
+  <meta property="og:image" content="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp">
   <meta property="og:image:type" content="image/webp">
   <meta property="og:image:width" content="640">
   <meta property="og:image:height" content="640">
@@ -20,25 +25,494 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CreditsPlan - International AI Coding Plan Comparison & Subscription Decisions">
   <meta name="twitter:description" content="A subscription decision platform for AI developers: structured comparison of international AI Coding plans by price, quota, models and usage conditions, with official-source verification, price history and change tracking.">
-  <meta name="twitter:image" content="https://www.creditsplan.com/logo.webp">
+  <meta name="twitter:image" content="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp">
   <meta name="twitter:image:alt" content="CreditsPlan logo">
-  <link rel="icon" href="./logo.png?v=20260704" type="image/png" sizes="64x64">
-  <link rel="stylesheet" href="./styles.tailwind.0611f82af8b2.css">
+  <link rel="icon" href="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/favicon-sharp.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./styles.tailwind.248b7ea4ebf0.css">
+  <link rel="preload" href="./data.json" as="fetch" crossorigin>
   <script src="./js/theme-init.js"></script>
+  <script type="module" src="./js/plans.1ec81a2fa5f7.js"></script>
 </head>
 <body class="text-slate-950 antialiased dark:text-slate-100" data-page="index.html">
   <div class="min-h-screen">
-    <div id="header-root"></div>
+    <!-- 静态首屏导航：JS 就绪前先展示，js/header.js 的 renderHeader 加载后会整体覆盖并绑定交互 -->
+    <div id="header-root">
+      <header>
+        <nav class="nav-bar" id="navbar" aria-label="Main navigation">
+          <a href="/" class="nav-logo">
+            <div class="nav-logo-icon"><img class="nav-logo-img" src="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp?v=20260724" alt="CreditsPlan"/></div>
+            <span>CreditsPlan</span>
+          </a>
+          <ul class="nav-links" id="primaryNav">
+            <li><a class="focus-ring is-current" data-page-link="index.html" href="/" aria-current="page">Plans</a></li>
+            <li><a class="focus-ring" data-page-link="brands/" href="/brands/">Brands</a></li>
+            <li><a class="focus-ring" data-page-link="model" href="/model">Models</a></li>
+            <li><a class="focus-ring" data-page-link="changelog.html" href="/changelog.html">Changelog</a></li>
+            <li class="nav-mobile-only"><a href="https://www.creditsplan.cn/" target="_blank" rel="noopener noreferrer">CN Site (CNY)</a></li>
+            <li class="nav-mobile-only"><a href="https://github.com/creditsplan/creditsplan-com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="https://www.creditsplan.cn/" target="_blank" rel="noopener noreferrer" class="intl-site-link" aria-label="CN Site (CNY plans)" title="CN Site (CNY plans)">CN Site →</a>
+            <button data-lang-toggle type="button" class="lang-toggle-btn" aria-label="Switch language" title="Switch language">中文</button>
+            <a href="https://github.com/creditsplan/creditsplan-com" target="_blank" rel="noopener noreferrer" class="github-link-btn" aria-label="GitHub" title="GitHub">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <button data-theme-toggle type="button" class="theme-toggle-btn" aria-label="Toggle theme" aria-pressed="false" title="Toggle dark/light mode">
+              <svg class="theme-icon-sun h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <svg class="theme-icon-moon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-controls="primaryNav" aria-expanded="false">Menu</button>
+          </div>
+        </nav>
+      </header>
+    </div>
 
     <main class="pb-16">
       <section class="page-shell mx-auto max-w-7xl px-4 pt-0 pb-8 sm:px-6 lg:px-8">
-        <div id="codingPlanOverview"></div>
+        <div id="codingPlanOverview" class="plans-loading-shell" aria-busy="true">
+          <div class="plans-loading-placeholder" role="status" aria-live="polite">
+            <div class="plans-loading-placeholder-head" aria-hidden="true"><span></span><span></span></div>
+            <div class="plans-loading-placeholder-body" aria-hidden="true"><span></span><span></span><span></span></div>
+            <p>Loading plan and model data…</p>
+          </div>
+          <!--seo-overview:start-->
+        <section aria-labelledby="home-overview-title" class="seo-overview mx-auto max-w-7xl">
+        <h1 id="home-overview-title" class="text-2xl font-bold text-slate-900 dark:text-white" data-locale data-locale-zh="国际 AI Coding 套餐对比" data-locale-en="International AI Coding plan comparison">International AI Coding plan comparison</h1>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-locale data-locale-zh="CreditsPlan 已核对 10 个品牌、44 个 AI Coding 套餐，按价格、额度与支持模型对比，每条数据均对照厂商官网核对。" data-locale-en="CreditsPlan compares 44 verified AI Coding plans across 10 brands by price, quota and supported models — each checked against the vendor&#39;s official page.">CreditsPlan compares 44 verified AI Coding plans across 10 brands by price, quota and supported models — each checked against the vendor&#39;s official page.</p>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/qoder/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="Qoder" data-locale-en="Qoder">Qoder</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/qoder-community/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="体验版" data-locale-en="Free">Free</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$0</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Qwen3.8-Max" data-locale-en="Qwen3.8-Max">Qwen3.8-Max</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-18</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/qoder-pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro" data-locale-en="Pro">Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$20</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Qwen3.8-Max" data-locale-en="Qwen3.8-Max">Qwen3.8-Max</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-18</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/qoder-pro-plus/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro+" data-locale-en="Pro+">Pro+</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$60</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Qwen3.8-Max" data-locale-en="Qwen3.8-Max">Qwen3.8-Max</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-18</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/qoder-ultra/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Ultra" data-locale-en="Ultra">Ultra</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$200</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Qwen3.8-Max" data-locale-en="Qwen3.8-Max">Qwen3.8-Max</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-18</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/qoder-teams/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Teams" data-locale-en="Teams">Teams</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$40</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Qwen3.8-Max" data-locale-en="Qwen3.8-Max">Qwen3.8-Max</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-18</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/qoder-enterprise/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Enterprise" data-locale-en="Enterprise">Enterprise</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$20</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Qwen3.8-Max" data-locale-en="Qwen3.8-Max">Qwen3.8-Max</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-18</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/z-ai/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="Z.ai" data-locale-en="Z.ai">Z.ai</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/z-ai-glm-coding-lite/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Lite" data-locale-en="Lite">Lite</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$16.2</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="glm-5.2" data-locale-en="glm-5.2">glm-5.2</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-19</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/z-ai-glm-coding-pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro" data-locale-en="Pro">Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$64.8</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="glm-5.2" data-locale-en="glm-5.2">glm-5.2</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-19</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/z-ai-glm-coding-max/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Max" data-locale-en="Max">Max</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$144</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="glm-5.2" data-locale-en="glm-5.2">glm-5.2</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-19</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/byteplus/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="BytePlus" data-locale-en="BytePlus">BytePlus</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/byteplus-coding-lite/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Lite" data-locale-en="Lite">Lite</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$10</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Dola-Seed-2.0-pro" data-locale-en="Dola-Seed-2.0-pro">Dola-Seed-2.0-pro</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-19</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/byteplus-coding-pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro" data-locale-en="Pro">Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$50</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Dola-Seed-2.0-pro" data-locale-en="Dola-Seed-2.0-pro">Dola-Seed-2.0-pro</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-19</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/opencode-go/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="OpenCode" data-locale-en="OpenCode">OpenCode</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/opencode-go-coding-plan/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Go" data-locale-en="Go">Go</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$10</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300">—</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-19</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/chart-gpt/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="ChartGPT" data-locale-en="ChartGPT">ChartGPT</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/chart-gpt.free/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Free" data-locale-en="Free">Free</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$0</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="GPT-5.6 Sol" data-locale-en="GPT-5.6 Sol">GPT-5.6 Sol</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/chart-gpt.go/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Go" data-locale-en="Go">Go</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$8</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="GPT-5.6 Sol" data-locale-en="GPT-5.6 Sol">GPT-5.6 Sol</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/chart-gpt.plus/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Plus" data-locale-en="Plus">Plus</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$20</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="GPT-5.6 Sol" data-locale-en="GPT-5.6 Sol">GPT-5.6 Sol</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/chart-gpt.pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro" data-locale-en="Pro">Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$100</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="GPT-5.6 Sol" data-locale-en="GPT-5.6 Sol">GPT-5.6 Sol</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/chart-gpt.pro-20x/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro 20x" data-locale-en="Pro 20x">Pro 20x</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$200</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="GPT-5.6 Sol" data-locale-en="GPT-5.6 Sol">GPT-5.6 Sol</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/chart-gpt.business/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Business" data-locale-en="Business">Business</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$25</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="GPT-5.6 Sol" data-locale-en="GPT-5.6 Sol">GPT-5.6 Sol</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/claude/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="Claude" data-locale-en="Claude">Claude</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.free/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Free" data-locale-en="Free">Free</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$0</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro" data-locale-en="Pro">Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$20</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.max-5x/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Max 5x" data-locale-en="Max 5x">Max 5x</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$100</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.max-20x/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Max 20x" data-locale-en="Max 20x">Max 20x</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$200</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.team-standard/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Team Standard" data-locale-en="Team Standard">Team Standard</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$25</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.team-premium/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Team Premium" data-locale-en="Team Premium">Team Premium</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$125</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/claude.enterprise/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Enterprise" data-locale-en="Enterprise">Enterprise</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$20</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Fable 5" data-locale-en="Fable 5">Fable 5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/google-antigravity/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="Google Antigravity" data-locale-en="Google Antigravity">Google Antigravity</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/google-antigravity.individual/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Individual" data-locale-en="Individual">Individual</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$0</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Gemini 3.1 Pro" data-locale-en="Gemini 3.1 Pro">Gemini 3.1 Pro</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/google-antigravity.google-ai-pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Google AI Pro" data-locale-en="Google AI Pro">Google AI Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$19.99</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Gemini 3.1 Pro" data-locale-en="Gemini 3.1 Pro">Gemini 3.1 Pro</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/google-antigravity.google-ai-ultra-5x/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Google AI Ultra 5x" data-locale-en="Google AI Ultra 5x">Google AI Ultra 5x</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$99.99</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Gemini 3.1 Pro" data-locale-en="Gemini 3.1 Pro">Gemini 3.1 Pro</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/google-antigravity.google-ai-ultra-20x/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Google AI Ultra 20x" data-locale-en="Google AI Ultra 20x">Google AI Ultra 20x</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$199.99</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Gemini 3.1 Pro" data-locale-en="Gemini 3.1 Pro">Gemini 3.1 Pro</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/grok/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="Grok" data-locale-en="Grok">Grok</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/grok.supergrok-lite/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="SuperGrok Lite" data-locale-en="SuperGrok Lite">SuperGrok Lite</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$10</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Grok 4.5" data-locale-en="Grok 4.5">Grok 4.5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/grok.supergrok/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="SuperGrok" data-locale-en="SuperGrok">SuperGrok</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$30</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Grok 4.5" data-locale-en="Grok 4.5">Grok 4.5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/grok.supergrok-heavy/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="SuperGrok Heavy" data-locale-en="SuperGrok Heavy">SuperGrok Heavy</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$300</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Grok 4.5" data-locale-en="Grok 4.5">Grok 4.5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/grok.grok-business/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Grok Business" data-locale-en="Grok Business">Grok Business</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$30</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Grok 4.5" data-locale-en="Grok 4.5">Grok 4.5</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-21</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/cursor/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="Cursor" data-locale-en="Cursor">Cursor</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.hobby/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Hobby" data-locale-en="Hobby">Hobby</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$0</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro" data-locale-en="Pro">Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$20</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.proplus/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Pro+" data-locale-en="Pro+">Pro+</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$60</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.ultra/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Ultra" data-locale-en="Ultra">Ultra</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$200</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.teams-standard/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Teams Standard" data-locale-en="Teams Standard">Teams Standard</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$40</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.teams-premium/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Teams Premium" data-locale-en="Teams Premium">Teams Premium</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$120</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/cursor.enterprise/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Enterprise" data-locale-en="Enterprise">Enterprise</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">—</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Composer 2.5, Grok 4.5, Auto" data-locale-en="Composer 2.5, Grok 4.5, Auto">Composer 2.5, Grok 4.5, Auto</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-22</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <section class="mt-6">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white"><a href="/brands/stepfun/" class="hover:text-brand-600 dark:hover:text-brand-400" data-locale data-locale-zh="阶跃星辰" data-locale-en="StepFun">StepFun</a></h2>
+          <table class="mt-2 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-500 dark:text-slate-400">
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="套餐" data-locale-en="Plan">Plan</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="月费" data-locale-en="Monthly">Monthly</th>
+                <th class="py-2 pr-4 font-medium" data-locale data-locale-zh="代表模型" data-locale-en="Models">Models</th>
+                <th class="py-2 font-medium" data-locale data-locale-zh="核对日期" data-locale-en="Verified">Verified</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/stepfun.flash-mini/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Flash Mini" data-locale-en="Flash Mini">Flash Mini</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$6.99</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Step 3.7 Flash" data-locale-en="Step 3.7 Flash">Step 3.7 Flash</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-26</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/stepfun.flash-plus/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Flash Plus" data-locale-en="Flash Plus">Flash Plus</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$9.99</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Step 3.7 Flash" data-locale-en="Step 3.7 Flash">Step 3.7 Flash</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-26</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/stepfun.flash-pro/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Flash Pro" data-locale-en="Flash Pro">Flash Pro</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$29</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Step 3.7 Flash" data-locale-en="Step 3.7 Flash">Step 3.7 Flash</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-26</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><a href="/plans/stepfun.flash-max/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="Flash Max" data-locale-en="Flash Max">Flash Max</a></td>
+              <td class="py-2 pr-4 font-medium text-slate-900 dark:text-white">$99</td>
+              <td class="py-2 pr-4 text-slate-600 dark:text-slate-300" data-locale data-locale-zh="Step 3.7 Flash" data-locale-en="Step 3.7 Flash">Step 3.7 Flash</td>
+              <td class="py-2 text-slate-500 dark:text-slate-400">2026-07-26</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        <p class="mt-6 text-sm"><a href="/brands/" class="text-brand-600 hover:text-brand-800 dark:text-brand-400" data-locale data-locale-zh="浏览全部已核对品牌 →" data-locale-en="Browse all verified brands →">Browse all verified brands →</a></p>
+      </section>
+        <!--seo-overview:end--></div>
       </section>
     </main>
 
-    <div id="footer-root"></div>
+    <div id="footer-root">
+      <footer>
+        <div class="footer-shell mx-auto flex flex-col gap-2 px-4 py-3 text-sm text-slate-500 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <nav class="flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="Footer navigation" data-i18n-attr="aria-label:footer.aria">
+            <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="/methodology.html" data-i18n="footer.methodology">Methodology</a>
+            <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="mailto:feedback@creditsplan.com" data-i18n="footer.feedback">Feedback: feedback@creditsplan.com</a>
+          </nav>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>© 2026 CreditsPlan</span>
+          </div>
+        </div>
+      </footer>
+    </div>
   </div>
 
-  <script type="module" src="./js/plans.js"></script>
 </body>
 </html>

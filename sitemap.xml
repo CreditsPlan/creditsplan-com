@@ -2,15 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.creditsplan.com/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <lastmod>2026-07-27</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/news.html</loc>
-    <lastmod>2026-07-19</lastmod>
+    <lastmod>2026-07-27</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/changelog.html</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-26</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/methodology.html</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://www.creditsplan.com/brands/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <lastmod>2026-07-27</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/brands/qoder/</loc>
@@ -34,6 +34,166 @@
   </url>
   <url>
     <loc>https://www.creditsplan.com/brands/opencode-go/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/chart-gpt/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/claude/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/google-antigravity/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/grok/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/cursor/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/opencode-go-coding-plan/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/byteplus-coding-lite/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/byteplus-coding-pro/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/chart-gpt.free/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/chart-gpt.go/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/chart-gpt.plus/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/chart-gpt.pro/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/chart-gpt.pro-20x/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/chart-gpt.business/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.free/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.pro/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.max-5x/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.max-20x/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.team-standard/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.team-premium/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/claude.enterprise/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/google-antigravity.individual/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/google-antigravity.google-ai-pro/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/google-antigravity.google-ai-ultra-5x/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/google-antigravity.google-ai-ultra-20x/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/grok.supergrok-lite/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/grok.supergrok/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/grok.supergrok-heavy/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/grok.grok-business/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.hobby/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.pro/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.proplus/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.ultra/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.teams-standard/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.teams-premium/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/cursor.enterprise/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-lite/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-pro/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-max/</loc>
     <lastmod>2026-07-19</lastmod>
   </url>
   <url>
@@ -61,27 +221,19 @@
     <lastmod>2026-07-18</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/plans/opencode-go-coding-plan/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <loc>https://www.creditsplan.com/plans/stepfun.flash-mini/</loc>
+    <lastmod>2026-07-26</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/plans/byteplus-coding-lite/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <loc>https://www.creditsplan.com/plans/stepfun.flash-plus/</loc>
+    <lastmod>2026-07-26</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/plans/byteplus-coding-pro/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <loc>https://www.creditsplan.com/plans/stepfun.flash-pro/</loc>
+    <lastmod>2026-07-26</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-lite/</loc>
-    <lastmod>2026-07-19</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-pro/</loc>
-    <lastmod>2026-07-19</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-max/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <loc>https://www.creditsplan.com/plans/stepfun.flash-max/</loc>
+    <lastmod>2026-07-26</lastmod>
   </url>
 </urlset>

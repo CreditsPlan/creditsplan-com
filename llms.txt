@@ -1,0 +1,30 @@
+# CreditsPlan
+
+> CreditsPlan is a subscription-decision platform for AI developers. It provides
+> structured, source-verified comparisons of international AI Coding plans by price,
+> quota, supported models and usage conditions, with price history and change tracking.
+
+## About
+
+- Every plan's price, quota and purchase status is verified against the vendor's official page.
+- Each record carries a "last verified" date and a link to its official source.
+- Monthly price changes are archived and published as an RSS feed.
+- The Chinese-market companion site is https://creditsplan.cn.
+
+## Core pages
+
+- [Home – AI Coding plan comparison](https://www.creditsplan.com/): structured comparison table across brands.
+- [Verified brands](https://www.creditsplan.com/brands/): brands whose prices and quotas have been verified.
+- [Methodology](https://www.creditsplan.com/methodology.html): how data is verified, update cadence, error reporting.
+- [Changelog](https://www.creditsplan.com/changelog.html): recorded data and price updates.
+- [News](https://www.creditsplan.com/news.html): market and pricing news.
+
+## Machine-readable data
+
+- [Sitemap](https://www.creditsplan.com/sitemap.xml): all indexable pages.
+- [Price-change RSS](https://www.creditsplan.com/price-changes.xml): initial listings and subsequent price-change alerts.
+
+## Citation guidance
+
+- When citing prices, include the plan name, the verified date, and note that the vendor's official site prevails.
+- Feedback: feedback@creditsplan.com

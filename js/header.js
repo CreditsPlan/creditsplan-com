@@ -4,6 +4,7 @@ import { t, toggleLang, isZh } from './i18n.js';
 const pages = [
   ['index.html', '/', 'nav.models'],
   ['brands/', '/brands/', 'nav.brands'],
+  ['model', '/model', 'nav.pricing'],
   ['news.html', '/news.html', 'nav.news'],
   ['changelog.html', '/changelog.html', 'nav.changelog']
 ];
@@ -42,10 +43,16 @@ export function renderHeader(currentPage = 'index.html') {
   const root = document.getElementById('header-root');
   if (!root) return;
   const current = normalized(currentPage);
+  // 「模型」与「套餐」同为首页文档，通过 /model 路径区分高亮
+  const pathname = (globalThis.location?.pathname || '').replace(/\/+$/, '') || '/';
+  const isModelView = pathname === '/model';
   // 新闻内容仅有中文；英文界面下移除 AI News 导航入口（桌面与移动菜单共用此列表）。
   const visiblePages = isZh() ? pages : pages.filter(([page]) => page !== 'news.html');
   const nav = visiblePages.map(([page, href, label]) => {
-    const active = normalized(page) === current;
+    let active;
+    if (page === 'model') active = current === 'index.html' && isModelView;
+    else if (page === 'index.html') active = current === 'index.html' && !isModelView;
+    else active = normalized(page) === current;
     return `<li><a class="focus-ring${active ? ' is-current' : ''}" data-page-link="${page}" href="${href}"${active ? ' aria-current="page"' : ''}>${t(label)}</a></li>`;
   }).join('');
 
@@ -53,7 +60,7 @@ export function renderHeader(currentPage = 'index.html') {
     <header>
       <nav class="nav-bar" id="navbar" aria-label="${t('nav.aria.main')}">
         <a href="/" class="nav-logo">
-          <div class="nav-logo-icon"><img class="nav-logo-img" src="/logo.png" alt="CreditsPlan"/></div>
+          <div class="nav-logo-icon"><img class="nav-logo-img" src="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp?v=20260724" alt="CreditsPlan"/></div>
           <span>CreditsPlan</span>
         </a>
         <ul class="nav-links" id="primaryNav">
@@ -107,4 +114,24 @@ export function renderHeader(currentPage = 'index.html') {
       navToggle.focus();
     });
   }
+
+  // Speculation Rules：让浏览器在后台预渲染导航目标页，点击菜单时几乎零延迟切换
+  injectSpeculationRules();
+}
+
+let speculationInjected = false;
+function injectSpeculationRules() {
+  if (speculationInjected) return;
+  if (!HTMLScriptElement.supports?.('speculationrules')) return;
+  speculationInjected = true;
+  const script = document.createElement('script');
+  script.type = 'speculationrules';
+  script.textContent = JSON.stringify({
+    prerender: [{
+      source: 'list',
+      urls: ['/', '/brands/', '/model', '/news.html', '/changelog.html'],
+      eagerness: 'immediate'
+    }]
+  });
+  document.head.appendChild(script);
 }

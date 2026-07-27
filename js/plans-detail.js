@@ -134,10 +134,11 @@ export function renderSelectedPlanDetail(plan) {
   const hasInvoice = plan.invoice && plan.invoice !== '待确认' && plan.invoice !== '请以官网为准';
 
   addPlanExtraRow(rows, t('detail.type'), typeLabel, false, false, true);
+  addPlanExtraRow(rows, t('detail.supportedModels'), (plan.supportedModelNames || []).join('、'), false, true);
   if (plan.firstMonthPrice != null) {
     const firstMonthPrice = Number(plan.firstMonthPrice);
     addPlanExtraRow(rows, t('detail.firstMonth'), Number.isFinite(firstMonthPrice)
-      ? `${currencySymbol(plan.monthlyCurrency || 'CNY')}${formatPriceNumber(firstMonthPrice)}`
+      ? `${currencySymbol(plan.monthlyCurrency || 'USD')}${formatPriceNumber(firstMonthPrice)}`
       : plan.firstMonthPrice);
   }
   if (plan.domesticPayment) addPlanExtraRow(rows, t('detail.domesticPay'), t('common.supported'), false, false, true);
@@ -164,7 +165,7 @@ export function renderSelectedPlanDetail(plan) {
   addPlanExtraRow(rows, t('detail.weeklyTokens'), plan.measuredWeeklyTokens);
   addPlanExtraRow(rows, t('detail.monthlyTokens'), plan.measuredMonthlyTokens);
   addPlanExtraRow(rows, t('detail.tokenLimit'), plan.tokenLimit);
-  addPlanExtraRow(rows, t('detail.benefits'), plan.benefits);
+  addPlanExtraRow(rows, t('detail.benefits'), plan.benefits ? plan.benefits.replace(/\n/g, '；') : undefined);
   addPlanExtraRow(rows, t('detail.inputPrice'), plan.modelInputPrice);
   addPlanExtraRow(rows, t('detail.outputPrice'), plan.modelOutputPrice);
   if (plan.monthlyCurrency === 'USD') {
@@ -205,7 +206,7 @@ export function renderSelectedPlanDetail(plan) {
     const isLong = row.value.length > 40 || row.wide;
     const itemClass = row.keepInline
       ? 'plan-extra-item plan-extra-inline'
-      : (isLong ? 'plan-extra-item plan-extra-wide' : `plan-extra-item${row.compactInline ? ' plan-extra-compact-inline' : ''}`);
+      : (isLong ? 'plan-extra-item plan-extra-wide' : `plan-extra-item ${row.compactInline ? 'plan-extra-compact-inline' : 'plan-extra-inline'}`);
     const nowrapClass = row.nowrapValue ? ' plan-extra-nowrap' : '';
     return `
     <div class="${itemClass}${nowrapClass}">

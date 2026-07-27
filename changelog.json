@@ -1,6 +1,50 @@
 {
-  "last_updated": "2026-07-19",
+  "last_updated": "2026-07-26",
   "entries": [
+    {
+      "id": "changelog-20260726-model-pricing",
+      "date": "2026-07-26",
+      "edition": "2026.07.26",
+      "kind": "feature",
+      "title": "模型目录与 API 价格对比上线",
+      "title_en": "Model Catalog and API Price Comparison Are Live",
+      "summary": "新增按模型浏览与独立 API 价格页，套餐适配关系和模型使用成本可以在同一站点交叉比较。",
+      "summary_en": "Browse plans by model and compare official API prices on a dedicated page, bringing model availability and usage cost into one workflow.",
+      "items": [
+        "订阅套餐新增“按模型”维度，可反查每个模型对应的可用套餐。",
+        "新增模型价格对比页，展示厂商、上下文长度及官方输入/输出单价，并支持厂商筛选和排序。",
+        "价格数据保留厂商官方计价币种与来源链接，不再强制换算成人民币。",
+        "完善模型目录、套餐与模型关联及模型图标，让模型与厂商归属更清晰。"
+      ],
+      "items_en": [
+        "Browse subscription plans by model to see which plans include each model.",
+        "Compare providers, context windows, and official input/output prices on the dedicated model page, with provider filters and sorting.",
+        "Prices retain each provider's official billing currency and source links instead of being forcibly converted to CNY.",
+        "Improved the model catalog, plan-to-model relationships, and model icons for clearer vendor attribution."
+      ]
+    },
+    {
+      "id": "changelog-new-brands-20260721",
+      "date": "2026-07-21",
+      "edition": "2026.07.21",
+      "kind": "catalog",
+      "title": "新增 4 个品牌、21 个套餐",
+      "title_en": "Added 4 New Brands and 21 Plans",
+      "summary": "CreditsPlan 新增收录 Claude、ChartGPT、Google Antigravity、Grok 4 个 AI 编程品牌，累计 8 个品牌、33 个套餐。",
+      "summary_en": "CreditsPlan adds Claude, ChartGPT, Google Antigravity, and Grok, bringing the total to 8 brands and 33 plans.",
+      "items": [
+        "新增 Claude 品牌：Free / Pro / Max 5x / Max 20x / Team Standard / Team Premium / Enterprise 共 7 个套餐",
+        "新增 ChartGPT 品牌：Free / Go / Plus / Pro / Pro 20x / Business 共 6 个套餐",
+        "新增 Google Antigravity 品牌：Individual / Google AI Pro / Google AI Ultra 5x / Google AI Ultra 20x 共 4 个套餐",
+        "新增 Grok 品牌：SuperGrok Lite / SuperGrok / SuperGrok Heavy / Grok Business 共 4 个套餐"
+      ],
+      "items_en": [
+        "New Claude brand: Free / Pro / Max 5x / Max 20x / Team Standard / Team Premium / Enterprise — 7 plans",
+        "New ChartGPT brand: Free / Go / Plus / Pro / Pro 20x / Business — 6 plans",
+        "New Google Antigravity brand: Individual / Google AI Pro / Google AI Ultra 5x / Google AI Ultra 20x — 4 plans",
+        "New Grok brand: SuperGrok Lite / SuperGrok / SuperGrok Heavy / Grok Business — 4 plans"
+      ]
+    },
     {
       "id": "changelog-launch-20260719",
       "date": "2026-07-19",
@@ -16,6 +60,13 @@
         "支持中英文双语浏览，套餐价格与额度对比一目了然",
         "提供品牌专属 SEO 页面，方便搜索引擎收录",
         "支持套餐价格变动追踪与历史对比"
+      ],
+      "items_en": [
+        "Launching with 4 AI Coding brands: Qoder, BytePlus, Z.ai, OpenCode",
+        "12 plans with full data: Qoder (Community / Pro / Pro+ / Ultra / Teams / Enterprise), BytePlus (Lite / Pro), Z.ai GLM Coding (Lite / Pro / Max), OpenCode Go",
+        "Bilingual (Chinese & English) browsing with side-by-side plan price and quota comparison",
+        "Brand-specific SEO pages for better search engine visibility",
+        "Plan price change tracking and historical comparison"
       ]
     }
   ]

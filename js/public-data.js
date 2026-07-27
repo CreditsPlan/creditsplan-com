@@ -29,7 +29,14 @@ export async function loadModelDataset() {
 export async function loadPlanDataset() {
   const dataset = await loadModelDataset();
   const plans = dataset.models.flatMap(model => normalizePlansFromModel(model, dataset.providerInfo));
-  return { ...dataset, plans, providerInfo: dataset.providerInfo || {} };
+  const modelCatalog = dataset.modelCatalog || [];
+  const nameById = new Map(modelCatalog.map(model => [model.id, model.name]));
+  for (const plan of plans) {
+    plan.supportedModelNames = (plan.modelIds || [])
+      .map(id => nameById.get(id))
+      .filter(Boolean);
+  }
+  return { ...dataset, plans, providerInfo: dataset.providerInfo || {}, modelCatalog };
 }
 
 function normalizeModelDataset(payload, source) {
@@ -41,7 +48,8 @@ function normalizeModelDataset(payload, source) {
         lastUpdated: payload.last_updated || latestDate(models.map(model => model.updatedAt)),
         models,
         rawModels: payload.models,
-        providerInfo: payload.provider_info || {}
+        providerInfo: payload.provider_info || {},
+        modelCatalog: normalizeModelCatalog(payload.model_catalog)
       };
     }
   }
@@ -51,8 +59,24 @@ function normalizeModelDataset(payload, source) {
     lastUpdated: payload?.last_updated || 'unknown',
     models: [],
     rawModels: [],
-    providerInfo: payload?.provider_info || {}
+    providerInfo: payload?.provider_info || {},
+    modelCatalog: []
   };
+}
+
+function normalizeModelCatalog(catalog) {
+  if (!Array.isArray(catalog)) return [];
+  return catalog
+    .map(item => ({
+      id: stringValue(item.id),
+      name: stringValue(pickLang(item.name, item.name_en), item.id || ''),
+      provider: stringValue(item.provider, ''),
+      providerIconUrl: stringValue(item.provider_icon_url, ''),
+      logoUrl: stringValue(item.logo_url, ''),
+      sortOrder: numberOrNull(item.sort_order),
+      marketRegion: stringValue(item.market_region, '')
+    }))
+    .filter(item => item.id);
 }
 
 export async function loadUpdateDataset() {
@@ -74,7 +98,9 @@ export async function loadUpdateDataset() {
 
 async function fetchJson(url) {
   try {
-    const response = await fetch(url, { cache: 'no-store', headers: { Accept: 'application/json' } });
+    // 使用默认 HTTP 缓存：data.json 在 nginx 层已配置 5 分钟短缓存，
+    // 同时让 <link rel="preload" as="fetch"> 的预取结果能被复用，避免重复下载
+    const response = await fetch(url, { headers: { Accept: 'application/json' } });
     if (!response.ok) return null;
     return await response.json();
   } catch {
@@ -177,9 +203,10 @@ function normalizeBackendModel(model, source) {
     id: stringValue(model.id),
     vendor: stringValue(model.provider, '待更新'),
     providerIconUrl: stringValue(model.provider_icon_url, model.icon_url || ''),
+    logoUrl: stringValue(model.logo_url, ''),
     modelName: stringValue(pickLang(model.name, model.name_en), '待更新'),
-    inputPrice: formatPrice(model.input_price),
-    outputPrice: formatPrice(model.output_price),
+    inputPrice: formatPrice(model.input_price, model.currency),
+    outputPrice: formatPrice(model.output_price, model.currency),
     contextLength: formatContext(model.context_length),
     multimodal: capabilities.includes('vision') ? '支持' : '待确认',
     apiSupport: '支持',
@@ -222,6 +249,9 @@ function normalizePlansFromModel(model, providerInfo = {}) {
         providerIconUrl: stringValue(plan.provider_icon_url, plan.icon_url, model.providerIconUrl),
         modelName: model.modelName,
         modelId: stringValue(plan.model_id, model.id),
+        modelIds: Array.isArray(plan.model_ids)
+          ? plan.model_ids.map(id => String(id || '').trim()).filter(Boolean)
+          : [],
         status: stringValue(plan.status, 'unknown'),
         statusLabel: (() => {
           if (plan.status) {
@@ -230,7 +260,7 @@ function normalizePlansFromModel(model, providerInfo = {}) {
           }
           return stringValue(plan.status_label, t('status.pending'));
         })(),
-        url: stringValue(plan.url, brandInfo.url || ''),
+        url: stringValue(pickLang(plan.url_cn, plan.url_en), plan.url_en, plan.url_cn),
         monthlyPrice: formatMonthlyPrice(plan.monthly_price, monthlyCurrency),
         monthlyPriceValue,
         monthlyCurrency,
@@ -460,13 +490,25 @@ function inferPlanCategory(plan, model) {
 
 function inferMonthlyCurrency(plan, model) {
   const explicitCurrency = stringValue(plan.monthly_currency).toUpperCase();
-  if (explicitCurrency === 'USD' || explicitCurrency === 'CNY') return explicitCurrency;
+  if (explicitCurrency === 'USD') return 'USD';
+
+  // 国际站品牌（market_region 为 international）默认美元结算，
+  // 即使 DB 中 monthly_currency 为空或遗留默认值 CNY 也应纠正。
+  const region = stringValue(model.market_region).toLowerCase();
+  const isInternationalRegion = region === 'international' || region === 'domestic_international';
+
+  if (explicitCurrency === 'CNY' && isInternationalRegion) return 'USD';
 
   const provider = stringValue(plan.provider, model.vendor);
   const providerKey = provider.toLowerCase();
-  if (providerKey === 'qoder' || providerKey === 'qoder cn' || providerKey === 'byteplus' || providerKey === 'z.ai') return 'USD';
+  if (providerKey === 'qoder' || providerKey === 'qoder cn' || providerKey === 'byteplus'
+    || providerKey === 'z.ai' || providerKey === 'grok' || providerKey === 'claude'
+    || providerKey === 'chartgpt' || providerKey === 'google antigravity'
+    || providerKey === 'opencode' || providerKey === 'anthropic' || providerKey === 'openai') return 'USD';
 
-  const text = compactText(plan.name, provider, plan.url, plan.included_calls, plan.notes).toLowerCase();
+  if (isInternationalRegion) return 'USD';
+
+  const text = compactText(plan.name, provider, plan.url_cn, plan.url_en, plan.included_calls, plan.notes).toLowerCase();
   if (/\$|usd|美元|trae\.ai/.test(text)) return 'USD';
   return 'CNY';
 }
@@ -504,9 +546,21 @@ function boolValue(value) {
   return text === 'true' || text === '1' || text === 'yes';
 }
 
-// 当前为英文且英文值非空时取英文，否则回退基础（中文）值。
+// 检测文本是否主要为英文（拉丁字符占比超过 60% 且不含中文字符）。
+function isMostlyLatin(text) {
+  if (!text) return false;
+  const value = String(text).trim();
+  if (!value) return false;
+  if (/[\u4e00-\u9fff]/.test(value)) return false;
+  const latinCount = (value.match(/[a-zA-Z]/g) || []).length;
+  return latinCount / value.length > 0.6;
+}
+
+// 当前为英文且英文值非空时取英文；中文模式下若基础值为英文且英文字段有不同内容则取英文字段，否则回退基础值。
 function pickLang(base, en) {
-  return (getLang() === 'en' && en != null && String(en).trim()) ? en : base;
+  if (getLang() === 'en' && en != null && String(en).trim()) return en;
+  if (getLang() === 'zh' && isMostlyLatin(base) && en != null && String(en).trim() && String(en).trim() !== String(base).trim()) return en;
+  return base;
 }
 
 function numberOrNull(value) {
@@ -515,10 +569,12 @@ function numberOrNull(value) {
   return Number.isFinite(number) ? number : null;
 }
 
-function formatPrice(value) {
+function formatPrice(value, currency) {
   const number = numberOrNull(value);
   if (number == null) return stringValue(value, t('common.pending'));
-  return `\u00a5${number.toLocaleString(numberLocale(), { maximumFractionDigits: 4 })}/${t('common.perMillionTokens')}`;
+  // 币种随后台 currency 字段显示，不做汇率转化（默认 CNY）
+  const symbol = currency === 'USD' ? '$' : '¥';
+  return `${symbol}${number.toLocaleString(numberLocale(), { maximumFractionDigits: 4 })}/${t('common.perMillionTokens')}`;
 }
 
 function formatMonthlyPrice(value, currency = 'CNY') {
