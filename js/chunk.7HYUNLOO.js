@@ -1,0 +1,1 @@
+var a=new Set(["localhost","127.0.0.1","::1"]);function n(o=globalThis.location?.hostname||""){let t=String(o).trim().toLowerCase().replace(/^\[|\]$/g,"");return a.has(t)||t.endsWith(".localhost")}function e(o=globalThis.location?.hostname||""){return n(o)?"/api/models":"/data.json"}export{n as a,e as b};

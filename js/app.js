@@ -1,7 +1,7 @@
 import { renderHeader } from './header.js';
 import { renderFooter } from './footer.js';
 import { initTheme } from './theme.js';
-import { initI18n, applyI18n } from './i18n.js';
+import { initI18n, applyI18n, t } from './i18n.js';
 import { installOutboundTracker, trackPageView } from './shared/outbound-tracker.js';
 
 initI18n();
@@ -16,6 +16,7 @@ export function initAppShell() {
   initPageNav();
   initScrollAnimations();
   initImageFallbacks();
+  initGlobalBackTop();
   applyI18n(document);
 }
 
@@ -24,6 +25,32 @@ function pageFromLocation() {
   if (path.startsWith('/brands/')) return 'brands/';
   if (path.startsWith('/plans/')) return 'index.html';
   return path.split('/').pop() || 'index.html';
+}
+
+// 全局返回顶部：静态长页（品牌页/套餐页/价格变动等）滚动超过一屏后出现；
+// 首页由 plans-page.js 渲染自己的 #plansBackTop（回到套餐列表顶部），此处跳过避免重复。
+function initGlobalBackTop() {
+  if (document.getElementById('codingPlanOverview')) return;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.id = 'globalBackTop';
+  button.className = 'plans-back-top';
+  button.setAttribute('data-i18n-attr', 'aria-label:global.backTop.aria;title:global.backTop.title');
+  button.setAttribute('aria-label', t('global.backTop.aria'));
+  button.title = t('global.backTop.title');
+  button.innerHTML = '<span aria-hidden="true">↑</span>';
+  document.body.appendChild(button);
+
+  const syncVisibility = () => {
+    button.classList.toggle('is-visible', window.scrollY > 480);
+  };
+  button.addEventListener('click', () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  });
+  window.addEventListener('scroll', syncVisibility, { passive: true });
+  window.addEventListener('resize', syncVisibility);
+  syncVisibility();
 }
 
 function initImageFallbacks() {

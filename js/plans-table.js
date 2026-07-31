@@ -12,26 +12,49 @@ import {
   planKey,
   providerMetadata,
   providerSortOrder,
+  resolvePlanPrivacy,
   safeIconUrl,
   seoBrandSlugForProvider,
   sortPlansBySortOrder,
-  supportedModelDisplay
+  supportedModelDisplay,
+  verifiedFreshness
 } from './shared/plan-utils.js';
 import {
   PLAN_TABLE_FILTER_COLUMNS,
   applyPlanTableFilter,
+  isAvailableOnlyActive,
   isPlanTableFilterActive,
+  planBillingUnitIsDisclosed,
+  planBillingUnitLabel,
   renderPlanTableFilterHeader,
-  renderPlanTableFilterSummary
+  renderPlanTableFilterSummary,
+  renderPlanTableQuickFilters,
+  setPlanTablePrivacyContext
 } from './plans-filters.js';
 import {
   PLAN_TYPE_LABELS,
+  firstMonthPriceText,
   outboundTrackingAttributes,
+  purchaseLinkTarget,
   renderPlanPriceBlock,
   renderSelectedPlanDetail
 } from './plans-detail.js';
+import { planQuotaDisplay, planUnitPriceDisplay } from './shared/quota-utils.js';
 
 const PLAN_TABLE_GROUP_PREVIEW = 2;
+
+// 核实徽标：30 天内显示「✓ Verified Xd ago」，超期降级「Needs re-check」，无记录不展示
+function verifiedBadgeHtml(plan) {
+  const fresh = verifiedFreshness(plan.lastVerifiedAt);
+  if (fresh.state === 'fresh') {
+    const label = fresh.days === 0 ? t('verified.freshToday') : t('verified.freshDaysAgo', { n: fresh.days });
+    return `<span class="whitespace-nowrap rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300" title="${escapeHtml(t('verified.freshTitle', { date: fresh.date }))}">${escapeHtml(label)}</span>`;
+  }
+  if (fresh.state === 'stale') {
+    return `<span class="whitespace-nowrap rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-600 dark:bg-amber-950/40 dark:text-amber-300" title="${escapeHtml(t('verified.staleTitle', { date: fresh.date }))}">${escapeHtml(t('verified.stale'))}</span>`;
+  }
+  return '';
+}
 
 function planDetailHref(plan, providerInfo) {
   const brandSlug = seoBrandSlugForProvider(plan.provider, providerInfo, PROVIDER_NAME_MAP);
@@ -134,6 +157,20 @@ function renderGroupSummary(group) {
   return `<span class="plan-table-group-summary">${escapeHtml(text)}</span>`;
 }
 
+function renderDataTrainingCell(plan, providerInfo) {
+  const privacy = resolvePlanPrivacy(plan, providerInfo, PROVIDER_NAME_MAP);
+  if (privacy.training === 'no') {
+    return `<span class="text-xs font-medium text-emerald-600 dark:text-emerald-400" title="${escapeHtml(t('privacy.training.no'))}">${escapeHtml(t('privacy.cell.no'))}</span>`;
+  }
+  if (privacy.training === 'yes') {
+    return `<span class="text-xs font-medium text-amber-600 dark:text-amber-400" title="${escapeHtml(t('privacy.training.yes'))}">${escapeHtml(t('privacy.cell.yes'))}</span>`;
+  }
+  if (privacy.training === 'unclear') {
+    return `<span class="text-xs text-slate-500 dark:text-slate-400">${escapeHtml(t('privacy.training.unclear'))}</span>`;
+  }
+  return '<span class="text-slate-400">—</span>';
+}
+
 function planStatusClass(plan) {
   if (plan.status === 'available' || plan.statusLabel === '可用' || plan.statusLabel === '可购买') {
     return 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300';
@@ -162,6 +199,15 @@ function planPriceCard(plan, trustHtml = '', domesticHtml = '', isExpanded = fal
     priceHtml = `<span class="text-lg font-bold text-slate-400 dark:text-slate-500">${escapeHtml(t('table.price.usage'))}</span>`;
   }
 
+  const cardQuota = planQuotaDisplay(plan);
+  const cardUnitPrice = planUnitPriceDisplay(plan);
+  const quotaRowHtml = (cardQuota || cardUnitPrice)
+    ? `<div class="plan-card-quota-row mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
+        ${cardQuota ? `<span title="${escapeHtml(cardQuota.full)}">${escapeHtml(t('table.col.quota'))}: ${escapeHtml(cardQuota.text)}</span>` : ''}
+        ${cardUnitPrice ? `<span class="font-medium text-brand-700 dark:text-brand-300"${cardUnitPrice.estimated ? ` title="${escapeHtml(t('table.unitPrice.estimated'))}"` : ''}>${escapeHtml(cardUnitPrice.text)}</span>` : ''}
+      </div>`
+    : '';
+
   return `
     <div class="plan-card">
       <div class="plan-card-head">
@@ -176,6 +222,7 @@ function planPriceCard(plan, trustHtml = '', domesticHtml = '', isExpanded = fal
             <span class="whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${escapeHtml(plan.statusLabel)}</span>
             ${domesticHtml}
             ${typeLabel ? `<span class="whitespace-nowrap rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-medium text-brand-600 dark:bg-brand-950/40 dark:text-brand-300">${escapeHtml(typeLabel)}</span>` : ''}
+            ${verifiedBadgeHtml(plan)}
           </div>
           <span class="plan-card-disclosure" aria-hidden="true">
             <span>${isExpanded ? t('card.detail.collapse') : t('card.detail.expand')}</span>
@@ -187,6 +234,7 @@ function planPriceCard(plan, trustHtml = '', domesticHtml = '', isExpanded = fal
         <div class="plan-card-price-row mt-3 flex items-baseline gap-1.5">
           ${priceHtml}
         </div>
+        ${quotaRowHtml}
       </div>
     </div>
   `;
@@ -218,7 +266,7 @@ function renderAllPlansCards(plans, selectedPlanKey, providerInfo, expandedProvi
           <div class="plan-card-toggle" role="button" tabindex="0" data-plan-key="${escapeHtml(key)}" aria-expanded="${isSelected ? 'true' : 'false'}">
             ${planPriceCard(plan, trustHtml, domesticHtml, isSelected)}
           </div>
-          ${isSelected ? renderSelectedPlanDetail(plan) : ''}
+          ${isSelected ? renderSelectedPlanDetail(plan, providerInfo) : ''}
         </article>`;
     }).join('');
     const remainingCount = Math.max(0, group.plans.length - PLAN_TABLE_GROUP_PREVIEW);
@@ -248,8 +296,9 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
     const key = planKey(plan);
     const isSelected = key === selectedPlanKey;
     const statusColor = planStatusClass(plan);
+    const firstMonthText = firstMonthPriceText(plan);
     const monthlyDisplay = hasDisplayPrice(plan.monthlyPrice)
-      ? escapeHtml(plan.monthlyPrice)
+      ? `<div>${escapeHtml(plan.monthlyPrice)}</div>${firstMonthText ? `<div class="plan-table-price-first">${escapeHtml(t('table.price.firstMonth'))} ${escapeHtml(firstMonthText)}</div>` : ''}`
       : '<span class="text-slate-400">—</span>';
     const quarterlyDisplay = hasDisplayPrice(plan.quarterlyPrice)
       ? `<div>${escapeHtml(plan.quarterlyPrice)}</div>${hasDisplayPrice(plan.quarterlyMonthlyPrice) ? `<div class="plan-table-price-sub">${escapeHtml(t('table.price.approx'))} ${escapeHtml(plan.quarterlyMonthlyPrice)}</div>` : ''}`
@@ -257,12 +306,27 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
     const annualDisplay = hasDisplayPrice(plan.annualPrice)
       ? `<div>${escapeHtml(plan.annualPrice)}</div>${hasDisplayPrice(plan.annualMonthlyPrice) ? `<div class="plan-table-price-sub">${escapeHtml(t('table.price.approx'))} ${escapeHtml(plan.annualMonthlyPrice)}</div>` : ''}`
       : '<span class="text-slate-400">—</span>';
-    const verifiedDisplay = plan.lastVerifiedAt
-      ? `<span class="text-xs text-slate-600 dark:text-slate-400">${escapeHtml(plan.lastVerifiedAt)}</span>`
-      : `<span class="text-xs text-slate-400">${escapeHtml(t('table.verified.pending'))}</span>`;
+    const quotaDisplay = planQuotaDisplay(plan);
+    const quotaHtml = quotaDisplay
+      ? `<span class="text-slate-700 dark:text-slate-300" title="${escapeHtml(quotaDisplay.full)}">${escapeHtml(quotaDisplay.text)}</span>`
+      : '<span class="text-slate-400">—</span>';
+    const billingUnitHtml = planBillingUnitIsDisclosed(plan)
+      ? `<span class="billing-unit-badge billing-unit-badge--${escapeHtml(plan.limitType || 'undisclosed')}">${escapeHtml(planBillingUnitLabel(plan))}</span>`
+      : '<span class="text-slate-400">—</span>';
+    const unitPrice = planUnitPriceDisplay(plan);
+    const unitPriceHtml = unitPrice
+      ? `<span class="whitespace-nowrap font-medium text-brand-700 dark:text-brand-300"${unitPrice.estimated ? ` title="${escapeHtml(t('table.unitPrice.estimated'))}"` : ''}>${escapeHtml(unitPrice.text)}</span>`
+      : '<span class="text-slate-400">—</span>';
+    const verifiedFresh = verifiedFreshness(plan.lastVerifiedAt);
+    const verifiedDisplay = verifiedFresh.state === 'fresh'
+      ? `<span class="text-xs font-medium text-emerald-600 dark:text-emerald-400" title="${escapeHtml(t('verified.freshTitle', { date: verifiedFresh.date }))}">${escapeHtml(verifiedFresh.days === 0 ? t('verified.tableToday') : t('verified.tableDaysAgo', { n: verifiedFresh.days }))}</span>`
+      : verifiedFresh.state === 'stale'
+        ? `<span class="text-xs font-medium text-amber-600 dark:text-amber-400" title="${escapeHtml(t('verified.staleTitle', { date: verifiedFresh.date }))}">${escapeHtml(t('verified.stale'))}</span>`
+        : `<span class="text-xs text-slate-400">${escapeHtml(t('table.verified.pending'))}</span>`;
     const planUrl = safeExternalUrl(plan.url);
+    const purchaseLink = purchaseLinkTarget(plan, planUrl);
     const sourceHtml = planUrl
-      ? `<a href="${escapeHtml(planUrl)}" target="_blank" rel="noopener noreferrer nofollow" ${outboundTrackingAttributes(plan)} class="text-sm font-medium text-brand-600 hover:text-brand-800 dark:text-brand-400 dark:hover:text-brand-300">${escapeHtml(t('table.source.site'))}</a>`
+      ? `<a href="${escapeHtml(purchaseLink.href)}" target="_blank" rel="${purchaseLink.rel}" ${outboundTrackingAttributes(plan)} class="text-sm font-medium text-brand-600 hover:text-brand-800 dark:text-brand-400 dark:hover:text-brand-300">${escapeHtml(t('table.source.site'))}</a>`
       : '<span class="text-slate-400">—</span>';
     const domesticPayDisplay = plan.domesticPayment
       ? `<span class="rounded-md bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">${escapeHtml(t('common.supported'))}</span>`
@@ -270,10 +334,11 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
     const intlNetworkDisplay = plan.intlNetwork
       ? `<span class="rounded-md bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">${escapeHtml(t('common.required'))}</span>`
       : `<span class="text-slate-400">${escapeHtml(t('common.notSupported'))}</span>`;
+    const dataTrainingHtml = renderDataTrainingCell(plan, providerInfo);
     const detailRow = isSelected
       ? `<tr class="plan-detail-row">
-          <td colspan="11" class="plan-inline-detail-cell">
-            ${renderSelectedPlanDetail(plan)}
+          <td colspan="15" class="plan-inline-detail-cell">
+            ${renderSelectedPlanDetail(plan, providerInfo)}
           </td>
         </tr>`
       : '';
@@ -296,10 +361,14 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
         <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${monthlyDisplay}</td>
         <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${quarterlyDisplay}</td>
         <td class="break-words px-3 py-3 text-slate-900 dark:text-white">${annualDisplay}</td>
+        <td class="plan-table-nowrap px-3 py-3">${billingUnitHtml}</td>
+        <td class="break-words px-3 py-3">${quotaHtml}</td>
+        <td class="plan-table-nowrap px-3 py-3">${unitPriceHtml}</td>
         <td class="break-words px-3 py-3 text-slate-600 dark:text-slate-300">${escapeHtml(supportedModelDisplay(plan) || '—')}</td>
         <td class="plan-table-nowrap px-3 py-3"><span class="rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${escapeHtml(plan.statusLabel)}</span></td>
         <td class="plan-table-nowrap px-3 py-3">${domesticPayDisplay}</td>
         <td class="plan-table-nowrap px-3 py-3">${intlNetworkDisplay}</td>
+        <td class="plan-table-nowrap px-3 py-3">${dataTrainingHtml}</td>
         <td class="plan-table-nowrap px-3 py-3">${verifiedDisplay}</td>
         <td class="plan-table-nowrap px-3 py-3">${sourceHtml}</td>
       </tr>
@@ -331,14 +400,14 @@ function renderAllPlansTable(plans, visiblePlans, selectedPlanKey, providerInfo,
         : `<div class="plan-table-group-toggle plan-table-group-toggle--static">${headerInner}</div>`;
       return `
         <tr class="border-y border-slate-200 dark:border-slate-700">
-          <td colspan="11" class="bg-brand-50/70 p-0 dark:bg-brand-950/20">
+          <td colspan="15" class="bg-brand-50/70 p-0 dark:bg-brand-950/20">
             ${header}
           </td>
         </tr>
         ${renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo)}`;
     }).join('')
     : `<tr>
-        <td colspan="11" class="px-3 py-10 text-center text-sm text-slate-500 dark:text-slate-400">${escapeHtml(t('table.empty.match'))}</td>
+        <td colspan="15" class="px-3 py-10 text-center text-sm text-slate-500 dark:text-slate-400">${escapeHtml(t('table.empty.match'))}</td>
       </tr>`;
 
   return `
@@ -346,17 +415,21 @@ function renderAllPlansTable(plans, visiblePlans, selectedPlanKey, providerInfo,
       <table class="w-full table-fixed text-sm">
         <caption class="sr-only">${escapeHtml(t('table.caption'))}</caption>
         <colgroup>
-          <col style="width: 9%">
-          <col style="width: 12%">
           <col style="width: 8%">
-          <col style="width: 8%">
-          <col style="width: 9%">
-          <col style="width: 11%">
-          <col style="width: 8%">
-          <col style="width: 9%">
-          <col style="width: 9%">
+          <col style="width: 10%">
+          <col style="width: 7%">
+          <col style="width: 7%">
           <col style="width: 7%">
           <col style="width: 6%">
+          <col style="width: 9%">
+          <col style="width: 7%">
+          <col style="width: 8%">
+          <col style="width: 6%">
+          <col style="width: 6%">
+          <col style="width: 6%">
+          <col style="width: 5%">
+          <col style="width: 4%">
+          <col style="width: 4%">
         </colgroup>
         <thead>
           <tr>
@@ -384,10 +457,12 @@ export function renderAllPlansDualView(
   if (!brandFilteredPlans.length) {
     return `<p class="text-sm text-slate-500 dark:text-slate-400">${escapeHtml(t('table.empty.none'))}</p>`;
   }
+  setPlanTablePrivacyContext(providerInfo);
   const filteredPlans = applyPlanTableFilter(brandFilteredPlans);
-  const showAllFilteredGroups = showAllGroups || isPlanTableFilterActive();
+  const showAllFilteredGroups = showAllGroups || isPlanTableFilterActive() || isAvailableOnlyActive();
   return `
     <div>
+      ${renderPlanTableQuickFilters(filteredPlans, brandFilteredPlans)}
       ${renderPlanTableFilterSummary(filteredPlans, brandFilteredPlans)}
       <div class="plan-view-cards">
         ${renderAllPlansCards(filteredPlans, selectedPlanKey, providerInfo, expandedProviders, showAllFilteredGroups)}

@@ -1,30 +1,38 @@
-# CreditsPlan
+# CreditsPlan (International)
 
-> CreditsPlan is a subscription-decision platform for AI developers. It provides
-> structured, source-verified comparisons of international AI Coding plans by price,
-> quota, supported models and usage conditions, with price history and change tracking.
+> International AI Coding subscription plan price comparison: 13 verified brands and 57 plans with prices, quotas and representative models — each manually verified against the vendor's official pricing page, with full price-change history. CN site (CNY plans): https://creditsplan.cn/.
 
-## About
+## Key pages
 
-- Every plan's price, quota and purchase status is verified against the vendor's official page.
-- Each record carries a "last verified" date and a link to its official source.
-- Monthly price changes are archived and published as an RSS feed.
-- The Chinese-market companion site is https://creditsplan.cn.
+- [Plan comparison home](https://www.creditsplan.com/): full price comparison table across brands and plans
+- [Verified brands](https://www.creditsplan.com/brands/)
+- [Head-to-head comparisons](https://www.creditsplan.com/compare/): compare any two brands on price and quota
+- [Cheapest plans](https://www.creditsplan.com/rankings/cheapest/): ranked by monthly price
+- [Price change timeline](https://www.creditsplan.com/price-changes/): every verified price change
+- [Monthly price reports](https://www.creditsplan.com/reports/)
+- [Methodology](https://www.creditsplan.com/methodology.html)
 
-## Core pages
+## Brands
 
-- [Home – AI Coding plan comparison](https://www.creditsplan.com/): structured comparison table across brands.
-- [Verified brands](https://www.creditsplan.com/brands/): brands whose prices and quotas have been verified.
-- [Methodology](https://www.creditsplan.com/methodology.html): how data is verified, update cadence, error reporting.
-- [Changelog](https://www.creditsplan.com/changelog.html): recorded data and price updates.
-- [News](https://www.creditsplan.com/news.html): market and pricing news.
+- [Qoder](https://www.creditsplan.com/brands/qoder/): Qoder, Agentic Platform for Real Work。Qoder enables AI to understand, plan, execute, and iterate on… (6 plans)
+- [Z.ai](https://www.creditsplan.com/brands/z-ai/): Z.ai international GLM Coding offers Lite, Pro, and Max individual coding subscriptions, supporting… (3 plans)
+- [BytePlus](https://www.creditsplan.com/brands/byteplus/): Multiple models, one plan Freely switch between the latest Dola-Seed, GLM, DeepSeek, Kimi and GPT o… (2 plans)
+- [OpenCode](https://www.creditsplan.com/brands/opencode-go/): OpenCode Go is a low cost subscription: $5 for your first month, then $10/month. It provides genero… (1 plans)
+- [ChatGPT](https://www.creditsplan.com/brands/chatgpt/): ChatGPT is an AI assistant by OpenAI for conversation and coding. It offers Free, Go, Plus, Pro (5x… (6 plans)
+- [Claude](https://www.creditsplan.com/brands/claude/): Claude is an AI assistant platform by Anthropic, offering Free/Pro/Max/Team/Enterprise subscription… (7 plans)
+- [Google Antigravity](https://www.creditsplan.com/brands/google-antigravity/): Google Antigravity is Google's agent development platform, offering a free Individual tier plus Goo… (4 plans)
+- [Grok](https://www.creditsplan.com/brands/grok/): Grok is an AI assistant by xAI (SpaceXAI), offering SuperGrok Lite / SuperGrok / SuperGrok Heavy in… (4 plans)
+- [Cursor](https://www.creditsplan.com/brands/cursor/): Cursor is an AI code editor offering Hobby (free), Pro/Pro+/Ultra individual plans, and Teams/Enter… (7 plans)
+- [StepFun](https://www.creditsplan.com/brands/stepfun/): Step API · Stable · High-Performance · Easy Integration. Leading models and tools to accelerate the… (4 plans)
+- [Kwai StreamLake](https://www.creditsplan.com/brands/streamlake/): Use KAT-Coder-Pro V2.5 with Claude Code and major IDEs for code generation, refactoring, and reposi… (4 plans)
+- [GitHub Copilot](https://www.creditsplan.com/brands/github-copilot/): GitHub Copilot is the AI coding assistant from GitHub, offering Free, Pro, Pro+, and Max subscripti… (4 plans)
+- [Ollama](https://www.creditsplan.com/brands/ollama/): Ollama runs open-source large language models locally for free, with cloud subscriptions across Pro… (5 plans)
 
-## Machine-readable data
+## Reports
 
-- [Sitemap](https://www.creditsplan.com/sitemap.xml): all indexable pages.
-- [Price-change RSS](https://www.creditsplan.com/price-changes.xml): initial listings and subsequent price-change alerts.
+- [July 2026 report](https://www.creditsplan.com/reports/2026-07/): 59 price records
 
-## Citation guidance
+## Data feeds
 
-- When citing prices, include the plan name, the verified date, and note that the vendor's official site prevails.
-- Feedback: feedback@creditsplan.com
+- [Price-change RSS](https://www.creditsplan.com/price-changes.xml)
+- [Developer API](https://www.creditsplan.com/developers.html)

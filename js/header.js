@@ -1,10 +1,11 @@
 import { bindThemeToggle } from './theme.js';
-import { t, toggleLang, isZh } from './i18n.js';
+import { t, toggleLang } from './i18n.js';
 
 const pages = [
   ['index.html', '/', 'nav.models'],
   ['brands/', '/brands/', 'nav.brands'],
   ['model', '/model', 'nav.pricing'],
+  ['price-changes/', '/price-changes/', 'nav.priceChanges'],
   ['news.html', '/news.html', 'nav.news'],
   ['changelog.html', '/changelog.html', 'nav.changelog']
 ];
@@ -46,9 +47,8 @@ export function renderHeader(currentPage = 'index.html') {
   // 「模型」与「套餐」同为首页文档，通过 /model 路径区分高亮
   const pathname = (globalThis.location?.pathname || '').replace(/\/+$/, '') || '/';
   const isModelView = pathname === '/model';
-  // 新闻内容仅有中文；英文界面下移除 AI News 导航入口（桌面与移动菜单共用此列表）。
-  const visiblePages = isZh() ? pages : pages.filter(([page]) => page !== 'news.html');
-  const nav = visiblePages.map(([page, href, label]) => {
+  // AI News 在两种语言下都提供：中文界面取 AI HOT 中文源，英文界面取 aihub 英文源。
+  const nav = pages.map(([page, href, label]) => {
     let active;
     if (page === 'model') active = current === 'index.html' && isModelView;
     else if (page === 'index.html') active = current === 'index.html' && !isModelView;

@@ -1,5 +1,6 @@
 import { escapeHtml, safeExternalUrl } from './render.js';
 import { t } from './i18n.js';
+import { PROVIDER_NAME_MAP } from './shared/brands.js';
 import {
   currencySymbol,
   displayNameForProvider,
@@ -7,8 +8,12 @@ import {
   getRiskDisplayText,
   hasDisplayPrice,
   optionalDetailText,
-  supportedModelDisplay
+  privacyFreshness,
+  resolvePlanPrivacy,
+  supportedModelDisplay,
+  verifiedFreshness
 } from './shared/plan-utils.js';
+import { planQuotaDisplay } from './shared/quota-utils.js';
 
 export const PLAN_TYPE_LABELS = {
   coding_plan: t('planType.codingPlan'),
@@ -24,6 +29,17 @@ export function outboundTrackingAttributes(plan) {
     plan.brand || plan.brandSlug || plan.brand_slug || plan.raw?.brand || plan.raw?.brand_slug || planId.split('.')[0] || ''
   ).trim();
   return `data-track="plan-out" data-plan-id="${escapeHtml(planId)}" data-brand="${escapeHtml(brand)}"`;
+}
+
+// affiliate 跳转层：配置了邀请码的套餐走站内 /go/{plan_id}（nginx 302 带码 URL），
+// 其余保持官方直链；带码外跳按规范标注 rel="sponsored nofollow"。
+export function purchaseLinkTarget(plan, planUrl) {
+  const planId = String(plan.planId || plan.plan_id || plan.raw?.planId || plan.raw?.plan_id || '').trim();
+  const hasAffiliate = plan.hasAffiliate === true || plan.raw?.has_affiliate === true;
+  if (hasAffiliate && planId && /^[A-Za-z0-9._-]+$/.test(planId)) {
+    return { href: `/go/${planId}`, rel: 'sponsored nofollow noopener noreferrer' };
+  }
+  return { href: planUrl, rel: 'noopener noreferrer nofollow' };
 }
 
 function addPlanExtraRow(rows, label, value, keepInline, wide, compactInline, nowrapValue) {
@@ -67,6 +83,22 @@ function notesWithoutTableDuplicates(plan) {
   return notes;
 }
 
+// First-month promo line: only shown when the intro price beats the standard monthly price.
+export function firstMonthPriceText(plan) {
+  const value = Number(plan.firstMonthPrice);
+  if (!Number.isFinite(value) || value <= 0) return '';
+  const monthly = Number(plan.monthlyPriceValue);
+  if (Number.isFinite(monthly) && value >= monthly) return '';
+  return `${currencySymbol(plan.monthlyCurrency || 'USD')}${formatPriceNumber(value)}`;
+}
+
+function firstMonthLineHtml(plan) {
+  const text = firstMonthPriceText(plan);
+  return text
+    ? `<div class="plan-price-subline plan-price-subline--first"><span>${escapeHtml(t('price.firstMonth'))}</span><strong>${escapeHtml(text)}/${escapeHtml(t('common.perMonth'))}</strong></div>`
+    : '';
+}
+
 export function renderPlanPriceBlock(plan) {
   const hasMonthlyPrice = hasDisplayPrice(plan.monthlyPrice);
   const hasQuarterlyPrice = hasDisplayPrice(plan.quarterlyPrice);
@@ -94,6 +126,7 @@ export function renderPlanPriceBlock(plan) {
         <div class="plan-price-subline"><span>${escapeHtml(t('price.byYear'))}</span><strong>${escapeHtml(plan.annualPrice)}</strong></div>
         ${quarterlyLineHtml}
         ${monthlyLineHtml}
+        ${firstMonthLineHtml(plan)}
       </div>`;
   }
 
@@ -114,6 +147,7 @@ export function renderPlanPriceBlock(plan) {
         </div>
         <div class="plan-price-subline"><span>${escapeHtml(t('price.byQuarter'))}</span><strong>${escapeHtml(plan.quarterlyPrice)}</strong></div>
         ${monthlyLineHtml}
+        ${firstMonthLineHtml(plan)}
       </div>`;
   }
 
@@ -123,15 +157,22 @@ export function renderPlanPriceBlock(plan) {
         <span class="plan-price-label">${escapeHtml(t('price.monthly'))}</span>
         <span class="plan-price-main">${escapeHtml(plan.monthlyPrice)}</span>
       </div>
+      ${firstMonthLineHtml(plan)}
     </div>`;
 }
 
-export function renderSelectedPlanDetail(plan) {
+export function renderSelectedPlanDetail(plan, providerInfo = {}) {
   if (!plan) return '';
   const typeLabel = PLAN_TYPE_LABELS[plan.planType] || plan.planType || '';
   const rows = [];
   const hasRmb = plan.rmbRecharge && plan.rmbRecharge !== '待确认' && plan.rmbRecharge !== '请以官网为准';
   const hasInvoice = plan.invoice && plan.invoice !== '待确认' && plan.invoice !== '请以官网为准';
+  const privacy = resolvePlanPrivacy(plan, providerInfo, PROVIDER_NAME_MAP);
+  // 额度列已展示的字段不在展开详情中重复；包含调用量与 Token 上限内容重复时只保留一处
+  const quotaField = (planQuotaDisplay(plan) || {}).field || '';
+  const compactTokenLimit = optionalDetailText(plan.tokenLimit).replace(/\s+/g, '');
+  const tokenLimitDuplicated = Boolean(compactTokenLimit)
+    && optionalDetailText(plan.includedCalls).replace(/\s+/g, '').includes(compactTokenLimit);
 
   addPlanExtraRow(rows, t('detail.type'), typeLabel, false, false, true);
   addPlanExtraRow(rows, t('detail.supportedModels'), (plan.supportedModelNames || []).join('、'), false, true);
@@ -142,11 +183,11 @@ export function renderSelectedPlanDetail(plan) {
       : plan.firstMonthPrice);
   }
   if (plan.domesticPayment) addPlanExtraRow(rows, t('detail.domesticPay'), t('common.supported'), false, false, true);
-  addPlanExtraRow(rows, t('detail.includedCalls'), plan.includedCalls, false, false, true);
+  if (quotaField !== 'includedCalls') addPlanExtraRow(rows, t('detail.includedCalls'), plan.includedCalls, false, false, true);
   // Combine five-hour, weekly, monthly requests into a single row to prevent wrapping
   const fiveHourText = optionalDetailText(plan.fiveHoursRequests);
   const weeklyText = optionalDetailText(plan.weeklyRequests);
-  const monthlyText = optionalDetailText(plan.monthlyRequests);
+  const monthlyText = quotaField === 'monthlyRequests' ? '' : optionalDetailText(plan.monthlyRequests);
   if (fiveHourText || weeklyText || monthlyText) {
     rows.push({
       label: '',
@@ -164,7 +205,7 @@ export function renderSelectedPlanDetail(plan) {
   addPlanExtraRow(rows, t('detail.fiveHourTokens'), plan.measuredFiveHoursTokens);
   addPlanExtraRow(rows, t('detail.weeklyTokens'), plan.measuredWeeklyTokens);
   addPlanExtraRow(rows, t('detail.monthlyTokens'), plan.measuredMonthlyTokens);
-  addPlanExtraRow(rows, t('detail.tokenLimit'), plan.tokenLimit);
+  if (quotaField !== 'tokenLimit' && !tokenLimitDuplicated) addPlanExtraRow(rows, t('detail.tokenLimit'), plan.tokenLimit);
   addPlanExtraRow(rows, t('detail.benefits'), plan.benefits ? plan.benefits.replace(/\n/g, '；') : undefined);
   addPlanExtraRow(rows, t('detail.inputPrice'), plan.modelInputPrice);
   addPlanExtraRow(rows, t('detail.outputPrice'), plan.modelOutputPrice);
@@ -183,6 +224,17 @@ export function renderSelectedPlanDetail(plan) {
   addPlanExtraRow(rows, t('detail.suitableScene'), plan.suitableFor);
   addPlanExtraRow(rows, t('detail.recommendedFor'), plan.recommendationText, false, true);
   addPlanExtraRow(rows, t('detail.caution'), getRiskDisplayText(plan), false, true);
+  if (privacy.training) {
+    const trainingLabel = t(`privacy.training.${privacy.training}`) || privacy.training;
+    const privacyFresh = privacyFreshness(privacy.verifiedAt);
+    const freshnessNote = privacyFresh.state === 'stale'
+      ? `（${t('privacy.verifiedStale', { date: privacyFresh.date })}）`
+      : (privacyFresh.state === 'fresh' ? `（${t('privacy.verifiedOn', { date: privacyFresh.date })}）` : '');
+    const baseLabel = privacy.note ? `${trainingLabel}（${privacy.note}）` : trainingLabel;
+    addPlanExtraRow(rows, t('privacy.label.dataTraining'), `${baseLabel}${freshnessNote}`, true);
+  }
+  addPlanExtraRow(rows, t('privacy.label.optOut'), privacy.optOut);
+  addPlanExtraRow(rows, t('privacy.label.retention'), privacy.retention);
   addPlanExtraRow(rows, t('detail.notes'), notesWithoutTableDuplicates(plan), false, true);
 
   const rowsHtml = rows.length ? rows.map(row => {
@@ -215,16 +267,32 @@ export function renderSelectedPlanDetail(plan) {
     </div>`;
   }).join('') : `<p class="plan-extra-empty">${escapeHtml(t('detail.empty'))}</p>`;
   const planUrl = safeExternalUrl(plan.url);
+  const purchaseLink = purchaseLinkTarget(plan, planUrl);
   const sourceTypeLabel = plan.sourceType === 'official'
     ? t('detail.sourceOfficial')
     : (plan.sourceType || t('detail.sourceMaintained'));
-  const sourceMeta = plan.lastVerifiedAt
-    ? `${escapeHtml(t('detail.source'))}：${escapeHtml(sourceTypeLabel)} · ${escapeHtml(t('detail.verifiedOn'))} ${escapeHtml(plan.lastVerifiedAt)}`
+  const verifiedFresh = verifiedFreshness(plan.lastVerifiedAt);
+  const verifiedText = verifiedFresh.state === 'fresh'
+    ? t('detail.verifiedFresh', {
+      date: verifiedFresh.date,
+      rel: verifiedFresh.days === 0 ? t('verified.relToday') : t('verified.relDaysAgo', { n: verifiedFresh.days })
+    })
+    : verifiedFresh.state === 'stale'
+      ? t('detail.verifiedStale', { date: verifiedFresh.date })
+      : '';
+  const sourceMeta = verifiedText
+    ? `${escapeHtml(t('detail.source'))}：${escapeHtml(sourceTypeLabel)} · ${escapeHtml(verifiedText)}`
     : '';
-  const footerHtml = sourceMeta || planUrl
+  const privacyPolicyLink = privacy.policyUrl
+    ? `<a href="${escapeHtml(privacy.policyUrl)}" target="_blank" rel="noopener noreferrer nofollow">${escapeHtml(t('privacy.policySource'))}</a>`
+    : '';
+  const footerHtml = sourceMeta || planUrl || privacyPolicyLink
     ? `<div class="selected-plan-detail-footer">
         <span>${sourceMeta}</span>
-        ${planUrl ? `<a href="${escapeHtml(planUrl)}" target="_blank" rel="noopener noreferrer nofollow" ${outboundTrackingAttributes(plan)}>${escapeHtml(t('detail.openOfficial'))}</a>` : ''}
+        <span class="selected-plan-detail-footer-links">
+          ${privacyPolicyLink}
+          ${planUrl ? `<a href="${escapeHtml(purchaseLink.href)}" target="_blank" rel="${purchaseLink.rel}" ${outboundTrackingAttributes(plan)}>${escapeHtml(t('detail.openOfficial'))}</a>` : ''}
+        </span>
        </div>`
     : '';
 

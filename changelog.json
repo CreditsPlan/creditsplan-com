@@ -1,6 +1,56 @@
 {
-  "last_updated": "2026-07-26",
+  "last_updated": "2026-07-29",
   "entries": [
+    {
+      "id": "changelog-20260729-rankings-reports",
+      "date": "2026-07-29",
+      "edition": "2026.07.29",
+      "kind": "feature",
+      "title": "最便宜套餐排行榜与月度价格月报上线，新收录 3 个国际品牌",
+      "title_en": "Cheapest-plan ranking and monthly price report launched, plus 3 newly listed international brands",
+      "summary": "新增按月费排序的最便宜套餐排行榜和 2026 年 7 月价格月报，并收录 GitHub Copilot、Ollama、StreamLake 三个国际品牌的 Coding 套餐。",
+      "summary_en": "Added a cheapest-plan ranking sorted by monthly price and the July 2026 price report, and listed coding plans from GitHub Copilot, Ollama, and StreamLake.",
+      "items": [
+        "新增「最便宜套餐排行榜」页面，按月费从低到高排序国际 AI Coding 套餐。",
+        "新增「月度价格报告」栏目，首期发布 2026 年 7 月 AI Coding 套餐价格月报。",
+        "新收录 3 个国际品牌：GitHub Copilot、Ollama、StreamLake，品牌页与套餐详情页同步上线。",
+        "品牌页补全品牌介绍文案，帮助快速了解各平台定位与适用场景。",
+        "数据修复：套餐与模型关联关系校正、StepFun 模型展示名回填、套餐数据例行审计。"
+      ],
+      "items_en": [
+        "Added a \"Cheapest plans\" ranking page sorting international AI coding plans by monthly price.",
+        "Launched the monthly price report section, starting with the July 2026 AI coding plan price report.",
+        "Listed 3 new international brands: GitHub Copilot, Ollama, and StreamLake, with brand and plan detail pages.",
+        "Completed brand intro copy on brand pages for a quick overview of each platform.",
+        "Data fixes: corrected plan-model links, backfilled StepFun model display names, and ran routine plan data audits."
+      ]
+    },
+    {
+      "id": "changelog-20260727-compare-upgrade",
+      "date": "2026-07-27",
+      "edition": "2026.07.27",
+      "kind": "feature",
+      "title": "套餐对比升级：额度、性价比、可购买筛选，并公开反馈路线图",
+      "title_en": "Plan comparison upgrade: quota, value ranking, purchasable filter, and a public roadmap",
+      "summary": "根据用户高频反馈集中升级套餐对比能力，并公开「正在推进」路线图。",
+      "summary_en": "A focused upgrade to plan comparison based on user feedback, plus a public \"In progress\" roadmap.",
+      "items": [
+        "套餐表格新增「额度」列，展示各套餐包含的 Token / 请求 / Credits 额度。",
+        "新增「等效单价」列，折算每千次成本，直观比较性价比。",
+        "新增「只看可购买」快捷筛选，一键隐藏售罄与已下线套餐。",
+        "新增「数据训练透明度」维度，标注各平台是否将用户数据用于训练。",
+        "更新日志页新增「正在推进」路线图，公开功能规划与进度。",
+        "额度与等效单价数据同步支持 Excel / Word / PDF 导出。"
+      ],
+      "items_en": [
+        "Added a Quota column showing the tokens / requests / credits included in each plan.",
+        "Added an effective unit-price column (cost per 1K) for at-a-glance value comparison.",
+        "Added a \"Purchasable only\" quick filter to hide sold-out and discontinued plans.",
+        "Added a data-training transparency dimension flagging whether each platform trains on user data.",
+        "Added an \"In progress\" roadmap on the changelog page to show planned features and progress.",
+        "Quota and unit-price data are also included in Excel / Word / PDF exports."
+      ]
+    },
     {
       "id": "changelog-20260726-model-pricing",
       "date": "2026-07-26",

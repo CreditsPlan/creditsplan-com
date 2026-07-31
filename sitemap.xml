@@ -2,23 +2,359 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.creditsplan.com/</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/news.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-31</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/changelog.html</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-31</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/methodology.html</loc>
     <lastmod>2026-07-14</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/brands/</loc>
+    <loc>https://www.creditsplan.com/developers.html</loc>
     <lastmod>2026-07-27</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/price-changes/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/</loc>
+    <lastmod>2026-07-31</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/</loc>
+    <lastmod>2026-07-31</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/rankings/cheapest/</loc>
+    <lastmod>2026-07-31</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/reports/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/reports/2026-07/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/qoder-vs-z-ai/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-qoder/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/opencode-go-vs-qoder/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-qoder/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-qoder/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-qoder/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-qoder/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-qoder/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/qoder-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/qoder-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-qoder/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/ollama-vs-qoder/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-z-ai/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/opencode-go-vs-z-ai/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-z-ai/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-z-ai/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-z-ai/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-z-ai/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-z-ai/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/stepfun-vs-z-ai/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/streamlake-vs-z-ai/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-z-ai/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/ollama-vs-z-ai/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-opencode-go/</loc>
+    <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-chatgpt/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-claude/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-google-antigravity/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-grok/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-cursor/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-github-copilot/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-opencode-go/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-opencode-go/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-opencode-go/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-opencode-go/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-opencode-go/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/opencode-go-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/opencode-go-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-opencode-go/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/ollama-vs-opencode-go/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-claude/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-google-antigravity/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-grok/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-cursor/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-github-copilot/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-google-antigravity/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-grok/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-cursor/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-github-copilot/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-grok/</loc>
+    <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-google-antigravity/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-google-antigravity/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-grok/</loc>
+    <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-grok/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-stepfun/</loc>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-github-copilot/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/stepfun-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-stepfun/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/ollama-vs-stepfun/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/ollama-vs-streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/brands/qoder/</loc>
@@ -37,7 +373,7 @@
     <lastmod>2026-07-19</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/brands/chart-gpt/</loc>
+    <loc>https://www.creditsplan.com/brands/chatgpt/</loc>
     <lastmod>2026-07-21</lastmod>
   </url>
   <url>
@@ -59,6 +395,18 @@
   <url>
     <loc>https://www.creditsplan.com/brands/stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/streamlake/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/github-copilot/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/brands/ollama/</loc>
+    <lastmod>2026-07-29</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/plans/opencode-go-coding-plan/</loc>
@@ -185,6 +533,42 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.free/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.pro/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.proplus/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.max/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.free/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.pro/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.max/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.team/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.enterprise/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-lite/</loc>
     <lastmod>2026-07-19</lastmod>
   </url>
@@ -235,5 +619,21 @@
   <url>
     <loc>https://www.creditsplan.com/plans/stepfun.flash-max/</loc>
     <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.mini/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.starter/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.pro/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.max/</loc>
+    <lastmod>2026-07-29</lastmod>
   </url>
 </urlset>

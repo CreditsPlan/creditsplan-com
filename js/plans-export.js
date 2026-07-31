@@ -7,6 +7,7 @@ import {
   supportedModelDisplay
 } from './shared/plan-utils.js';
 import { PLAN_TYPE_LABELS } from './plans-detail.js';
+import { planQuotaDisplay, planUnitPriceDisplay } from './shared/quota-utils.js';
 
 const EXPORT_COLUMNS = [
   { key: 'brand', labelKey: 'table.col.provider' },
@@ -15,6 +16,8 @@ const EXPORT_COLUMNS = [
   { key: 'monthlyPrice', labelKey: 'table.col.monthly' },
   { key: 'quarterlyPrice', labelKey: 'table.col.quarterly' },
   { key: 'annualPrice', labelKey: 'table.col.annual' },
+  { key: 'quota', labelKey: 'table.col.quota' },
+  { key: 'unitPrice', labelKey: 'table.col.unitPrice' },
   { key: 'model', labelKey: 'table.col.model' },
   { key: 'status', labelKey: 'table.col.status' },
   { key: 'domesticPayment', labelKey: 'table.col.domesticPayment' },
@@ -24,7 +27,7 @@ const EXPORT_COLUMNS = [
 ];
 
 // 各列宽度（单位：默认字体字符数），与 EXPORT_COLUMNS 一一对应
-const EXPORT_COL_WIDTHS = [14, 30, 12, 12, 12, 12, 34, 10, 10, 10, 12, 42];
+const EXPORT_COL_WIDTHS = [14, 26, 12, 12, 12, 12, 22, 10, 28, 10, 10, 10, 12, 36];
 
 function yesNo(value) {
   return value ? t('common.supported') : '—';
@@ -53,6 +56,8 @@ function prepareExportRows(plans, providerInfo) {
         monthlyPrice: cleanExportValue(plan.monthlyPrice),
         quarterlyPrice: cleanExportValue(plan.quarterlyPrice),
         annualPrice: cleanExportValue(plan.annualPrice),
+        quota: planQuotaDisplay(plan)?.full || '',
+        unitPrice: planUnitPriceDisplay(plan)?.text || '',
         model: supportedModelDisplay(plan) || '',
         status: plan.statusLabel || '',
         domesticPayment: yesNo(plan.domesticPayment),
@@ -242,7 +247,7 @@ export function exportPlansExcel(plans, providerInfo) {
 
 /* ─── Word (.doc HTML document format) ─── */
 
-const WORD_COL_WIDTHS = ['9%', '13%', '8%', '7%', '7%', '7%', '12%', '6%', '6%', '6%', '7%', '12%'];
+const WORD_COL_WIDTHS = ['8%', '12%', '7%', '7%', '7%', '7%', '9%', '5%', '10%', '5%', '5%', '5%', '6%', '7%'];
 
 export function exportPlansWord(plans, providerInfo) {
   const rows = prepareExportRows(plans, providerInfo);
@@ -292,7 +297,7 @@ const PDF_FONT = '10px "Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif
 const PDF_FONT_BOLD = 'bold 10px "Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif';
 const PDF_TITLE_FONT = 'bold 16px "Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif';
 
-const PDF_COL_RATIOS = [0.09, 0.13, 0.08, 0.07, 0.07, 0.07, 0.12, 0.06, 0.06, 0.06, 0.07, 0.12];
+const PDF_COL_RATIOS = [0.08, 0.12, 0.07, 0.07, 0.07, 0.07, 0.09, 0.05, 0.10, 0.05, 0.05, 0.05, 0.06, 0.07];
 
 function pdfColWidths() {
   const total = PDF_PAGE_WIDTH - PDF_MARGIN * 2;

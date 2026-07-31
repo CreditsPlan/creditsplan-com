@@ -1,6 +1,6 @@
 import { initAppShell } from './app.js';
 import { escapeHtml, safeExternalUrl } from './render.js';
-import { t, numberLocale } from './i18n.js';
+import { t, numberLocale, isZh } from './i18n.js';
 import {
   fetchAiHotItems,
   fetchAiHotDaily,
@@ -10,12 +10,30 @@ import {
   getCategoryLabel,
   groupByDate
 } from './aihot-service.js';
+import { fetchAihubItems, filterAihubItems } from './aihub-service.js';
 
 const BLOCKED_HOSTS = new Set(['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com']);
 function isBlockedUrl(url) {
   if (!url) return false;
   try { return BLOCKED_HOSTS.has(new URL(url).hostname.toLowerCase()); }
   catch { return false; }
+}
+
+// 屏蔽域名的条目改用 AI HOT 详情页兜底，不再整条丢弃。
+function fallbackPermalink(item) {
+  const permalink = item?.permalink || item?.attribution?.canonical || '';
+  return isBlockedUrl(permalink) ? '' : permalink;
+}
+
+function resolveItemUrl(item, rawUrl) {
+  const url = rawUrl == null ? (item?.url || '') : rawUrl;
+  return isBlockedUrl(url) ? fallbackPermalink(item) : url;
+}
+
+// 只有原始链接被屏蔽且拿不到详情页时才丢弃条目。
+function isBlockedWithoutFallback(item, rawUrl) {
+  const url = rawUrl == null ? (item?.url || '') : rawUrl;
+  return isBlockedUrl(url) && !fallbackPermalink(item);
 }
 
 const state = {
@@ -74,23 +92,10 @@ async function loadItems(append = false) {
   }
 
   try {
-    const mode = state.view === 'all' ? 'all' : 'selected';
-    const take = mode === 'all' ? 100 : 50;
-    const result = await fetchAiHotItems({
-      mode,
-      take,
-      category: state.category || undefined,
-      q: state.query || undefined,
-      cursor: append ? state.nextCursor : undefined
-    });
-
-    const filtered = (result.items || []).filter(item => !isBlockedUrl(item.url));
-    if (append) {
-      state.items = [...state.items, ...filtered];
-    } else {
-      state.items = filtered;
-    }
-    state.nextCursor = result.nextCursor;
+    // 两个数据源语言不同：AI HOT 的标题与摘要已中文化，aihub 为英文一手源。
+    // 按界面语言各取其一，避免同一列表中英文混排。
+    const nextItems = isZh() ? await loadAihotPage(append) : await loadAihubPage();
+    state.items = append ? [...state.items, ...nextItems] : nextItems;
 
     updateCategoryCounts(state.items);
 
@@ -107,6 +112,28 @@ async function loadItems(append = false) {
     state.loading = false;
     if (els.loadMoreBtn) els.loadMoreBtn.textContent = t('news.loadMore');
   }
+}
+
+// 中文界面：AI HOT 中文条目，带游标分页。
+async function loadAihotPage(append) {
+  const mode = state.view === 'all' ? 'all' : 'selected';
+  const take = mode === 'all' ? 100 : 50;
+  const result = await fetchAiHotItems({
+    mode,
+    take,
+    category: state.category || undefined,
+    q: state.query || undefined,
+    cursor: append ? state.nextCursor : undefined
+  });
+  state.nextCursor = result.nextCursor;
+  return (result.items || []).filter(item => !isBlockedWithoutFallback(item, item.url));
+}
+
+// 英文界面：aihub 英文一手源。feed 只有最新一页，所以无游标分页，筛选与搜索均在本地完成。
+async function loadAihubPage() {
+  const items = await fetchAihubItems();
+  state.nextCursor = null;
+  return filterAihubItems(items, { category: state.category, query: state.query });
 }
 
 function updateCategoryCounts(items) {
@@ -144,7 +171,7 @@ function renderTimelineItem(item) {
   const source = item.source || '';
   const title = item.title || '';
   const summary = item.summary || '';
-  const url = safeExternalUrl(item.url);
+  const url = safeExternalUrl(resolveItemUrl(item, item.url));
   const category = item.category || '';
   const score = item.score;
   const selected = item.selected;
@@ -325,7 +352,7 @@ function renderDailySections(sections) {
 
 function renderDailySection(section) {
   const items = (Array.isArray(section.items) ? section.items : [])
-    .filter(item => !isBlockedUrl(item.sourceUrl || item.url || ''));
+    .filter(item => !isBlockedWithoutFallback(item, item.sourceUrl || item.url || ''));
   const itemsHtml = items.length
     ? items.map(renderDailyItem).join('')
     : `<p class="aihot-daily-empty">${escapeHtml(t('news.daily.sectionEmpty'))}</p>`;
@@ -338,7 +365,7 @@ function renderDailySection(section) {
 function renderDailyItem(item) {
   const title = item.title || '';
   const summary = item.summary || '';
-  const sourceUrl = safeExternalUrl(item.sourceUrl || item.url);
+  const sourceUrl = safeExternalUrl(resolveItemUrl(item, item.sourceUrl || item.url));
   const sourceName = item.sourceName || item.source || '';
   const category = item.category || '';
   const score = item.score || 0;
@@ -364,7 +391,7 @@ function renderDailyItem(item) {
 }
 
 function renderFlashes(flashes) {
-  const safe = flashes.filter(f => !isBlockedUrl(f.sourceUrl || f.url || ''));
+  const safe = flashes.filter(f => !isBlockedWithoutFallback(f, f.sourceUrl || f.url || ''));
   if (!els.flashesSection || !els.flashesList || !safe.length) {
     if (els.flashesSection) els.flashesSection.classList.add('hidden');
     return;
@@ -372,7 +399,7 @@ function renderFlashes(flashes) {
   els.flashesSection.classList.remove('hidden');
   els.flashesList.innerHTML = safe.map(flash => {
     const title = flash.title || '';
-    const sourceUrl = safeExternalUrl(flash.sourceUrl || flash.url);
+    const sourceUrl = safeExternalUrl(resolveItemUrl(flash, flash.sourceUrl || flash.url));
     const sourceName = flash.sourceName || flash.source || '';
     const publishedAt = flash.publishedAt || '';
     const timeStr = publishedAt ? new Date(publishedAt).toLocaleTimeString(numberLocale(), { hour: '2-digit', minute: '2-digit' }) : '';
@@ -426,8 +453,16 @@ function bindEvents() {
 async function initNewsPage() {
   initAppShell();
   initEls();
+  applyLanguageAffordances();
   bindEvents();
   await loadItems();
+}
+
+// 每日日报由 AI HOT 生成中文内容，英文界面不提供该视图（侧边栏与底部 tab 共用 data-view）。
+function applyLanguageAffordances() {
+  if (isZh()) return;
+  document.querySelectorAll('[data-view="daily"]').forEach(el => el.classList.add('hidden'));
+  if (state.view === 'daily') state.view = 'selected';
 }
 
 initNewsPage();

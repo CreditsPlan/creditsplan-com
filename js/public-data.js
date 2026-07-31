@@ -326,12 +326,14 @@ function normalizePlansFromModel(model, providerInfo = {}) {
         recommendation: safeParseJson(plan.recommendation_json, {}),
         changeSummary: safeParseJson(plan.change_summary_json, {}),
         linkType: stringValue(plan.link_type, 'official'),
+        hasAffiliate: plan.has_affiliate === true,
         domesticPayment: brandDomesticPayment ?? boolValue(plan.domestic_payment),
         intlNetwork: brandIntlNetwork ?? boolValue(plan.intl_network),
         hasFirstMonthDiscount: plan.has_first_month_discount === true || plan.has_first_month_discount === 1,
         recommendationText: stringValue(pickLang(plan.recommendation_text, plan.recommendation_text_en), ''),
         riskText: stringValue(pickLang(plan.risk_text, plan.risk_text_en), ''),
         sortOrder: numberOrNull(plan.sort_order),
+        privacyOverride: safeParseJson(plan.privacy_override_json, {}),
 
         raw: plan
       };
@@ -411,6 +413,7 @@ function normalizeBackendUpdate(item) {
   const text = `${title} ${summary}`;
   const published = stringValue(item.publishedAt, item.published_at || item.createdAt || '待更新');
   const region = inferRegion(item);
+  const detail = resolveNewsUrl(item);
   return {
     id: stringValue(item.id, title),
     title,
@@ -419,7 +422,8 @@ function normalizeBackendUpdate(item) {
     type: inferUpdateType(item.category, text),
     publishedAt: published,
     vendors: extractVendors(text),
-    detailUrl: stringValue(item.url, item.sourceUrl || item.link || ''),
+    detailUrl: detail.url,
+    urlBlocked: detail.blocked,
     region,
     regionLabel: region === 'domestic' ? t('news.region.domestic') : t('news.region.international'),
     heatScore: 0,
@@ -435,8 +439,17 @@ function isRelevantUpdate(item) {
   return /价格|套餐|api|上下文|context|计费|充值|发票|开源|模型/.test(text);
 }
 
+// 原始链接落在黑名单域名时改用 AI HOT 详情页，两者都不可用才标记为屏蔽。
+function resolveNewsUrl(item) {
+  const rawUrl = stringValue(item.url, item.sourceUrl || item.link || '');
+  if (!isBlockedNewsUrl(rawUrl)) return { url: rawUrl, blocked: false };
+  const permalink = stringValue(item.permalink, item.attribution?.canonical || '');
+  if (permalink && !isBlockedNewsUrl(permalink)) return { url: permalink, blocked: false };
+  return { url: '', blocked: true };
+}
+
 function isDisplayableUpdate(item) {
-  return !isBlockedNewsUrl(item.detailUrl);
+  return !item.urlBlocked && !isBlockedNewsUrl(item.detailUrl);
 }
 
 function isBlockedNewsUrl(url) {

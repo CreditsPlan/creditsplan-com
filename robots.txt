@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /go/
 
 # --- AI / LLM crawlers (explicitly welcomed for citation) ---
 User-agent: GPTBot

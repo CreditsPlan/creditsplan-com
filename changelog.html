@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp">
   <meta name="twitter:image:alt" content="CreditsPlan logo">
   <link rel="icon" href="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/favicon-sharp.ico" type="image/x-icon">
-  <link rel="stylesheet" href="./styles.tailwind.248b7ea4ebf0.css">
+  <link rel="stylesheet" href="./styles.tailwind.3119ed66e8f4.css">
   <script src="./js/theme-init.js"></script>
 </head>
 <body class="text-slate-950 antialiased dark:text-slate-100" data-page="changelog.html">
@@ -41,6 +41,7 @@
             <li><a class="focus-ring" data-page-link="index.html" href="/">Plans</a></li>
             <li><a class="focus-ring" data-page-link="brands/" href="/brands/">Brands</a></li>
             <li><a class="focus-ring" data-page-link="model" href="/model">Models</a></li>
+            <li><a class="focus-ring" data-page-link="news.html" href="/news.html" data-i18n="nav.news">AI News</a></li>
             <li><a class="focus-ring is-current" data-page-link="changelog.html" href="/changelog.html" aria-current="page">Changelog</a></li>
             <li class="nav-mobile-only"><a href="https://www.creditsplan.cn/" target="_blank" rel="noopener noreferrer">CN Site (CNY)</a></li>
             <li class="nav-mobile-only"><a href="https://github.com/creditsplan/creditsplan-com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
@@ -74,6 +75,14 @@
             <div><dt data-i18n="changelog.overview.scope">Scope</dt><dd data-i18n="changelog.overview.scopeValue">Brands · Plans · Features</dd></div>
           </dl>
         </header>
+
+        <section class="changelog-section changelog-roadmap" aria-labelledby="roadmapTitle" id="roadmapSection" hidden>
+          <div class="changelog-section-head">
+            <div><p data-i18n="changelog.roadmap.kicker">Roadmap</p><h2 id="roadmapTitle" data-i18n="changelog.roadmap.title">In progress</h2></div>
+            <p data-i18n="changelog.roadmap.order">Feature plans sourced from user feedback; items move into the changelog below once shipped</p>
+          </div>
+          <ul id="roadmapList" class="roadmap-list" aria-live="polite"></ul>
+        </section>
 
         <section class="changelog-section" aria-labelledby="allChangesTitle">
           <div class="changelog-section-head">
@@ -113,6 +122,6 @@
       </footer>
     </div>
   </div>
-  <script type="module" src="./js/system-changelog-page.13dd109dcc00.js"></script>
+  <script type="module" src="./js/system-changelog-page.4b5fd05481db.js"></script>
 </body>
 </html>

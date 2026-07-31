@@ -7,7 +7,7 @@ export function renderFooter() {
   const icp = isZh()
     ? `
           <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-white">湘ICP备2026019664号-2</a>
-          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=43062102000099" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-slate-900 dark:hover:text-white"><img src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png" alt="公安备案" class="h-4 w-4">湘公网安备43062102000099号</a>`
+          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=43062102000099" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-slate-900 dark:hover:text-white"><img src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png" alt="公安备案" class="h-4 w-4" loading="lazy" decoding="async">湘公网安备43062102000099号</a>`
     : '';
   root.innerHTML = `
     <footer>
@@ -15,6 +15,7 @@ export function renderFooter() {
         <nav class="flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="${t('footer.aria')}">
           <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="/methodology.html">${t('footer.methodology')}</a>
           <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="mailto:feedback@creditsplan.com">${t('footer.feedback')}</a>
+          <span>${t('footer.affiliate')}</span>
         </nav>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">${icp}
           <span>${t('footer.copyright')}</span>

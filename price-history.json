@@ -1,85 +1,13 @@
 {
-  "generated_at": "2026-07-27",
+  "generated_at": "2026-07-31",
   "schema_version": 1,
   "plans": {
-    "qoder-community": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-18",
-          "monthly_price": 0
-        }
-      ]
-    },
-    "qoder-pro": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-18",
-          "monthly_price": 20
-        }
-      ]
-    },
-    "qoder-pro-plus": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-18",
-          "monthly_price": 60
-        }
-      ]
-    },
-    "qoder-ultra": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-18",
-          "monthly_price": 200
-        }
-      ]
-    },
-    "qoder-teams": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-18",
-          "monthly_price": 40
-        }
-      ]
-    },
-    "qoder-enterprise": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-18",
-          "monthly_price": 20
-        }
-      ]
-    },
-    "z-ai-glm-coding-lite": {
+    "opencode-coding-plan": {
       "currency": "USD",
       "points": [
         {
           "date": "2026-07-19",
-          "monthly_price": 16.2
-        }
-      ]
-    },
-    "z-ai-glm-coding-pro": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 64.8
-        }
-      ]
-    },
-    "z-ai-glm-coding-max": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 144
+          "monthly_price": 10
         }
       ]
     },
@@ -98,15 +26,6 @@
         {
           "date": "2026-07-19",
           "monthly_price": 50
-        }
-      ]
-    },
-    "opencode-coding-plan": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 10
         }
       ]
     },
@@ -173,51 +92,6 @@
         }
       ]
     },
-    "google-antigravity.individual": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 0
-        }
-      ]
-    },
-    "grok.supergrok-lite": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 10
-        }
-      ]
-    },
-    "grok.supergrok": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 30
-        }
-      ]
-    },
-    "grok.supergrok-heavy": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 300
-        }
-      ]
-    },
-    "grok.grok-business": {
-      "currency": "USD",
-      "points": [
-        {
-          "date": "2026-07-19",
-          "monthly_price": 30
-        }
-      ]
-    },
     "claude.pro": {
       "currency": "USD",
       "points": [
@@ -272,6 +146,15 @@
         }
       ]
     },
+    "google-antigravity.individual": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 0
+        }
+      ]
+    },
     "google-antigravity.google-ai-pro": {
       "currency": "USD",
       "points": [
@@ -299,11 +182,51 @@
         }
       ]
     },
+    "grok.supergrok-lite": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 10
+        }
+      ]
+    },
+    "grok.supergrok": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 30
+        }
+      ]
+    },
+    "grok.supergrok-heavy": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 300
+        }
+      ]
+    },
+    "grok.grok-business": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 30
+        }
+      ]
+    },
     "cursor.hobby": {
       "currency": "USD",
       "points": [
         {
           "date": "2026-07-19",
+          "monthly_price": 0
+        },
+        {
+          "date": "2026-07-27",
           "monthly_price": 0
         }
       ]
@@ -355,10 +278,162 @@
     },
     "cursor.enterprise": {
       "currency": "CNY",
+      "points": []
+    },
+    "github-copilot.free": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "github-copilot.pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 10
+        }
+      ]
+    },
+    "github-copilot.proplus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 39
+        }
+      ]
+    },
+    "github-copilot.max": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 100
+        }
+      ]
+    },
+    "ollama.free": {
+      "currency": "CNY",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "ollama.pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "ollama.max": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 100
+        }
+      ]
+    },
+    "ollama.team": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 25
+        }
+      ]
+    },
+    "ollama.enterprise": {
+      "currency": "CNY",
+      "points": []
+    },
+    "z-ai-glm-coding-lite": {
+      "currency": "USD",
       "points": [
         {
           "date": "2026-07-19",
-          "monthly_price": null
+          "monthly_price": 16.2
+        }
+      ]
+    },
+    "z-ai-glm-coding-pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 64.8
+        }
+      ]
+    },
+    "z-ai-glm-coding-max": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-19",
+          "monthly_price": 144
+        }
+      ]
+    },
+    "qoder-community": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-18",
+          "monthly_price": 0
+        }
+      ]
+    },
+    "qoder-pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-18",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "qoder-pro-plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-18",
+          "monthly_price": 60
+        }
+      ]
+    },
+    "qoder-ultra": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-18",
+          "monthly_price": 200
+        }
+      ]
+    },
+    "qoder-teams": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-18",
+          "monthly_price": 40
+        }
+      ]
+    },
+    "qoder-enterprise": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-18",
+          "monthly_price": 20
         }
       ]
     },
@@ -395,6 +470,42 @@
         {
           "date": "2026-07-26",
           "monthly_price": 99
+        }
+      ]
+    },
+    "streamlake.mini": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 5
+        }
+      ]
+    },
+    "streamlake.starter": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 10
+        }
+      ]
+    },
+    "streamlake.pro": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 20
+        }
+      ]
+    },
+    "streamlake.max": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-07-29",
+          "monthly_price": 50
         }
       ]
     }

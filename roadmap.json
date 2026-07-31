@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "id": "rm-plan-models",
+      "status": "planned",
+      "title": "各套餐完整支持模型列表",
+      "title_en": "Full supported-model list per plan",
+      "note": "展示每档套餐可用的全部模型，而不仅是代表模型。",
+      "note_en": "Show every model available on each plan tier, not just the representative model.",
+      "platform": "小红书",
+      "platform_en": "Xiaohongshu (RED)",
+      "users": ["小红薯61D33B16", "宝 我在听歌"],
+      "date": "2026-07-18",
+      "votes": 2
+    },
+    {
+      "id": "rm-metering",
+      "status": "planned",
+      "title": "计量方式与支持工具标注",
+      "title_en": "Billing-meter & supported-tool labeling",
+      "note": "区分按 Token 计量与按请求次数计量的套餐、展示对应限额上限，并标注每个套餐支持的开发工具。",
+      "note_en": "Distinguish token-metered from request-metered plans, show the corresponding limits, and label the dev tools each plan supports.",
+      "platform": "小红书",
+      "platform_en": "Xiaohongshu (RED)",
+      "users": ["大瓶冰红茶"],
+      "date": "2026-07-19",
+      "votes": 1
+    },
+    {
+      "id": "rm-worker-mode",
+      "status": "evaluating",
+      "title": "面向大众用户的决策模式",
+      "title_en": "Decision mode for non-developer users",
+      "note": "为非程序员用户提供更易懂的套餐决策引导，而不仅是面向开发者的参数对比。",
+      "note_en": "Offer plain-language plan guidance for non-developer users, beyond the developer-oriented spec comparison.",
+      "platform": "小红书",
+      "platform_en": "Xiaohongshu (RED)",
+      "users": ["土味捷宝"],
+      "date": "2026-07-20",
+      "votes": 3
+    }
+  ]
+}

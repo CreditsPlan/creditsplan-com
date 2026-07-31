@@ -1,10 +1,10 @@
 import { initAppShell } from './app.js';
-import { exportPlansExcel, exportPlansPdf, exportPlansWord } from './plans-export.js';
 import {
   bindPlanTableFilters,
   clearPlanTableFilter
 } from './plans-filters.js';
 import { renderModelPriceView } from './model-price-table.js';
+import { initPlanAdvisor } from './plan-advisor.js';
 import { renderAllPlansDualView, renderBrandIcon } from './plans-table.js';
 import { loadPlanDataset } from './public-data.js';
 import { escapeHtml } from './render.js';
@@ -29,6 +29,17 @@ function modelHasPrice(model) {
   const input = model.raw?.input_price;
   const output = model.raw?.output_price;
   return (input != null && input !== '') || (output != null && output !== '');
+}
+
+// Average monthly price across USD-billed plans with a listed monthly price
+// (CNY-billed outliers are excluded to keep the mean in one currency).
+function averageMonthlyPrice(plans) {
+  const values = plans
+    .filter(plan => (plan.monthlyCurrency || 'USD') === 'USD')
+    .map(plan => plan.monthlyPriceValue)
+    .filter(value => Number.isFinite(value) && value > 0);
+  if (!values.length) return null;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
 const els = {
@@ -174,15 +185,17 @@ function bindExportMenu(root, getExportPlans, providerInfo) {
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closeMenu();
   });
-  menu.addEventListener('click', event => {
+  menu.addEventListener('click', async event => {
     const option = event.target.closest('[data-export-format]');
     if (!option) return;
     closeMenu();
     const plans = getExportPlans();
     const format = option.dataset.exportFormat;
-    if (format === 'excel') exportPlansExcel(plans, providerInfo);
-    else if (format === 'word') exportPlansWord(plans, providerInfo);
-    else if (format === 'pdf') exportPlansPdf(plans, providerInfo);
+    // 导出模块体积较大且非首屏功能，点击时才动态加载（build 时分包）
+    const exporter = await import('./plans-export.js');
+    if (format === 'excel') exporter.exportPlansExcel(plans, providerInfo);
+    else if (format === 'word') exporter.exportPlansWord(plans, providerInfo);
+    else if (format === 'pdf') exporter.exportPlansPdf(plans, providerInfo);
   });
 }
 
@@ -196,6 +209,12 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   const visibleModels = [...modelGrouped.values()]
     .sort((a, b) => (a.sortOrder - b.sortOrder) || a.label.localeCompare(b.label, 'zh-CN'));
   const counts = { all: displayablePlans.length, free: filterFreePlans(displayablePlans).length };
+  const avgMonthly = averageMonthlyPrice(displayablePlans);
+  const statsHtml = `
+            <span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span>
+            <span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span>
+            <span>${visibleModels.length} ${escapeHtml(t('home.meta.models'))}</span>
+            ${avgMonthly != null ? `<span>${escapeHtml(t('home.meta.avgMonthly'))} $${Math.round(avgMonthly)}</span>` : ''}`;
 
   els.codingPlanOverview.innerHTML = `
     <section class="plans-workbench" aria-labelledby="codingPlanTitle">
@@ -206,10 +225,7 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
           <p id="workbenchSummary" class="workbench-summary">${escapeHtml(t('home.summary'))}</p>
         </div>
         <div class="workbench-meta">
-          <span id="workbenchStats">
-            <span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span>
-            <span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span>
-            <span>${visibleModels.length} ${escapeHtml(t('home.meta.models'))}</span>
+          <span id="workbenchStats">${statsHtml}
           </span>
           ${renderExportMenu()}
         </div>
@@ -266,6 +282,10 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
     <button id="plansBackTop" class="plans-back-top" type="button" aria-label="${escapeHtml(t('home.backTop.aria'))}" title="${escapeHtml(t('home.backTop.title'))}">
       <span aria-hidden="true">↑</span>
     </button>
+    <button id="planAdvisorFab" class="plan-advisor-fab" type="button" aria-label="${escapeHtml(t('advisor.fab.aria'))}" title="${escapeHtml(t('advisor.fab.title'))}">
+      <span aria-hidden="true">$</span>
+      <span>${escapeHtml(t('advisor.fab.label'))}</span>
+    </button>
   `;
 
   finishPlansLoading();
@@ -276,6 +296,10 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   const modelTabs = els.codingPlanOverview.querySelector('#modelTabs');
   const detail = els.codingPlanOverview.querySelector('#brandDetail');
   initPlansBackTop(workbench);
+  const advisorFab = els.codingPlanOverview.querySelector('#planAdvisorFab');
+  const advisor = initPlanAdvisor({ plans: displayablePlans, providerInfo, modelCatalog, fab: advisorFab });
+  // SEO 落地页导流：通过 /#advisor 进入首页时自动打开计算器
+  if (advisor && location.hash === '#advisor') advisor.open();
 
   let currentPlans = displayablePlans;
   bindExportMenu(els.codingPlanOverview, () => currentPlans, providerInfo);
@@ -357,7 +381,7 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
       const vendorCount = new Set(priced.map(m => PROVIDER_NAME_MAP[m.vendor] || m.vendor)).size;
       stats.innerHTML = `<span>${priced.length} ${escapeHtml(t('pricing.meta.models'))}</span><span>${vendorCount} ${escapeHtml(t('pricing.meta.vendors'))}</span>`;
     } else {
-      stats.innerHTML = `<span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span><span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span><span>${visibleModels.length} ${escapeHtml(t('home.meta.models'))}</span>`;
+      stats.innerHTML = statsHtml;
     }
   };
 
@@ -384,6 +408,8 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
     }
     const exportRoot = els.codingPlanOverview.querySelector('#plansExport');
     if (exportRoot) exportRoot.hidden = mode === 'pricing';
+    // The calculator only serves the plans view; hide the fab on the model pricing view.
+    if (advisorFab) advisorFab.hidden = mode === 'pricing';
     if (searchInput) { searchInput.value = ''; }
     filterTabsBySearch();
     syncWorkbenchHead(mode);
