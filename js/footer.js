@@ -13,7 +13,9 @@ export function renderFooter() {
     <footer>
       <div class="footer-shell mx-auto flex flex-col gap-2 px-4 py-3 text-sm text-slate-500 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <nav class="flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="${t('footer.aria')}">
+          <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="/price-changes/">${t('footer.priceChanges')}</a>
           <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="/methodology.html">${t('footer.methodology')}</a>
+          <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="/developers.html">${t('footer.developers')}</a>
           <a class="focus-ring rounded hover:text-slate-900 dark:hover:text-white" href="mailto:feedback@creditsplan.com">${t('footer.feedback')}</a>
           <span>${t('footer.affiliate')}</span>
         </nav>

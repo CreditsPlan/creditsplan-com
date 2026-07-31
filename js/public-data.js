@@ -260,7 +260,7 @@ function normalizePlansFromModel(model, providerInfo = {}) {
           }
           return stringValue(plan.status_label, t('status.pending'));
         })(),
-        url: stringValue(pickLang(plan.url_cn, plan.url_en), plan.url_en, plan.url_cn),
+        url: pickLangUrl(plan.url_cn, plan.url_en),
         monthlyPrice: formatMonthlyPrice(plan.monthly_price, monthlyCurrency),
         monthlyPriceValue,
         monthlyCurrency,
@@ -574,6 +574,14 @@ function pickLang(base, en) {
   if (getLang() === 'en' && en != null && String(en).trim()) return en;
   if (getLang() === 'zh' && isMostlyLatin(base) && en != null && String(en).trim() && String(en).trim() !== String(base).trim()) return en;
   return base;
+}
+
+// URL 字段按语言直接取值：URL 天然全是拉丁字符，不能走 pickLang 的文本启发判断，
+// 否则中文界面会永远落到 url_en。任一语言缺失时回退到另一个。
+function pickLangUrl(urlCn, urlEn) {
+  return getLang() === 'zh'
+    ? stringValue(urlCn, urlEn)
+    : stringValue(urlEn, urlCn);
 }
 
 function numberOrNull(value) {

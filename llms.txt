@@ -8,6 +8,7 @@
 - [Verified brands](https://www.creditsplan.com/brands/)
 - [Head-to-head comparisons](https://www.creditsplan.com/compare/): compare any two brands on price and quota
 - [Cheapest plans](https://www.creditsplan.com/rankings/cheapest/): ranked by monthly price
+- [Plan advisor](https://www.creditsplan.com/advisor/): value ranking by model family / usage / budget
 - [Price change timeline](https://www.creditsplan.com/price-changes/): every verified price change
 - [Monthly price reports](https://www.creditsplan.com/reports/)
 - [Methodology](https://www.creditsplan.com/methodology.html)

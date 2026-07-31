@@ -23,6 +23,10 @@ export function initAppShell() {
 function pageFromLocation() {
   const path = location.pathname;
   if (path.startsWith('/brands/')) return 'brands/';
+  if (path.startsWith('/advisor')) return 'advisor/';
+  if (path.startsWith('/rankings/')) return 'rankings/cheapest/';
+  if (path.startsWith('/price-changes')) return 'price-changes/';
+  if (path.startsWith('/reports')) return 'reports/';
   if (path.startsWith('/plans/')) return 'index.html';
   return path.split('/').pop() || 'index.html';
 }
