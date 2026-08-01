@@ -999,11 +999,11 @@
           "risk_text_en": "Limits are defined in dollar value, so actual request counts vary significantly by model. Higher-cost models (e.g. Grok 4.5, Kimi K3) allow fewer requests; lower-cost models (e.g. DeepSeek V4 Flash, MiMo-V2.5) allow more.",
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "opencode.coding-plan.10",
           "model_ids": [
             "opencode"
           ],
-          "has_affiliate": false,
-          "planId": "opencode.coding-plan.10"
+          "has_affiliate": false
         }
       ]
     },
@@ -4227,11 +4227,11 @@
           "risk_text_en": "Only applicable to AI coding tools, not for API calls. Quota is shared across all tools. Check the official checkout page for refund and renewal details before purchase.",
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "byteplus.coding-plan.10",
           "model_ids": [
             "dola-seed-2.0-pro"
           ],
-          "has_affiliate": false,
-          "planId": "byteplus.coding-plan.10"
+          "has_affiliate": false
         },
         {
           "id": "byteplus-coding-pro",
@@ -4300,11 +4300,11 @@
           "risk_text_en": "Only applicable to AI coding tools, not for API calls. Quota is shared across all tools. Check the official checkout page for refund and renewal details before purchase.",
           "sort_order": 1,
           "privacy_override_json": null,
+          "planId": "byteplus.coding-plan.50",
           "model_ids": [
             "dola-seed-2.0-pro"
           ],
-          "has_affiliate": false,
-          "planId": "byteplus.coding-plan.50"
+          "has_affiliate": false
         }
       ]
     },
@@ -4400,11 +4400,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "chart.coding-plan.0",
           "model_ids": [
             "gpt-5.6-sol"
           ],
-          "has_affiliate": false,
-          "planId": "chart.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "chart-gpt.go",
@@ -4473,11 +4473,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "chart.coding-plan.8",
           "model_ids": [
             "gpt-5.6-sol"
           ],
-          "has_affiliate": false,
-          "planId": "chart.coding-plan.8"
+          "has_affiliate": false
         },
         {
           "id": "chart-gpt.plus",
@@ -4546,11 +4546,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "chart.coding-plan.20",
           "model_ids": [
             "gpt-5.6-sol"
           ],
-          "has_affiliate": false,
-          "planId": "chart.coding-plan.20"
+          "has_affiliate": false
         },
         {
           "id": "chart-gpt.pro",
@@ -4619,11 +4619,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "chart.coding-plan.100",
           "model_ids": [
             "gpt-5.6-sol"
           ],
-          "has_affiliate": false,
-          "planId": "chart.coding-plan.100"
+          "has_affiliate": false
         },
         {
           "id": "chart-gpt.pro-20x",
@@ -4692,11 +4692,11 @@
           "risk_text_en": null,
           "sort_order": 40,
           "privacy_override_json": null,
+          "planId": "chart.coding-plan.200",
           "model_ids": [
             "gpt-5.6-sol"
           ],
-          "has_affiliate": false,
-          "planId": "chart.coding-plan.200"
+          "has_affiliate": false
         },
         {
           "id": "chart-gpt.business",
@@ -4765,11 +4765,11 @@
           "risk_text_en": "",
           "sort_order": 50,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"Business 版客户数据不用于模型训练\",\"note_en\":\"Business tier customer data is not used for model training\"}",
+          "planId": "chart.coding-plan.25",
           "model_ids": [
             "gpt-5.6-sol"
           ],
-          "has_affiliate": false,
-          "planId": "chart.coding-plan.25"
+          "has_affiliate": false
         }
       ]
     },
@@ -4865,11 +4865,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "claude.free.coding-plan.0",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.free.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "claude.pro",
@@ -4938,11 +4938,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "claude.pro.coding-plan.20",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.pro.coding-plan.20"
+          "has_affiliate": false
         },
         {
           "id": "claude.max-5x",
@@ -5011,11 +5011,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "claude.max.coding-plan.100",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.max.coding-plan.100"
+          "has_affiliate": false
         },
         {
           "id": "claude.max-20x",
@@ -5084,11 +5084,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "claude.max.coding-plan.200",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.max.coding-plan.200"
+          "has_affiliate": false
         },
         {
           "id": "claude.team-standard",
@@ -5157,11 +5157,11 @@
           "risk_text_en": null,
           "sort_order": 40,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"企业/团队版合同保障客户数据不用于训练\",\"note_en\":\"Enterprise/Team tiers contractually exclude customer data from training\"}",
+          "planId": "claude.team.coding-plan.25",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.team.coding-plan.25"
+          "has_affiliate": false
         },
         {
           "id": "claude.team-premium",
@@ -5230,11 +5230,11 @@
           "risk_text_en": null,
           "sort_order": 50,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"企业/团队版合同保障客户数据不用于训练\",\"note_en\":\"Enterprise/Team tiers contractually exclude customer data from training\"}",
+          "planId": "claude.team.coding-plan.125",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.team.coding-plan.125"
+          "has_affiliate": false
         },
         {
           "id": "claude.enterprise",
@@ -5303,11 +5303,11 @@
           "risk_text_en": null,
           "sort_order": 60,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"企业/团队版合同保障客户数据不用于训练\",\"note_en\":\"Enterprise/Team tiers contractually exclude customer data from training\"}",
+          "planId": "claude.enterprise.coding-plan.20",
           "model_ids": [
             "fable-5"
           ],
-          "has_affiliate": false,
-          "planId": "claude.enterprise.coding-plan.20"
+          "has_affiliate": false
         }
       ]
     },
@@ -5403,11 +5403,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "google.coding-plan.0",
           "model_ids": [
             "gemini-3.1-pro"
           ],
-          "has_affiliate": false,
-          "planId": "google.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "google-antigravity.google-ai-pro",
@@ -5476,11 +5476,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "google.coding-plan.19.99",
           "model_ids": [
             "gemini-3.1-pro"
           ],
-          "has_affiliate": false,
-          "planId": "google.coding-plan.19.99"
+          "has_affiliate": false
         },
         {
           "id": "google-antigravity.google-ai-ultra-5x",
@@ -5549,11 +5549,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "google.coding-plan.99.99",
           "model_ids": [
             "gemini-3.1-pro"
           ],
-          "has_affiliate": false,
-          "planId": "google.coding-plan.99.99"
+          "has_affiliate": false
         },
         {
           "id": "google-antigravity.google-ai-ultra-20x",
@@ -5622,11 +5622,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "google.coding-plan.199.99",
           "model_ids": [
             "gemini-3.1-pro"
           ],
-          "has_affiliate": false,
-          "planId": "google.coding-plan.199.99"
+          "has_affiliate": false
         }
       ]
     },
@@ -5722,11 +5722,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "grok.supergrok.credits-plan.10",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "grok.supergrok.credits-plan.10"
+          "has_affiliate": false
         },
         {
           "id": "grok.supergrok",
@@ -5795,11 +5795,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "grok.supergrok.credits-plan.30",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "grok.supergrok.credits-plan.30"
+          "has_affiliate": false
         },
         {
           "id": "grok.supergrok-heavy",
@@ -5868,11 +5868,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "grok.supergrok.credits-plan.300",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "grok.supergrok.credits-plan.300"
+          "has_affiliate": false
         },
         {
           "id": "grok.grok-business",
@@ -5941,11 +5941,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "grok.grok.credits-plan.30",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "grok.grok.credits-plan.30"
+          "has_affiliate": false
         }
       ]
     },
@@ -6041,11 +6041,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "cursor.hobby.coding-plan.0",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.hobby.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "cursor.pro",
@@ -6114,11 +6114,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "cursor.pro.coding-plan.20",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.pro.coding-plan.20"
+          "has_affiliate": false
         },
         {
           "id": "cursor.proplus",
@@ -6187,11 +6187,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "cursor.proplus.coding-plan.60",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.proplus.coding-plan.60"
+          "has_affiliate": false
         },
         {
           "id": "cursor.ultra",
@@ -6260,11 +6260,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "cursor.ultra.coding-plan.200",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.ultra.coding-plan.200"
+          "has_affiliate": false
         },
         {
           "id": "cursor.teams-standard",
@@ -6333,11 +6333,11 @@
           "risk_text_en": null,
           "sort_order": 40,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"Teams/Enterprise 默认零数据保留，不用于训练\",\"note_en\":\"Teams/Enterprise default to zero data retention, not used for training\"}",
+          "planId": "cursor.teams.coding-plan.40",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.teams.coding-plan.40"
+          "has_affiliate": false
         },
         {
           "id": "cursor.teams-premium",
@@ -6406,11 +6406,11 @@
           "risk_text_en": null,
           "sort_order": 50,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"Teams/Enterprise 默认零数据保留，不用于训练\",\"note_en\":\"Teams/Enterprise default to zero data retention, not used for training\"}",
+          "planId": "cursor.teams.coding-plan.120",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.teams.coding-plan.120"
+          "has_affiliate": false
         },
         {
           "id": "cursor.enterprise",
@@ -6479,11 +6479,11 @@
           "risk_text_en": null,
           "sort_order": 60,
           "privacy_override_json": "{\"data_training\":\"no\",\"note\":\"Teams/Enterprise 默认零数据保留，不用于训练\",\"note_en\":\"Teams/Enterprise default to zero data retention, not used for training\"}",
+          "planId": "cursor.enterprise.coding-plan",
           "model_ids": [
             "grok-4.5"
           ],
-          "has_affiliate": false,
-          "planId": "cursor.enterprise.coding-plan"
+          "has_affiliate": false
         }
       ]
     },
@@ -6579,11 +6579,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "github.coding-plan.0",
           "model_ids": [
             "github-copilot"
           ],
-          "has_affiliate": false,
-          "planId": "github.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "github-copilot.pro",
@@ -6652,11 +6652,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "github.coding-plan.10",
           "model_ids": [
             "github-copilot"
           ],
-          "has_affiliate": false,
-          "planId": "github.coding-plan.10"
+          "has_affiliate": false
         },
         {
           "id": "github-copilot.proplus",
@@ -6725,11 +6725,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "github.coding-plan.39",
           "model_ids": [
             "github-copilot"
           ],
-          "has_affiliate": false,
-          "planId": "github.coding-plan.39"
+          "has_affiliate": false
         },
         {
           "id": "github-copilot.max",
@@ -6798,11 +6798,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "github.coding-plan.100",
           "model_ids": [
             "github-copilot"
           ],
-          "has_affiliate": false,
-          "planId": "github.coding-plan.100"
+          "has_affiliate": false
         }
       ]
     },
@@ -6898,11 +6898,11 @@
           "risk_text_en": null,
           "sort_order": 0,
           "privacy_override_json": null,
+          "planId": "ollama.free.coding-plan.0",
           "model_ids": [
             "ollama-cloud"
           ],
-          "has_affiliate": false,
-          "planId": "ollama.free.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "ollama.pro",
@@ -6971,11 +6971,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "ollama.pro.coding-plan.20",
           "model_ids": [
             "ollama-cloud"
           ],
-          "has_affiliate": false,
-          "planId": "ollama.pro.coding-plan.20"
+          "has_affiliate": false
         },
         {
           "id": "ollama.max",
@@ -7044,11 +7044,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "ollama.max.coding-plan.100",
           "model_ids": [
             "ollama-cloud"
           ],
-          "has_affiliate": false,
-          "planId": "ollama.max.coding-plan.100"
+          "has_affiliate": false
         },
         {
           "id": "ollama.team",
@@ -7117,11 +7117,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "ollama.team.coding-plan.25",
           "model_ids": [
             "ollama-cloud"
           ],
-          "has_affiliate": false,
-          "planId": "ollama.team.coding-plan.25"
+          "has_affiliate": false
         },
         {
           "id": "ollama.enterprise",
@@ -7190,11 +7190,11 @@
           "risk_text_en": null,
           "sort_order": 40,
           "privacy_override_json": null,
+          "planId": "ollama.enterprise.coding-plan",
           "model_ids": [
             "ollama-cloud"
           ],
-          "has_affiliate": false,
-          "planId": "ollama.enterprise.coding-plan"
+          "has_affiliate": false
         }
       ]
     },
@@ -7290,11 +7290,11 @@
           "risk_text_en": "Do not show exact token, request count, refund, or renewal details. Check the official checkout page before purchase.",
           "sort_order": 1,
           "privacy_override_json": null,
+          "planId": "z.coding-plan.16.2",
           "model_ids": [
             "glm-5.2"
           ],
-          "has_affiliate": false,
-          "planId": "z.coding-plan.16.2"
+          "has_affiliate": false
         },
         {
           "id": "z-ai-glm-coding-pro",
@@ -7363,11 +7363,11 @@
           "risk_text_en": "Do not show exact token, request count, refund, or renewal details. Check the official checkout page before purchase.",
           "sort_order": 2,
           "privacy_override_json": null,
+          "planId": "z.coding-plan.64.8",
           "model_ids": [
             "glm-5.2"
           ],
-          "has_affiliate": false,
-          "planId": "z.coding-plan.64.8"
+          "has_affiliate": false
         },
         {
           "id": "z-ai-glm-coding-max",
@@ -7436,11 +7436,11 @@
           "risk_text_en": "Do not show exact token, request count, refund, or renewal details. Check the official checkout page before purchase.",
           "sort_order": 3,
           "privacy_override_json": null,
+          "planId": "z.coding-plan.144",
           "model_ids": [
             "glm-5.2"
           ],
-          "has_affiliate": false,
-          "planId": "z.coding-plan.144"
+          "has_affiliate": false
         }
       ]
     },
@@ -7536,11 +7536,11 @@
           "risk_text_en": "Refunds, renewals, and full credits deduction details are not shown; check the official settlement page or your account page before using.",
           "sort_order": 1,
           "privacy_override_json": null,
+          "planId": "qoder.coding-plan.0",
           "model_ids": [
             "qwen3.8-max"
           ],
-          "has_affiliate": false,
-          "planId": "qoder.coding-plan.0"
+          "has_affiliate": false
         },
         {
           "id": "qoder-pro",
@@ -7609,11 +7609,11 @@
           "risk_text_en": "Refunds, renewals, and the full details of Credits deductions aren’t shown, so check the official checkout page before buying.",
           "sort_order": 2,
           "privacy_override_json": null,
+          "planId": "qoder.coding-plan.20",
           "model_ids": [
             "qwen3.8-max"
           ],
-          "has_affiliate": false,
-          "planId": "qoder.coding-plan.20"
+          "has_affiliate": false
         },
         {
           "id": "qoder-pro-plus",
@@ -7682,11 +7682,11 @@
           "risk_text_en": "Detailed rules regarding refunds, renewals, and credit deductions are not displayed here. Please review the checkout page on the official website before making a purchase.",
           "sort_order": 3,
           "privacy_override_json": null,
+          "planId": "qoder.coding-plan.60",
           "model_ids": [
             "qwen3.8-max"
           ],
-          "has_affiliate": false,
-          "planId": "qoder.coding-plan.60"
+          "has_affiliate": false
         },
         {
           "id": "qoder-ultra",
@@ -7755,11 +7755,11 @@
           "risk_text_en": "Refund, renewal, and full credit deduction policies are not displayed here; please review the official website's checkout page before purchasing.",
           "sort_order": 4,
           "privacy_override_json": null,
+          "planId": "qoder.coding-plan.200",
           "model_ids": [
             "qwen3.8-max"
           ],
-          "has_affiliate": false,
-          "planId": "qoder.coding-plan.200"
+          "has_affiliate": false
         },
         {
           "id": "qoder-teams",
@@ -7828,11 +7828,11 @@
           "risk_text_en": "",
           "sort_order": 5,
           "privacy_override_json": null,
+          "planId": "qoder.coding-plan.40",
           "model_ids": [
             "qwen3.8-max"
           ],
-          "has_affiliate": false,
-          "planId": "qoder.coding-plan.40"
+          "has_affiliate": false
         },
         {
           "id": "qoder-enterprise",
@@ -7901,11 +7901,11 @@
           "risk_text_en": "",
           "sort_order": 6,
           "privacy_override_json": null,
+          "planId": "qoder.coding-plan.20-2",
           "model_ids": [
             "qwen3.8-max"
           ],
-          "has_affiliate": false,
-          "planId": "qoder.coding-plan.20-2"
+          "has_affiliate": false
         }
       ]
     },
@@ -8001,11 +8001,11 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "stepfun.coding-plan.6.99",
           "model_ids": [
             "step-3.7-flash"
           ],
-          "has_affiliate": false,
-          "planId": "stepfun.coding-plan.6.99"
+          "has_affiliate": false
         },
         {
           "id": "stepfun.flash-plus",
@@ -8074,11 +8074,11 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "stepfun.coding-plan.9.99",
           "model_ids": [
             "step-3.7-flash"
           ],
-          "has_affiliate": false,
-          "planId": "stepfun.coding-plan.9.99"
+          "has_affiliate": false
         },
         {
           "id": "stepfun.flash-pro",
@@ -8147,11 +8147,11 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "stepfun.coding-plan.29",
           "model_ids": [
             "step-3.7-flash"
           ],
-          "has_affiliate": false,
-          "planId": "stepfun.coding-plan.29"
+          "has_affiliate": false
         },
         {
           "id": "stepfun.flash-max",
@@ -8220,11 +8220,11 @@
           "risk_text_en": null,
           "sort_order": 40,
           "privacy_override_json": null,
+          "planId": "stepfun.coding-plan.99",
           "model_ids": [
             "step-3.7-flash"
           ],
-          "has_affiliate": false,
-          "planId": "stepfun.coding-plan.99"
+          "has_affiliate": false
         }
       ]
     },
@@ -8320,13 +8320,13 @@
           "risk_text_en": null,
           "sort_order": 10,
           "privacy_override_json": null,
+          "planId": "streamlake.mini.coding-plan.5",
           "model_ids": [
             "kat-coder-pro-v2.5",
             "kat-coder-pro-v2",
             "kat-coder-pro-v1"
           ],
-          "has_affiliate": false,
-          "planId": "streamlake.mini.coding-plan.5"
+          "has_affiliate": false
         },
         {
           "id": "streamlake.starter",
@@ -8395,13 +8395,13 @@
           "risk_text_en": null,
           "sort_order": 20,
           "privacy_override_json": null,
+          "planId": "streamlake.starter.coding-plan.10",
           "model_ids": [
             "kat-coder-pro-v2.5",
             "kat-coder-pro-v2",
             "kat-coder-pro-v1"
           ],
-          "has_affiliate": false,
-          "planId": "streamlake.starter.coding-plan.10"
+          "has_affiliate": false
         },
         {
           "id": "streamlake.pro",
@@ -8470,13 +8470,13 @@
           "risk_text_en": null,
           "sort_order": 30,
           "privacy_override_json": null,
+          "planId": "streamlake.pro.coding-plan.20",
           "model_ids": [
             "kat-coder-pro-v2.5",
             "kat-coder-pro-v2",
             "kat-coder-pro-v1"
           ],
-          "has_affiliate": false,
-          "planId": "streamlake.pro.coding-plan.20"
+          "has_affiliate": false
         },
         {
           "id": "streamlake.max",
@@ -8545,13 +8545,13 @@
           "risk_text_en": null,
           "sort_order": 40,
           "privacy_override_json": null,
+          "planId": "streamlake.max.coding-plan.50",
           "model_ids": [
             "kat-coder-pro-v2.5",
             "kat-coder-pro-v2",
             "kat-coder-pro-v1"
           ],
-          "has_affiliate": false,
-          "planId": "streamlake.max.coding-plan.50"
+          "has_affiliate": false
         }
       ]
     }
