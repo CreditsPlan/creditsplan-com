@@ -201,25 +201,25 @@ function normalizeBackendModel(model, source) {
 
   return {
     id: stringValue(model.id),
-    vendor: stringValue(model.provider, '待更新'),
+    vendor: stringValue(model.provider, 'Pending'),
     providerIconUrl: stringValue(model.provider_icon_url, model.icon_url || ''),
     logoUrl: stringValue(model.logo_url, ''),
-    modelName: stringValue(pickLang(model.name, model.name_en), '待更新'),
+    modelName: stringValue(pickLang(model.name, model.name_en), 'Pending'),
     inputPrice: formatPrice(model.input_price, model.currency),
     outputPrice: formatPrice(model.output_price, model.currency),
     contextLength: formatContext(model.context_length),
-    multimodal: capabilities.includes('vision') ? '支持' : '待确认',
-    apiSupport: '支持',
-    rmbRecharge: stringValue(pickLang(model.rmb_recharge_support, model.rmb_recharge_support_en), '请以官网为准'),
-    invoice: stringValue(pickLang(model.invoice_support, model.invoice_support_en), '请以官网为准'),
+    multimodal: capabilities.includes('vision') ? 'Supported' : 'TBD',
+    apiSupport: 'Supported',
+    rmbRecharge: stringValue(pickLang(model.rmb_recharge_support, model.rmb_recharge_support_en), 'See official site'),
+    invoice: stringValue(pickLang(model.invoice_support, model.invoice_support_en), 'See official site'),
     rmbRechargeRaw: model.rmb_recharge_support ?? null,
     invoiceRaw: model.invoice_support ?? null,
     accessLevel: stringValue(model.access_level, ''),
     marketRegion: stringValue(model.market_region, ''),
     marketRegionLabel: stringValue(model.market_region_label, ''),
     scenarios,
-    suitableFor: stringValue(pickLang(model.suitable_for, model.suitable_for_en), notes || '请以官网为准'),
-    updatedAt: stringValue(model.last_updated, model.release_date || '待更新'),
+    suitableFor: stringValue(pickLang(model.suitable_for, model.suitable_for_en), notes || 'See official site'),
+    updatedAt: stringValue(model.last_updated, model.release_date || 'Pending'),
     sourceUrl: stringValue(model.docs_url, model.plan_url || ''),
     packagePlans: Array.isArray(model.package_plans) ? model.package_plans : [],
     source,
@@ -244,7 +244,7 @@ function normalizePlansFromModel(model, providerInfo = {}) {
         id: stringValue(plan.id, `${model.id}-plan`),
         planId: stringValue(plan.planId, plan.plan_id || ''),
         brand: stringValue(plan.brand, plan.brand_slug || ''),
-        name: stringValue(pickLang(plan.name, plan.name_en), '待更新套餐'),
+        name: stringValue(pickLang(plan.name, plan.name_en), 'Pending plan'),
         provider,
         providerIconUrl: stringValue(plan.provider_icon_url, plan.icon_url, model.providerIconUrl),
         modelName: model.modelName,
@@ -392,7 +392,7 @@ function computeHeatScore(item, index) {
 }
 
 function formatRelativeTime(published) {
-  if (!published || published === '待更新') return '';
+  if (!published || published === 'Pending') return '';
   const date = new Date(published);
   if (isNaN(date.getTime())) return published;
   const diff = Date.now() - date.getTime();
@@ -411,7 +411,7 @@ function normalizeBackendUpdate(item) {
   const title = stringValue(item.title, item.title_zh || t('news.untitled'));
   const summary = stringValue(item.summary, item.summary_zh || item.description || '');
   const text = `${title} ${summary}`;
-  const published = stringValue(item.publishedAt, item.published_at || item.createdAt || '待更新');
+  const published = stringValue(item.publishedAt, item.published_at || item.createdAt || 'Pending');
   const region = inferRegion(item);
   const detail = resolveNewsUrl(item);
   return {
@@ -543,9 +543,9 @@ function extractVendors(text) {
 }
 
 function sourceName(source) {
-  if (!source) return '后台维护';
+  if (!source) return 'Curated';
   if (typeof source === 'string') return source;
-  return stringValue(source.name, source.title || source.id || '后台维护');
+  return stringValue(source.name, source.title || source.id || 'Curated');
 }
 
 function stringValue(...values) {
@@ -622,5 +622,5 @@ function compactText(...values) {
 }
 
 function latestDate(values) {
-  return values.find(value => value && value !== '待更新') || '待更新';
+  return values.find(value => value && value !== 'Pending') || 'Pending';
 }

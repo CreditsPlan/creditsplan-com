@@ -165,8 +165,8 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
   if (!plan) return '';
   const typeLabel = PLAN_TYPE_LABELS[plan.planType] || plan.planType || '';
   const rows = [];
-  const hasRmb = plan.rmbRecharge && plan.rmbRecharge !== '待确认' && plan.rmbRecharge !== '请以官网为准';
-  const hasInvoice = plan.invoice && plan.invoice !== '待确认' && plan.invoice !== '请以官网为准';
+  const hasRmb = plan.rmbRecharge && plan.rmbRecharge !== 'TBD' && plan.rmbRecharge !== 'See official site';
+  const hasInvoice = plan.invoice && plan.invoice !== 'TBD' && plan.invoice !== 'See official site';
   const privacy = resolvePlanPrivacy(plan, providerInfo, PROVIDER_NAME_MAP);
   // 额度列已展示的字段不在展开详情中重复；包含调用量与 Token 上限内容重复时只保留一处
   const quotaField = (planQuotaDisplay(plan) || {}).field || '';

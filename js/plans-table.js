@@ -118,6 +118,15 @@ function planIsAvailable(plan) {
   return plan.status === 'available' || plan.statusLabel === '可用' || plan.statusLabel === '可购买';
 }
 
+// Translate the raw (Chinese) status label from the database using i18n keys.
+function statusLabelDisplay(plan) {
+  if (!plan.status) return escapeHtml(plan.statusLabel || '');
+  const key = `status.${plan.status}`;
+  const translated = t(key);
+  // t() returns 'status.xxx' when the key is missing; use the raw label as fallback
+  return escapeHtml(translated.startsWith('status.') ? (plan.statusLabel || '') : translated);
+}
+
 function planCheapestMonthly(plan) {
   let value = null;
   if (Number.isFinite(plan.monthlyPriceValue)) {
@@ -219,7 +228,7 @@ function planPriceCard(plan, trustHtml = '', domesticHtml = '', isExpanded = fal
             </div>
           </div>
           <div class="plan-card-meta flex shrink-0 flex-col items-end gap-1.5">
-            <span class="whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${escapeHtml(plan.statusLabel)}</span>
+            <span class="whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${statusLabelDisplay(plan)}</span>
             ${domesticHtml}
             ${typeLabel ? `<span class="whitespace-nowrap rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-medium text-brand-600 dark:bg-brand-950/40 dark:text-brand-300">${escapeHtml(typeLabel)}</span>` : ''}
             ${verifiedBadgeHtml(plan)}
@@ -365,7 +374,7 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
         <td class="break-words px-3 py-3">${quotaHtml}</td>
         <td class="plan-table-nowrap px-3 py-3">${unitPriceHtml}</td>
         <td class="break-words px-3 py-3 text-slate-600 dark:text-slate-300">${escapeHtml(supportedModelDisplay(plan) || '—')}</td>
-        <td class="plan-table-nowrap px-3 py-3"><span class="rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${escapeHtml(plan.statusLabel)}</span></td>
+        <td class="plan-table-nowrap px-3 py-3"><span class="rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}">${statusLabelDisplay(plan)}</span></td>
         <td class="plan-table-nowrap px-3 py-3">${domesticPayDisplay}</td>
         <td class="plan-table-nowrap px-3 py-3">${intlNetworkDisplay}</td>
         <td class="plan-table-nowrap px-3 py-3">${dataTrainingHtml}</td>

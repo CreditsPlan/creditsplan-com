@@ -48,7 +48,7 @@ const DEFAULT_VISIBLE_RESULTS = 8;
 export function parseQuota(text) {
   const value = String(text || '').trim();
   if (!value) return null;
-  if (/未指定|无明确|未公开|不适用|待更新|待确认|unspecified|not specified|n\/a|tbd|unknown/i.test(value)) return null;
+  if (/未指定|无明确|未公开|不适用|待更新|待确认|pending|unspecified|not specified|n\/a|tbd|unknown|see official/i.test(value)) return null;
   const match = value.replace(/,/g, '').match(/(\d+(?:\.\d+)?)\s*(万)?/);
   if (!match) return null;
   const number = parseFloat(match[1]) * (match[2] === '万' ? 10000 : 1);

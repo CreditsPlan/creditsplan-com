@@ -73,6 +73,7 @@ function prepareExportRows(plans, providerInfo) {
 function cleanExportValue(value) {
   const text = String(value ?? '').trim();
   if (!text || text === t('common.pending') || text === t('common.official')
+    || text === 'Pending' || text === 'TBD' || text === 'See official site'
     || text === '待更新' || text === '待确认' || text === '请以官网为准') return '';
   return text;
 }
