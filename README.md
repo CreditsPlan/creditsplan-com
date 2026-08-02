@@ -1,5 +1,7 @@
 ﻿# CreditsPlan
 
+**English | [中文](README_zh-CN.md)**
+
 <p align="center">
   <a href="https://www.creditsplan.com/"><img src="./logo.webp" alt="CreditsPlan Logo" width="120"></a>
 </p>
@@ -104,3 +106,4 @@ Currently includes: Qoder, Z.ai (GLM), BytePlus, OpenCode, ChatGPT, Claude, Goog
 
 - International: [creditsplan.com](https://www.creditsplan.com/) (this repo, USD settlement)
 - CN: [creditsplan.cn](https://creditsplan.cn/) (CNY settlement plans)
+

@@ -1,5 +1,7 @@
 ﻿# CreditsPlan
 
+**[English](README.md) | 中文**
+
 <p align="center">
   <a href="https://www.creditsplan.com/"><img src="./logo.webp" alt="CreditsPlan Logo" width="120"></a>
 </p>
@@ -104,3 +106,4 @@ CreditsPlan 是面向 AI 开发者的订阅决策平台，对国际主流 AI Cod
 
 - 国际站：[creditsplan.com](https://www.creditsplan.com/)（本仓库，美元结算）
 - 国内站：[creditsplan.cn](https://creditsplan.cn/)（人民币结算套餐）
+
