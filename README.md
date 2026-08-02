@@ -1,95 +1,106 @@
-# CreditsPlan
+﻿# CreditsPlan
 
-**国际 AI 编程订阅方案对比与决策平台**
+<p align="center">
+  <a href="https://www.creditsplan.com/"><img src="./logo.webp" alt="CreditsPlan Logo" width="120"></a>
+</p>
 
-[https://creditsplan.com](https://creditsplan.com)
+<p align="center">
+  <b>International AI Coding Plan Comparison & Subscription Decision Platform</b>
+</p>
 
-## 简介
+<p align="center">
+  <a href="https://www.creditsplan.com/">Website</a> ·
+  <a href="https://creditsplan.cn/">CN Site</a> ·
+  <a href="https://www.creditsplan.com/methodology.html">Methodology</a> ·
+  <a href="https://www.creditsplan.com/changelog.html">Changelog</a> ·
+  <a href="https://www.creditsplan.com/price-changes.xml">Price Changes RSS</a>
+</p>
 
-CreditsPlan 是一个面向 AI 开发者的订阅决策平台，提供国际主流 AI Coding 产品的结构化对比，涵盖价格、配额、支持模型和使用条件等维度。所有数据均来自官方来源，并提供价格历史追踪与变更通知。
+---
 
-## 主要功能
+## Overview
 
-- **方案对比** — 按价格、配额、模型、使用条件等维度结构化对比各 AI 编程订阅方案
-- **品牌专页** — 各品牌（Qoder、Z-AI、BytePlus、OpenCode 等）独立介绍页
-- **方案详情** — 每个订阅方案提供独立的详情页面
-- **价格历史** — 记录并追踪各方案的价格变动（`price-history.json` / `price-changes.xml`）
-- **变更日志** — 平台数据与功能的更新记录（`changelog.html`）
-- **新闻资讯** — AI 编程领域相关新闻聚合（`news.html`）
-- **方法论** — 公开数据采集与对比方法论说明（`methodology.html`）
-- **多语言** — 支持中英文切换（i18n）
-- **暗色模式** — 支持亮色 / 暗色主题切换
+CreditsPlan is a subscription decision platform for AI developers, providing structured, source-verified comparisons of international AI Coding plans across **price, quota, supported models, and usage conditions**, with official source verification, price history, and change tracking.
 
-## 技术栈
+This repository is the static site publish mirror for [creditsplan.com](https://www.creditsplan.com/). Issues for data corrections and suggestions are welcome.
 
-| 层面 | 技术 |
-|------|------|
-| 样式 | Tailwind CSS |
-| 脚本 | 原生 JavaScript (ES Modules) |
-| 数据 | 静态 JSON (`data.json`) |
-| 部署 | 纯静态站点，无需后端 |
+## Data Highlights
 
-## 项目结构
+- ✅ **Official Source Verified**: Every plan's price, quota, and purchase status is cross-checked against the vendor's official page with source links
+-  **Last Verified Date**: Each record shows the verification date for transparency
+- 📈 **Price History Tracking**: Price changes are archived (`price-history.json`) and published via [RSS](https://www.creditsplan.com/price-changes.xml)
+- 🌍 **International Coverage**: Plans priced in USD with multi-language support (English / Chinese)
+
+## Core Pages
+
+| Page | Description |
+| --- | --- |
+| [Plan Comparison](https://www.creditsplan.com/) | Cross-brand AI Coding plan structured comparison table with filtering and export |
+| [Brands](https://www.creditsplan.com/brands/) | Verified brand index and brand detail pages |
+| [Models](https://www.creditsplan.com/model) | API model price comparison (input/output/cache pricing, context length, etc.) |
+| [Advisor](https://www.creditsplan.com/advisor/) | Value calculator: rank plans by cost per 1k calls based on your usage |
+| [AI News](https://www.creditsplan.com/news.html) | Market and pricing news |
+| [Methodology](https://www.creditsplan.com/methodology.html) | Data verification methods, update frequency, and correction channels |
+| [Changelog](https://www.creditsplan.com/changelog.html) | Data and price update records |
+
+## Covered Brands
+
+Currently includes: Qoder, Z.ai (GLM), BytePlus, OpenCode, ChatGPT, Claude, Google Antigravity, Grok, Cursor, Trae, StepFun, StreamLake, Ollama, GitHub Copilot, and more — continuously updated.
+
+## Directory Structure
 
 ```
-├── index.html              # 首页 — 方案对比总览
-├── data.json               # 核心数据文件（模型 & 方案）
-├── price-history.json      # 价格历史记录
-├── price-changes.xml       # 价格变更 RSS
-├── changelog.json          # 变更日志数据
-│
-├── brands/                 # 品牌专页
-│   ├── qoder/
-│   ├── z-ai/
-│   ├── byteplus/
-│   └── opencode-go/
-│
-├── plans/                  # 方案详情页
-│   ├── qoder-pro/
-│   ├── z-ai-glm-coding-pro/
-│   └── ...
-│
-├── js/                     # JavaScript 模块
-│   ├── app.js              # 应用入口
-│   ├── plans.js            # 方案对比页逻辑
-│   ├── plans-page.js       # 方案列表页渲染
-│   ├── plans-detail.js     # 方案详情页渲染
-│   ├── plans-table.js      # 对比表格组件
-│   ├── plans-filters.js    # 筛选器
-│   ├── brands.js           # 品牌页逻辑
-│   ├── news.js             # 新闻页逻辑
-│   ├── i18n.js             # 国际化
-│   ├── theme.js            # 主题切换
-│   └── shared/             # 共享工具模块
-│
-├── assets/                 # 静态资源（字体、图标）
-├── styles.tailwind.*.css   # Tailwind 编译产物
-├── sitemap.xml             # 站点地图
-└── robots.txt              # 爬虫规则
+.
+├── index.html              # Homepage: plan comparison table
+├── brands/                 # Brand index and brand detail pages
+├── plans/                  # Plan detail pages (static SEO pages)
+├── compare/                # Head-to-head brand comparison pages
+├── rankings/               # Cheapest plans ranking
+├── reports/                # Monthly price reports
+├── news.html               # AI news
+── methodology.html        # Methodology
+├── changelog.html          # Changelog
+├── data.json               # Core plan and model data
+├── changelog.json          # Changelog data
+├── price-history.json      # Price history data
+├── price-changes.xml       # Price changes RSS
+├── sitemap.xml             # Sitemap
+├── llms.txt                # LLM-friendly site description
+├── js/                     # Frontend scripts (native ES Modules, no framework)
+│   └── shared/             # Shared utility modules for brands, plans, models
+└── assets/                 # Fonts and brand icon resources
 ```
 
-## 本地开发
+## Tech Stack
 
-本项目为纯静态站点，无需构建工具或包管理器，直接用任意 HTTP 服务器托管即可：
+- Pure static site: native HTML + ES Module JavaScript, no frontend framework
+- Styling: Tailwind CSS (pre-compiled with content hashes)
+- Data-driven: pages render from `data.json` and other JSON files
+- Dark/light theme toggle
+- i18n: English / Chinese language switching
 
-```bash
-# 使用 Python
-python -m http.server 8000
+## Machine-Readable Data
 
-# 使用 Node.js
-npx serve .
-```
+- [`data.json`](https://www.creditsplan.com/data.json): structured plan and model data
+- [`price-history.json`](https://www.creditsplan.com/price-history.json): price history
+- [`sitemap.xml`](https://www.creditsplan.com/sitemap.xml): all indexable pages
+- [`price-changes.xml`](https://www.creditsplan.com/price-changes.xml): price changes RSS
+- [`llms.txt`](https://www.creditsplan.com/llms.txt): LLM-friendly site description
 
-然后在浏览器访问 `http://localhost:8000`。
+## Copyright & License
 
-## 数据说明
+- Pages and code: All Rights Reserved, for browsing, learning, and reference only. Unauthorized mirroring or competing sites are prohibited.
+- Data files (`data.json` / `price-history.json` etc.): [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) — non-commercial attribution allowed, no commercial use or derivative works.
+- See [LICENSE](./LICENSE); brand names and trademarks belong to their respective owners.
 
-- 核心数据存储在 `data.json`，包含模型信息和各订阅方案的定价、配额等字段
-- 价格数据以美元为单位，标注数据来源与汇率换算说明
-- 所有数据均标注官方来源链接，确保可验证
+## Citation & Feedback
 
-## 版权与许可
+- When citing prices, please note the **plan name and verification date**, and state that the vendor's official site is authoritative.
+- Data corrections / collaboration suggestions:
+  - Submit a [GitHub Issue](https://github.com/CreditsPlan/creditsplan-com/issues)
+  - Email: feedback@creditsplan.com
 
-- 页面与代码：保留所有权利（All Rights Reserved），仅供浏览、学习与参考，未经授权不得用于搭建镜像或竞品站点
-- 数据文件（`data.json` / `price-history.json` 等）：采用 [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) 许可，允许注明来源的非商业性引用，禁止商用与改作
-- 详见 [LICENSE](./LICENSE)；所有品牌名称、商标和产品信息归各自所有者所有
+## Related Sites
+
+- International: [creditsplan.com](https://www.creditsplan.com/) (this repo, USD settlement)
+- CN: [creditsplan.cn](https://creditsplan.cn/) (CNY settlement plans)
