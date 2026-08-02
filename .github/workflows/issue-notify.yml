@@ -1,0 +1,68 @@
+﻿# Issue 钉钉通知 - 用户在 GitHub 提 issue 时推送钉钉群消息。
+# 替代原 server.mjs /api/github-webhook 方案，无需公网暴露。
+# Secrets（Org 级或 Repo 级）：DINGTALK_WEBHOOK（必填）、DINGTALK_SECRET（加签模式填，关键词模式留空）。
+name: Issue DingTalk Notify
+
+on:
+  issues:
+    types: [opened, reopened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build webhook URL
+        id: build_url
+        env:
+          DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
+          DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+        run: |
+          if [ -z "$DINGTALK_WEBHOOK" ]; then
+            echo "url=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          URL="$DINGTALK_WEBHOOK"
+          if [ -n "$DINGTALK_SECRET" ]; then
+            TIMESTAMP=$(date +%s%3N)
+            STRING_TO_SIGN="${TIMESTAMP}\n${DINGTALK_SECRET}"
+            SIGN=$(printf '%b' "$STRING_TO_SIGN" | openssl dgst -sha256 -hmac "$DINGTALK_SECRET" -binary | base64)
+            SIGN_ENCODED=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote_plus(sys.argv[1]))" "$SIGN")
+            URL="${URL}&timestamp=${TIMESTAMP}&sign=${SIGN_ENCODED}"
+          fi
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Send DingTalk notification
+        if: steps.build_url.outputs.url != ''
+        env:
+          WEBHOOK_URL: ${{ steps.build_url.outputs.url }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          REPO_NAME: ${{ github.repository }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, urllib.request
+
+          title = "CreditsPlan 新 Issue"
+          body = (os.environ.get("ISSUE_BODY") or "")[:500]
+          text = "\n".join([
+              "### CreditsPlan 新 Issue",
+              f"- **仓库**: {os.environ['REPO_NAME']}",
+              f"- **标题**: [{os.environ['ISSUE_TITLE']}]({os.environ['ISSUE_URL']})",
+              f"- **提交者**: {os.environ['ISSUE_USER']}",
+              f"- **内容**: {body}",
+          ])
+
+          payload = json.dumps({"msgtype": "markdown", "markdown": {"title": title, "text": text}}).encode()
+          req = urllib.request.Request(
+              os.environ["WEBHOOK_URL"],
+              data=payload,
+              headers={"Content-Type": "application/json"},
+          )
+          resp = json.loads(urllib.request.urlopen(req, timeout=10).read())
+          if resp.get("errcode") != 0:
+              print(f"DingTalk error: {resp}")
+              exit(1)
+          print("Notification sent successfully.")
+          PYEOF
