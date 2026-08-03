@@ -1,6 +1,38 @@
 {
-  "last_updated": "2026-07-29",
+  "last_updated": "2026-08-03",
   "entries": [
+    {
+      "id": "changelog-1785722712093",
+      "date": "2026-08-03",
+      "edition": "2026.08.03",
+      "kind": "data",
+      "title": "Z.ai：更新 1 项模型价格",
+      "title_en": "Z.ai: 1 model prices updated",
+      "summary": "GLM-5.2 最大输出由 131,072 tokens 提升至 262,144 tokens。",
+      "summary_en": "GLM-5.2 max output increased from 131,072 to 262,144 tokens.",
+      "items": [
+        "Z.ai · GLM-5.2：最大输出 131072 → 262144"
+      ],
+      "items_en": [
+        "Z.ai · GLM-5.2: Max output 131072 → 262144"
+      ],
+      "change_items": [
+        {
+          "scope": "model",
+          "action": "update",
+          "provider": "Z.ai",
+          "brand_slug": "zai",
+          "canonical_id": "glm-5-2",
+          "model_name": "GLM-5.2",
+          "changes": {
+            "max_output": {
+              "from": 131072,
+              "to": 262144
+            }
+          }
+        }
+      ]
+    },
     {
       "id": "changelog-20260729-rankings-reports",
       "date": "2026-07-29",

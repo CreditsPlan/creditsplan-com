@@ -114,17 +114,12 @@ export function applyPlanTableFilter(plans) {
   return result;
 }
 
-// 快捷筛选工具栏：“只看可购买”开关（常驻表格上方）
+// “只看可购买”开关按钮已移入筛选栏（plans-page.js），此处仅在开关激活时显示过滤计数
 export function renderPlanTableQuickFilters(filteredPlans, plans) {
-  const countHtml = availableOnly
-    ? `<span class="plan-table-filter-count">${filteredPlans.length} / ${plans.length}</span>`
-    : '';
+  if (!availableOnly) return '';
   return `
     <div class="plan-table-quick-filters">
-      <button type="button" class="plan-quick-filter${availableOnly ? ' is-active' : ''}" data-plan-available-toggle aria-pressed="${availableOnly ? 'true' : 'false'}">
-        <span class="plan-quick-filter-mark" aria-hidden="true">✓</span>${escapeHtml(t('table.quick.availableOnly'))}
-      </button>
-      ${countHtml}
+      <span class="plan-table-filter-count">${escapeHtml(t('table.quick.availableOnly'))}：${filteredPlans.length} / ${plans.length}</span>
     </div>
   `;
 }
@@ -223,13 +218,6 @@ export function bindPlanTableFilters(detail, getPlans, renderCurrentView, select
     const clear = event.target.closest('[data-plan-filter-clear]');
     if (clear && detail.contains(clear)) {
       clearPlanTableFilter();
-      renderCurrentView();
-      return;
-    }
-
-    const availableToggle = event.target.closest('[data-plan-available-toggle]');
-    if (availableToggle && detail.contains(availableToggle)) {
-      toggleAvailableOnly();
       renderCurrentView();
       return;
     }

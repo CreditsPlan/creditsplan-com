@@ -2,7 +2,9 @@ import { initAppShell } from './app.js';
 import {
   applyPlanTableFilter,
   bindPlanTableFilters,
-  clearPlanTableFilter
+  clearPlanTableFilter,
+  isAvailableOnlyActive,
+  toggleAvailableOnly
 } from './plans-filters.js';
 import { getModelPriceExportModels, renderModelPriceView } from './model-price-table.js';
 import { initPlanAdvisor } from './plan-advisor.js';
@@ -196,9 +198,9 @@ function bindExportMenu(root, getExportPayload, providerInfo) {
     const exporter = await import('./plans-export.js');
     // 模型价格视图导出当前筛选后的模型；套餐视图导出跟随列筛选与「只看可购买」的套餐
     if (payload.kind === 'models') {
-      if (format === 'excel') exporter.exportModelsExcel(payload.models);
-      else if (format === 'word') exporter.exportModelsWord(payload.models);
-      else if (format === 'pdf') exporter.exportModelsPdf(payload.models);
+      if (format === 'excel') exporter.exportModelPricesExcel(payload.models);
+      else if (format === 'word') exporter.exportModelPricesWord(payload.models);
+      else if (format === 'pdf') exporter.exportModelPricesPdf(payload.models);
       return;
     }
     if (format === 'excel') exporter.exportPlansExcel(payload.plans, providerInfo);
@@ -246,6 +248,9 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
               <button type="button" data-dimension="brand" class="brand-tab is-active"><span>${escapeHtml(t('home.dimension.brand'))}</span></button>
               <button type="button" data-dimension="model" class="brand-tab"><span>${escapeHtml(t('home.dimension.model'))}</span></button>
             </div>
+            <button type="button" class="plan-quick-filter" data-plan-available-toggle aria-pressed="false">
+              <span class="plan-quick-filter-mark" aria-hidden="true">✓</span>${escapeHtml(t('table.quick.availableOnly'))}
+            </button>
             <div class="brand-search-box">
               <svg class="brand-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4" stroke-linecap="round"/></svg>
               <input id="brandSearchInput" type="search" class="brand-search-input" placeholder="${escapeHtml(t('home.search.brand'))}" autocomplete="off" aria-label="${escapeHtml(t('home.search.aria'))}">
@@ -319,7 +324,16 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   let activeDimension = 'brand';
   let selectedPlanKey = '';
   const expandedProviders = new Set();
+  // “只看可购买”开关常驻筛选栏，不随视图重绘，需手动同步激活态（切换品牌/维度时会被重置）
+  const availableOnlyToggle = filterBar.querySelector('[data-plan-available-toggle]');
+  const syncAvailableOnlyToggle = () => {
+    if (!availableOnlyToggle) return;
+    const active = isAvailableOnlyActive();
+    availableOnlyToggle.classList.toggle('is-active', active);
+    availableOnlyToggle.setAttribute('aria-pressed', String(active));
+  };
   const renderCurrentView = () => {
+    syncAvailableOnlyToggle();
     if (activeDimension === 'pricing') {
       renderModelPriceView(detail, models, providerInfo);
       return;
@@ -445,6 +459,12 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   searchInput?.addEventListener('input', filterTabsBySearch);
 
   filterBar.addEventListener('click', event => {
+    const availableToggle = event.target.closest('[data-plan-available-toggle]');
+    if (availableToggle) {
+      toggleAvailableOnly();
+      renderFilteredView();
+      return;
+    }
     const dimension = event.target.closest('[data-dimension]');
     if (dimension) {
       switchDimension(dimension.dataset.dimension);

@@ -545,7 +545,7 @@ function prepareModelExportRows(models) {
   }));
 }
 
-export function exportModelsExcel(models) {
+export function exportModelPricesExcel(models) {
   const rows = prepareModelExportRows(models);
   if (!rows.length) return false;
   const matrix = [
@@ -558,14 +558,14 @@ export function exportModelsExcel(models) {
   return true;
 }
 
-export function exportModelsWord(models) {
+export function exportModelPricesWord(models) {
   const rows = prepareModelExportRows(models);
   if (!rows.length) return false;
   exportWordDocument(rows, MODEL_EXPORT_COLUMNS, MODEL_WORD_COL_WIDTHS, exportFilename('doc', 'models'));
   return true;
 }
 
-export function exportModelsPdf(models) {
+export function exportModelPricesPdf(models) {
   const rows = prepareModelExportRows(models);
   if (!rows.length) return false;
   const jpegPages = renderPdfPages(rows, MODEL_EXPORT_COLUMNS, MODEL_PDF_COL_RATIOS);

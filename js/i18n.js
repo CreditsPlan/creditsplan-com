@@ -62,6 +62,7 @@ export const translations = {
   'nav.brands': { en: 'Brands', zh: '品牌' },
   'nav.pricing': { en: 'Models', zh: '模型' },
   'nav.news': { en: 'AI News', zh: 'AI动态' },
+  'nav.deals': { en: 'Deals', zh: '活动' },
   'nav.changelog': { en: 'Changelog', zh: '更新日志' },
   'nav.priceChanges': { en: 'Price Changes', zh: '价格变动' },
   'nav.advisor': { en: 'Advisor', zh: '选购助手' },

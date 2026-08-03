@@ -1,1 +1,0 @@
-function i(t){return t==null?"":String(t).replace(/[&<>"']/g,r=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[r])}function e(t){if(t==null||!String(t).trim())return"";try{let r=new URL(String(t).trim());return r.username||r.password?"":r.protocol==="http:"||r.protocol==="https:"?r.href:""}catch{return""}}export{i as a,e as b};
