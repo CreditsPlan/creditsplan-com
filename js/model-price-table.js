@@ -59,6 +59,14 @@ function providerBrandName(provider) {
 // 当前品牌主数据（由 renderModelPriceView 传入，用于品牌页链接）
 let currentProviderInfo = {};
 
+// 当前视图下经过 Tab/搜索/列筛选后的模型列表（导出用，随每次渲染更新）
+let currentExportModels = [];
+
+// 供导出模块读取当前可见模型（筛选口径与表格展示一致）
+export function getModelPriceExportModels() {
+  return currentExportModels;
+}
+
 // 品牌页链接：仅当品牌主数据已配置 SEO Slug、介绍与 Logo 时返回（与套餐表格一致）
 function brandDetailHref(provider) {
   const metadata = providerMetadata(provider, currentProviderInfo, PROVIDER_NAME_MAP);
@@ -481,9 +489,12 @@ export function renderModelPriceView(container, models, providerInfo = {}) {
   function renderTable() {
     const baseModels = getBaseModels();
     if (!baseModels.length) {
+      currentExportModels = [];
       return `<p class="model-price-empty">${escapeHtml(t('pricing.empty'))}</p>`;
     }
     const filtered = getFilteredModels(baseModels);
+    // 导出数据与当前可见列表保持一致（排序后的完整列表，不截断分组）
+    currentExportModels = filtered;
     // 选中具体品牌/模型 Tab、表头筛选或搜索生效时视为已筛选，全部展开（与套餐表格一致）
     const showAllGroups = activeProvider !== 'all' || activeModel !== 'all' || isFilterActive() || Boolean(searchQuery);
     const body = filtered.length

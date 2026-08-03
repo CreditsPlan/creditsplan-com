@@ -1,9 +1,10 @@
 import { initAppShell } from './app.js';
 import {
+  applyPlanTableFilter,
   bindPlanTableFilters,
   clearPlanTableFilter
 } from './plans-filters.js';
-import { renderModelPriceView } from './model-price-table.js';
+import { getModelPriceExportModels, renderModelPriceView } from './model-price-table.js';
 import { initPlanAdvisor } from './plan-advisor.js';
 import { renderAllPlansDualView, renderBrandIcon } from './plans-table.js';
 import { loadPlanDataset } from './public-data.js';
@@ -165,7 +166,7 @@ function renderExportMenu() {
   `;
 }
 
-function bindExportMenu(root, getExportPlans, providerInfo) {
+function bindExportMenu(root, getExportPayload, providerInfo) {
   const trigger = root.querySelector('#plansExportTrigger');
   const menu = root.querySelector('#plansExportMenu');
   if (!trigger || !menu) return;
@@ -189,13 +190,20 @@ function bindExportMenu(root, getExportPlans, providerInfo) {
     const option = event.target.closest('[data-export-format]');
     if (!option) return;
     closeMenu();
-    const plans = getExportPlans();
     const format = option.dataset.exportFormat;
+    const payload = getExportPayload();
     // 导出模块体积较大且非首屏功能，点击时才动态加载（build 时分包）
     const exporter = await import('./plans-export.js');
-    if (format === 'excel') exporter.exportPlansExcel(plans, providerInfo);
-    else if (format === 'word') exporter.exportPlansWord(plans, providerInfo);
-    else if (format === 'pdf') exporter.exportPlansPdf(plans, providerInfo);
+    // 模型价格视图导出当前筛选后的模型；套餐视图导出跟随列筛选与「只看可购买」的套餐
+    if (payload.kind === 'models') {
+      if (format === 'excel') exporter.exportModelsExcel(payload.models);
+      else if (format === 'word') exporter.exportModelsWord(payload.models);
+      else if (format === 'pdf') exporter.exportModelsPdf(payload.models);
+      return;
+    }
+    if (format === 'excel') exporter.exportPlansExcel(payload.plans, providerInfo);
+    else if (format === 'word') exporter.exportPlansWord(payload.plans, providerInfo);
+    else if (format === 'pdf') exporter.exportPlansPdf(payload.plans, providerInfo);
   });
 }
 
@@ -302,7 +310,11 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   if (advisor && location.hash === '#advisor') advisor.open();
 
   let currentPlans = displayablePlans;
-  bindExportMenu(els.codingPlanOverview, () => currentPlans, providerInfo);
+  bindExportMenu(els.codingPlanOverview, () => ({
+    kind: activeDimension === 'pricing' ? 'models' : 'plans',
+    plans: applyPlanTableFilter(currentPlans),
+    models: getModelPriceExportModels()
+  }), providerInfo);
   let activeBrandId = 'all';
   let activeDimension = 'brand';
   let selectedPlanKey = '';
@@ -400,14 +412,12 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
     clearTabSelection();
     if (mode === 'pricing') {
       // 「模型」菜单页：只展示价格对比表，隐藏整个筛选栏（价格表自带厂商筛选）；
-      // 导出菜单仅适用于套餐表，价格视图下一并隐藏
+      // 导出菜单两种视图通用：价格视图导出当前筛选后的模型价格
       filterBar.hidden = true;
     } else {
       filterBar.hidden = false;
       (mode === 'brand' ? brandTabs : modelTabs).querySelector('[data-brand="all"]')?.classList.add('is-active');
     }
-    const exportRoot = els.codingPlanOverview.querySelector('#plansExport');
-    if (exportRoot) exportRoot.hidden = mode === 'pricing';
     // The calculator only serves the plans view; hide the fab on the model pricing view.
     if (advisorFab) advisorFab.hidden = mode === 'pricing';
     if (searchInput) { searchInput.value = ''; }

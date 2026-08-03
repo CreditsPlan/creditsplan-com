@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-02",
+  "last_updated": "2026-08-03",
   "models": [
     {
       "id": "dola-seed-2-1-turbo",
@@ -1225,7 +1225,7 @@
       "cache_read_price": 0.26,
       "cache_write_price": null,
       "context_length": 1048576,
-      "max_output": 131072,
+      "max_output": 262144,
       "capabilities": [],
       "release_date": "2026-06-16",
       "docs_url": "https://docs.z.ai/guides/overview/pricing",

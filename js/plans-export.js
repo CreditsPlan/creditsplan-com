@@ -92,8 +92,10 @@ function exportTimestamp() {
   return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}`;
 }
 
-function exportFilename(extension) {
-  const base = isZh() ? 'creditsplan_套餐数据' : 'creditsplan_plans';
+function exportFilename(extension, kind = 'plans') {
+  const base = isZh()
+    ? (kind === 'models' ? 'creditsplan_模型价格' : 'creditsplan_套餐数据')
+    : (kind === 'models' ? 'creditsplan_models' : 'creditsplan_plans');
   return `${base}_${exportTimestamp()}.${extension}`;
 }
 
@@ -250,15 +252,13 @@ export function exportPlansExcel(plans, providerInfo) {
 
 const WORD_COL_WIDTHS = ['8%', '12%', '7%', '7%', '7%', '7%', '9%', '5%', '10%', '5%', '5%', '5%', '6%', '7%'];
 
-export function exportPlansWord(plans, providerInfo) {
-  const rows = prepareExportRows(plans, providerInfo);
-  if (!rows.length) return false;
-  const headerHtml = EXPORT_COLUMNS.map((col, i) => `<th style="width:${WORD_COL_WIDTHS[i]}">${escapeXml(t(col.labelKey))}</th>`).join('');
+function buildWordHtml(rows, columns, colWidths, filename) {
+  const headerHtml = columns.map((col, i) => `<th style="width:${colWidths[i]}">${escapeXml(t(col.labelKey))}</th>`).join('');
   const bodyHtml = rows.map(row => (
-    `<tr>${EXPORT_COLUMNS.map(col => `<td>${escapeXml(row[col.key])}</td>`).join('')}</tr>`
+    `<tr>${columns.map(col => `<td>${escapeXml(row[col.key])}</td>`).join('')}</tr>`
   )).join('\n');
   const meta = `${exportMetaLine(rows.length, '')} ${t('export.disclaimer')}`.trim();
-  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
 <head><meta charset="UTF-8"><title>${escapeXml(t('export.title'))}</title>
 <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
 <style>
@@ -280,8 +280,18 @@ ${bodyHtml}
 </tbody></table>
 </div>
 </body></html>`;
+}
+
+function exportWordDocument(rows, columns, colWidths, filename) {
+  const html = buildWordHtml(rows, columns, colWidths, filename);
   const blob = new Blob(['\uFEFF', html], { type: 'application/msword;charset=utf-8' });
-  downloadBlob(blob, exportFilename('doc'));
+  downloadBlob(blob, filename);
+}
+
+export function exportPlansWord(plans, providerInfo) {
+  const rows = prepareExportRows(plans, providerInfo);
+  if (!rows.length) return false;
+  exportWordDocument(rows, EXPORT_COLUMNS, WORD_COL_WIDTHS, exportFilename('doc'));
   return true;
 }
 
@@ -300,9 +310,9 @@ const PDF_TITLE_FONT = 'bold 16px "Microsoft YaHei","PingFang SC","Noto Sans SC"
 
 const PDF_COL_RATIOS = [0.08, 0.12, 0.07, 0.07, 0.07, 0.07, 0.09, 0.05, 0.10, 0.05, 0.05, 0.05, 0.06, 0.07];
 
-function pdfColWidths() {
+function pdfColWidths(colRatios) {
   const total = PDF_PAGE_WIDTH - PDF_MARGIN * 2;
-  return PDF_COL_RATIOS.map(ratio => total * ratio);
+  return colRatios.map(ratio => total * ratio);
 }
 
 function wrapText(ctx, text, maxWidth) {
@@ -323,8 +333,8 @@ function wrapText(ctx, text, maxWidth) {
   return lines;
 }
 
-function renderPdfPages(rows) {
-  const colWidths = pdfColWidths();
+function renderPdfPages(rows, columns, colRatios) {
+  const colWidths = pdfColWidths(colRatios);
   const tableWidth = PDF_PAGE_WIDTH - PDF_MARGIN * 2;
   const bodyTop = PDF_MARGIN + PDF_HEADER_HEIGHT;
   const pageBottom = PDF_PAGE_HEIGHT - PDF_MARGIN - 24;
@@ -332,7 +342,7 @@ function renderPdfPages(rows) {
   const measureCtx = document.createElement('canvas').getContext('2d');
   measureCtx.font = PDF_FONT;
   const wrappedRows = rows.map(row => {
-    const cells = EXPORT_COLUMNS.map((col, colIndex) =>
+    const cells = columns.map((col, colIndex) =>
       wrapText(measureCtx, row[col.key], colWidths[colIndex] - 8)
     );
     const maxLines = Math.max(1, ...cells.map(lines => lines.length));
@@ -384,8 +394,8 @@ function renderPdfPages(rows) {
     ctx.fillStyle = '#1e293b';
     ctx.textBaseline = 'middle';
     let x = PDF_MARGIN;
-    for (let colIndex = 0; colIndex < EXPORT_COLUMNS.length; colIndex++) {
-      ctx.fillText(t(EXPORT_COLUMNS[colIndex].labelKey), x + 4, y + PDF_HEAD_ROW_HEIGHT / 2);
+    for (let colIndex = 0; colIndex < columns.length; colIndex++) {
+      ctx.fillText(t(columns[colIndex].labelKey), x + 4, y + PDF_HEAD_ROW_HEIGHT / 2);
       x += colWidths[colIndex];
     }
     y += PDF_HEAD_ROW_HEIGHT;
@@ -412,7 +422,7 @@ function renderPdfPages(rows) {
       y += wrapped.height;
     }
 
-    for (let colIndex = 0; colIndex <= EXPORT_COLUMNS.length; colIndex++) {
+    for (let colIndex = 0; colIndex <= columns.length; colIndex++) {
       const lineX = PDF_MARGIN + colWidths.slice(0, colIndex).reduce((a, b) => a + b, 0);
       ctx.strokeStyle = '#e2e8f0';
       ctx.beginPath();
@@ -484,8 +494,82 @@ function buildPdfFromJpegs(jpegDataUrls) {
 export function exportPlansPdf(plans, providerInfo) {
   const rows = prepareExportRows(plans, providerInfo);
   if (!rows.length) return false;
-  const jpegPages = renderPdfPages(rows);
+  const jpegPages = renderPdfPages(rows, EXPORT_COLUMNS, PDF_COL_RATIOS);
   const blob = buildPdfFromJpegs(jpegPages);
   downloadBlob(blob, exportFilename('pdf'));
+  return true;
+}
+
+/* ─── 模型价格导出（口径与模型价格对比表展示一致） ─── */
+
+const MODEL_EXPORT_COLUMNS = [
+  { key: 'name', labelKey: 'pricing.th.name' },
+  { key: 'provider', labelKey: 'pricing.th.provider' },
+  { key: 'context', labelKey: 'pricing.th.context' },
+  { key: 'inputPrice', labelKey: 'pricing.th.input' },
+  { key: 'outputPrice', labelKey: 'pricing.th.output' }
+];
+
+const MODEL_EXPORT_COL_WIDTHS = [32, 18, 12, 18, 18];
+const MODEL_WORD_COL_WIDTHS = ['24%', '16%', '10%', '25%', '25%'];
+const MODEL_PDF_COL_RATIOS = [0.26, 0.16, 0.12, 0.23, 0.23];
+
+function formatModelPrice(value, currency) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '—';
+  const symbol = currency === 'USD' ? '$' : '¥';
+  return `${symbol}${n.toLocaleString(numberLocale(), { maximumFractionDigits: 4 })}`;
+}
+
+function formatModelContext(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '—';
+  if (n >= 1000000) return `${(n / 1000000).toLocaleString(numberLocale(), { maximumFractionDigits: 1 })}M`;
+  if (n >= 1000) return `${(n / 1000).toLocaleString(numberLocale(), { maximumFractionDigits: 0 })}K`;
+  return n.toLocaleString(numberLocale());
+}
+
+// 品牌显示名与价格表一致：Anthropic 归入 Claude 品牌
+function modelBrandName(vendor) {
+  const displayName = PROVIDER_NAME_MAP[vendor] || vendor || t('pricing.unknownVendor');
+  return displayName === 'Anthropic' ? 'Claude' : displayName;
+}
+
+function prepareModelExportRows(models) {
+  return models.map(model => ({
+    name: model.modelName || '',
+    provider: modelBrandName(model.vendor),
+    context: formatModelContext(model.raw?.context_length),
+    inputPrice: formatModelPrice(model.raw?.input_price, model.raw?.currency),
+    outputPrice: formatModelPrice(model.raw?.output_price, model.raw?.currency)
+  }));
+}
+
+export function exportModelsExcel(models) {
+  const rows = prepareModelExportRows(models);
+  if (!rows.length) return false;
+  const matrix = [
+    MODEL_EXPORT_COLUMNS.map(col => t(col.labelKey)),
+    ...rows.map(row => MODEL_EXPORT_COLUMNS.map(col => row[col.key]))
+  ];
+  const sheetName = isZh() ? '模型价格' : 'Model Prices';
+  const blob = buildXlsx(matrix, sheetName, MODEL_EXPORT_COL_WIDTHS);
+  downloadBlob(blob, exportFilename('xlsx', 'models'));
+  return true;
+}
+
+export function exportModelsWord(models) {
+  const rows = prepareModelExportRows(models);
+  if (!rows.length) return false;
+  exportWordDocument(rows, MODEL_EXPORT_COLUMNS, MODEL_WORD_COL_WIDTHS, exportFilename('doc', 'models'));
+  return true;
+}
+
+export function exportModelsPdf(models) {
+  const rows = prepareModelExportRows(models);
+  if (!rows.length) return false;
+  const jpegPages = renderPdfPages(rows, MODEL_EXPORT_COLUMNS, MODEL_PDF_COL_RATIOS);
+  const blob = buildPdfFromJpegs(jpegPages);
+  downloadBlob(blob, exportFilename('pdf', 'models'));
   return true;
 }
