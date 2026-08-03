@@ -10,6 +10,7 @@ import {
   optionalDetailText,
   privacyFreshness,
   resolvePlanPrivacy,
+  sourceTypeKind,
   supportedModelDisplay,
   verifiedFreshness
 } from './shared/plan-utils.js';
@@ -270,8 +271,9 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
   }).join('') : `<p class="plan-extra-empty">${escapeHtml(t('detail.empty'))}</p>`;
   const planUrl = safeExternalUrl(plan.url);
   const purchaseLink = purchaseLinkTarget(plan, planUrl);
-  const sourceTypeLabel = plan.sourceType === 'official'
-    ? t('detail.sourceOfficial')
+  const sourceKind = sourceTypeKind(plan.sourceType);
+  const sourceTypeLabel = sourceKind
+    ? t(`source.${sourceKind}`)
     : (plan.sourceType || t('detail.sourceMaintained'));
   const verifiedFresh = verifiedFreshness(plan.lastVerifiedAt);
   const verifiedText = verifiedFresh.state === 'fresh'

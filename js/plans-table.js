@@ -16,6 +16,7 @@ import {
   safeIconUrl,
   seoBrandSlugForProvider,
   sortPlansBySortOrder,
+  sourceTypeKind,
   supportedModelDisplay,
   verifiedFreshness
 } from './shared/plan-utils.js';
@@ -54,6 +55,19 @@ function verifiedBadgeHtml(plan) {
     return `<span class="whitespace-nowrap rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-600 dark:bg-amber-950/40 dark:text-amber-300" title="${escapeHtml(t('verified.staleTitle', { date: fresh.date }))}">${escapeHtml(t('verified.stale'))}</span>`;
   }
   return '';
+}
+
+// 来源徽章：把采集管线能力外显——每条价格的采集渠道对用户可见（文案走 i18n）
+const SOURCE_BADGE_STYLES = {
+  official: 'bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-300',
+  api: 'bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-300',
+  structured: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-300',
+  page: 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+};
+export function sourceBadgeHtml(plan) {
+  const kind = sourceTypeKind(plan.sourceType);
+  if (!kind) return '';
+  return `<span class="whitespace-nowrap rounded-md px-1.5 py-0.5 text-[10px] font-medium ${SOURCE_BADGE_STYLES[kind]}" title="${escapeHtml(t(`source.${kind}.title`))}">${escapeHtml(t(`source.${kind}`))}</span>`;
 }
 
 function planDetailHref(plan, providerInfo) {
@@ -232,6 +246,7 @@ function planPriceCard(plan, trustHtml = '', domesticHtml = '', isExpanded = fal
             ${domesticHtml}
             ${typeLabel ? `<span class="whitespace-nowrap rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-medium text-brand-600 dark:bg-brand-950/40 dark:text-brand-300">${escapeHtml(typeLabel)}</span>` : ''}
             ${verifiedBadgeHtml(plan)}
+            ${sourceBadgeHtml(plan)}
           </div>
           <span class="plan-card-disclosure" aria-hidden="true">
             <span>${isExpanded ? t('card.detail.collapse') : t('card.detail.expand')}</span>

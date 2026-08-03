@@ -21,7 +21,19 @@ const TRUSTED_SOURCES = new Map([
   ['techcrunch.com', 'TechCrunch'],
   ['theverge.com', 'The Verge'],
   ['arstechnica.com', 'Ars Technica'],
-  ['cnbc.com', 'CNBC']
+  ['cnbc.com', 'CNBC'],
+  // feed 实际供稿的科技媒体（2026-08 扩充：此前 feed 全部条目来自这些二线媒体，
+  // 未入白名单导致英文界面零数据；均为英文科技/AI 垂直媒体，纳入质量闸门内）。
+  ['siliconangle.com', 'SiliconANGLE'],
+  ['digitimes.com', 'DIGITIMES'],
+  ['techradar.com', 'TechRadar'],
+  ['bleepingcomputer.com', 'BleepingComputer'],
+  ['digitaltrends.com', 'Digital Trends'],
+  ['the-decoder.com', 'The Decoder'],
+  ['marktechpost.com', 'MarkTechPost'],
+  ['9to5mac.com', '9to5Mac'],
+  ['lesswrong.com', 'LessWrong'],
+  ['runtimewire.com', 'Runtime Wire']
 ]);
 
 // aihub 的 RSS 分类映射到站内分类；未知分类归入 industry。

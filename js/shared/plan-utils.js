@@ -232,3 +232,40 @@ export function privacyFreshness(privacyVerifiedAt) {
   const days = Math.max(0, Math.floor((Date.now() - parsed.getTime()) / 86400000));
   return { state: days > PRIVACY_STALE_DAYS ? 'stale' : 'fresh', days, date };
 }
+
+// 页面级数据新鲜度：取全部套餐中最新的核验时间，供页头「Data updated X ago」展示。
+// 口径与套餐级 verifiedFreshness 一致（last_verified_at 为官方页核验日期）。
+export function dataFreshnessSummary(plans) {
+  let latest = '';
+  let verifiedCount = 0;
+  for (const plan of plans || []) {
+    const date = String(plan.lastVerifiedAt || '').trim();
+    if (!date) continue;
+    verifiedCount += 1;
+    if (!latest || date > latest) latest = date;
+  }
+  const total = Array.isArray(plans) ? plans.length : 0;
+  if (!latest) return { state: 'unknown', date: '', days: null, hours: null, verifiedCount: 0, total };
+  const parsed = new Date(`${latest}T00:00:00`);
+  if (Number.isNaN(parsed.getTime())) return { state: 'unknown', date: latest, days: null, hours: null, verifiedCount, total };
+  const elapsedMs = Math.max(0, Date.now() - parsed.getTime());
+  return {
+    state: 'ok',
+    date: latest,
+    days: Math.floor(elapsedMs / 86400000),
+    hours: Math.floor(elapsedMs / 3600000),
+    verifiedCount,
+    total
+  };
+}
+
+// 采集源类型 → 徽章类型：官方定价页 / API 直连 / 结构化解析 / 页面抓取。
+// 未知类型返回 ''（不渲染徽章，避免误导）。展示文案走 i18n（source.* 键）。
+export function sourceTypeKind(sourceType) {
+  const type = String(sourceType || '').trim().toLowerCase();
+  if (type === 'api') return 'api';
+  if (type === 'structured') return 'structured';
+  if (type === 'firecrawl' || type === 'llm') return 'page';
+  if (type === 'official' || type === 'manual') return 'official';
+  return '';
+}

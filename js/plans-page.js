@@ -15,6 +15,7 @@ import { escapeHtml } from './render.js';
 import { t } from './i18n.js';
 import { PROVIDER_NAME_MAP, brandForProvider } from './shared/brands.js';
 import {
+  dataFreshnessSummary,
   displayNameForProvider,
   filterFreePlans,
   filterPlansByProviderInfo,
@@ -110,6 +111,22 @@ function groupPlansByModel(plans, modelCatalog, providerInfo = {}) {
     });
   }
   return grouped;
+}
+
+// 页面级数据新鲜度：把「每条数据都有最后核验时间」外显为页头信任状（文案走 i18n）
+function renderDataFreshness(plans) {
+  const fresh = dataFreshnessSummary(plans);
+  if (fresh.state !== 'ok') return '';
+  const text = fresh.hours < 24
+    ? t('home.freshness.hours', { n: fresh.hours })
+    : fresh.days < 60
+      ? t('home.freshness.days', { n: fresh.days })
+      : t('home.freshness.date', { date: fresh.date });
+  const title = t('home.freshness.title', { date: fresh.date, verified: fresh.verifiedCount, total: fresh.total });
+  return `<span id="dataFreshness" class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300" title="${escapeHtml(title)}">
+    <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true"></span>
+    ${escapeHtml(text)}
+  </span>`;
 }
 
 function renderHeroBanner() {
@@ -238,6 +255,7 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
         <div class="workbench-meta">
           <span id="workbenchStats">${statsHtml}
           </span>
+          ${renderDataFreshness(displayablePlans)}
           ${renderExportMenu()}
         </div>
       </div>

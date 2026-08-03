@@ -2,6 +2,7 @@ import { renderHeader } from './header.js';
 import { renderFooter } from './footer.js';
 import { initTheme } from './theme.js';
 import { initI18n, applyI18n, t } from './i18n.js';
+import { initDealsToolbar } from './deals-toolbar.js';
 import { installOutboundTracker, trackPageView } from './shared/outbound-tracker.js';
 
 initI18n();
@@ -18,6 +19,8 @@ export function initAppShell() {
   initImageFallbacks();
   initGlobalBackTop();
   applyI18n(document);
+  // 在 applyI18n 之后初始化：计数文案模板由 data-i18n-attr 先行翻译
+  initDealsToolbar();
 }
 
 function pageFromLocation() {

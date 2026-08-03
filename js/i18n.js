@@ -89,7 +89,7 @@ export const translations = {
   'footer.methodology': { en: 'Methodology', zh: '数据校对方法' },
   'footer.developers': { en: 'Developer API', zh: '开发者 API' },
   'footer.feedback': { en: 'Feedback: feedback@creditsplan.com', zh: '反馈邮箱：feedback@creditsplan.com' },
-  'footer.affiliate': { en: 'Some purchase links are partner links; buying through them may earn us a commission and can unlock discounts on some platforms, without affecting our pricing data or rankings.', zh: '通过本站链接购买，部分平台可享专属优惠；本站可能获得推广收益，不影响价格数据与排序的中立性。' },
+  'footer.affiliate': { en: 'Some purchase links are partner links; buying through them may earn us a commission and can unlock discounts on some brands, without affecting our pricing data or rankings.', zh: '通过本站链接购买，部分品牌可享专属优惠；本站可能获得推广收益，不影响价格数据与排序的中立性。' },
   'footer.copyright': { en: '© 2026 CreditsPlan', zh: '© 2026 CreditsPlan' },
 
   // —— Home / plans overview (plans-page.js) ——
@@ -286,6 +286,18 @@ export const translations = {
   'detail.verifiedStale': { en: 'Last verified {date} · over 30 days, needs re-check', zh: '上次核实 {date} · 超过 30 天，待复核' },
   'verified.relToday': { en: 'today', zh: '今日' },
   'verified.relDaysAgo': { en: '{n}d ago', zh: '{n} 天前' },
+  'source.official': { en: 'Official source', zh: '官方来源' },
+  'source.official.title': { en: 'Collected from the vendor’s official pricing page and re-verified by the automated pipeline each round', zh: '数据采集自厂商官方定价页，由自动化管线逐轮核验' },
+  'source.api': { en: 'API source', zh: 'API 直连' },
+  'source.api.title': { en: 'Sourced from the vendor’s official API and re-verified by the automated pipeline each round', zh: '数据来自厂商官方接口，由自动化管线逐轮核验' },
+  'source.structured': { en: 'Structured parse', zh: '结构化解析' },
+  'source.structured.title': { en: 'Parsed structurally from the official page and re-verified by the automated pipeline each round', zh: '数据来自官方页面结构化解析，由自动化管线逐轮核验' },
+  'source.page': { en: 'Page scrape', zh: '页面采集' },
+  'source.page.title': { en: 'Scraped from the page; check the official site before ordering', zh: '数据来自页面抓取，下单前请以官网为准' },
+  'home.freshness.hours': { en: 'Data updated {n}h ago', zh: '数据更新于 {n} 小时前' },
+  'home.freshness.days': { en: 'Data updated {n}d ago', zh: '数据更新于 {n} 天前' },
+  'home.freshness.date': { en: 'Data updated {date}', zh: '数据更新于 {date}' },
+  'home.freshness.title': { en: 'Latest official-page verification: {date} · {verified}/{total} plans carry a verification record', zh: '最近一次官方页核验：{date} · {verified}/{total} 个套餐有核验记录' },
   'table.empty.match': { en: 'No matching plans', zh: '暂无匹配套餐记录' },
   'table.empty.none': { en: 'No plans available yet.', zh: '后台暂无套餐记录。' },
   'table.price.official': { en: 'See official site', zh: '请以官网为准' },
@@ -533,8 +545,8 @@ export const translations = {
   'deals.kicker': { en: 'Deals / Official Promotions', zh: '活动 / 官方优惠' },
   'deals.title': { en: 'Never miss an official deal.', zh: '官方优惠活动，一站掌握。' },
   'deals.lead.empty': {
-    en: 'A roundup of official promotions from AI platforms (limited-time discounts, top-up bonuses, new user gifts, referral rewards). New deals are listed here as soon as we verify them.',
-    zh: '汇总 AI 平台的官方优惠活动（限时折扣、充值赠送、新人礼包、邀请奖励）。活动一经核实即会收录到这里。'
+    en: 'A roundup of official promotions from AI brands (limited-time discounts, top-up bonuses, new user gifts, referral rewards). New deals are listed here as soon as we verify them.',
+    zh: '汇总 AI 品牌的官方优惠活动（限时折扣、充值赠送、新人礼包、邀请奖励）。活动一经核实即会收录到这里。'
   },
   'deals.lead.active': {
     en: 'There are currently <strong class="text-slate-900 dark:text-white">{n} official deals running</strong>. All come from official announcements — click "Join" to visit the official activity page.',
@@ -545,6 +557,24 @@ export const translations = {
   'deals.overview.upcoming': { en: 'Upcoming', zh: '即将开始' },
   'deals.overview.updated': { en: 'Last updated', zh: '最近更新' },
   'deals.subscribeRss': { en: 'Subscribe to deals RSS →', zh: '订阅活动 RSS →' },
+  'deals.sidebar.aria': { en: 'Deals navigation', zh: '活动导航' },
+  'deals.sidebar.brand': { en: 'Official Deals', zh: '官方活动' },
+  'deals.sidebar.rss': { en: 'Subscribe to deals RSS', zh: '订阅活动 RSS' },
+  'deals.sidebar.note': {
+    en: 'Deal information comes from official announcements. Eligibility and terms are subject to the official activity page.',
+    zh: '活动信息均来自各品牌官方公告，参与资格与细则以官方活动页为准。'
+  },
+  'deals.sidebar.updated': { en: 'Last updated', zh: '最后更新' },
+  'deals.toolbar.searchPlaceholder': { en: 'Search deals by title, brand or content…', zh: '搜索活动标题、品牌或内容…' },
+  'deals.toolbar.searchAria': { en: 'Search deals', zh: '搜索活动' },
+  'deals.toolbar.all': { en: 'All', zh: '全部' },
+  'deals.toolbar.countTpl': { en: '{n} deals found', zh: '找到 {n} 个活动' },
+  'deals.toolbar.empty': { en: 'No matching deals. Try a different keyword or filter.', zh: '没有匹配的活动，换个关键词或筛选试试。' },
+  'deals.view.status': { en: 'By status', zh: '按状态' },
+  'deals.view.timeline': { en: 'By time', zh: '按时间' },
+  'deals.timeline.today': { en: 'Today', zh: '今天' },
+  'deals.timeline.yesterday': { en: 'Yesterday', zh: '昨天' },
+  'deals.timeline.noDate': { en: 'Ongoing', zh: '长期' },
   'deals.group.running': { en: 'Running now', zh: '进行中' },
   'deals.group.upcoming': { en: 'Upcoming', zh: '即将开始' },
   'deals.group.ended': { en: 'Ended', zh: '已结束' },

@@ -9,8 +9,11 @@ import { applyI18n, t } from './i18n.js';
 
 export async function renderDealsBanner(container) {
   if (!container) return;
+  // 活动页本身就是公告目的地，不重复展示公告条
+  if ((globalThis.location?.pathname || '').startsWith('/deals')) return;
   try {
-    const response = await fetch('./deals.json', { cache: 'no-cache' });
+    // 用绝对路径：相对路径在 /deals/、/brands/* 等子页面会解析到错误位置（404）。
+    const response = await fetch('/deals.json', { cache: 'no-cache' });
     if (!response.ok) return;
     const data = await response.json();
     const deals = Array.isArray(data.deals) ? data.deals : [];
