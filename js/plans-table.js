@@ -393,7 +393,7 @@ function renderPlanRows(group, selectedPlanKey, isGroupExpanded, providerInfo, p
         <td class="plan-table-nowrap px-3 py-3">${domesticPayDisplay}</td>
         <td class="plan-table-nowrap px-3 py-3">${intlNetworkDisplay}</td>
         <td class="plan-table-nowrap px-3 py-3">${dataTrainingHtml}</td>
-        <td class="plan-table-nowrap px-3 py-3">${verifiedDisplay}</td>
+        <td class="plan-table-nowrap px-3 py-3">${verifiedDisplay}${sourceBadgeHtml(plan) ? `<div class="mt-1">${sourceBadgeHtml(plan)}</div>` : ''}</td>
         <td class="plan-table-nowrap px-3 py-3">${sourceHtml}</td>
       </tr>
       ${detailRow}`;
