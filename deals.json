@@ -2,22 +2,6 @@
   "last_updated": "2026-08-03",
   "deals": [
     {
-      "id": "promotion-1785743364964",
-      "provider": "Qwen Work",
-      "title": "公测福利：注册立送 2000 积分，首周每日登录再送，经济模型无限畅用",
-      "title_en": "Public Beta: 2,000 Signup Credits, Daily Login Rewards & Unlimited Economy Models",
-      "summary": "千问办公公测上线福利：新用户注册立送 2000 积分（有效期 3 个月）；公测首周（2026-08-03 至 08-09）个人用户每日登录按档位领 500~2000 积分（当日有效）；付费用户可无限畅用经济版模型（LLM 调用不消耗积分）。",
-      "summary_en": "Qwen Work public beta launch offer: new users get 2,000 credits on signup (valid 3 months); during beta week 1 (Aug 3-9) individual users earn 500-2,000 daily login credits by tier (same-day expiry); paid users enjoy unlimited economy-model LLM calls.",
-      "type": "gift",
-      "url": "https://qwenwork.cn/docs/activity/qwen3.8-max-update",
-      "url_en": "",
-      "start_date": "2026-08-03",
-      "end_date": "",
-      "status": "active",
-      "date_range": "2026-08-03",
-      "published_at": "2026-08-03"
-    },
-    {
       "id": "promotion-1785729584998",
       "provider": "Qoder",
       "title": "Qoder 一周年：领最高 2800 次 Qwen3.8-Max 免费调用，错峰时段 5 折",
