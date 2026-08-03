@@ -1,9 +1,11 @@
 // deals-banner.js —— 全站公告条：展示进行中官方活动（最多 3 条）。
 // 数据源 deals.json（export:data 从 /api/promotions 导出，含 active/upcoming/ended 状态）。
-// 与 build-seo-pages.mjs 的 renderDealsBannerHtml 使用同一数据口径（status=active），
+// 与 build-seo-pages.mjs 的 renderDealsBannerHtml 使用同一数据口径（status=active）与同一双语
+// 标记格式（data-locale / data-href-*）：默认英文文本，中文界面由 applyI18n 运行时切换，
+// 因此 toggleLang 重新执行 applyI18n 时公告条也会跟随切换。
 // header.js 动态覆盖 header-root 后调用本模块重渲染；无活动或加载失败时静默隐藏。
 import { escapeHtml, safeExternalUrl } from './render.js';
-import { t } from './i18n.js';
+import { applyI18n, t } from './i18n.js';
 
 export async function renderDealsBanner(container) {
   if (!container) return;
@@ -16,12 +18,15 @@ export async function renderDealsBanner(container) {
     if (!active.length) return;
 
     const items = active.map(deal => {
-      const url = safeExternalUrl(deal.url);
-      const title = escapeHtml(deal.title);
+      const zhUrl = safeExternalUrl(deal.url);
+      const enUrl = safeExternalUrl(deal.url_en) || zhUrl;
+      const enTitle = escapeHtml(deal.title_en || deal.title);
       const provider = escapeHtml(deal.provider);
-      const link = url
-        ? `<a class="deals-banner-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${title}</a>`
-        : `<span class="deals-banner-title">${title}</span>`;
+      const localeAttrs = deal.title ? ` data-locale data-locale-en="${enTitle}" data-locale-zh="${escapeHtml(deal.title)}"` : '';
+      const hrefLangAttrs = zhUrl ? ` data-href-en="${escapeHtml(enUrl)}" data-href-zh="${escapeHtml(zhUrl)}"` : '';
+      const link = enUrl
+        ? `<a class="deals-banner-link"${localeAttrs} href="${escapeHtml(enUrl)}"${hrefLangAttrs} target="_blank" rel="noopener noreferrer">${enTitle}</a>`
+        : `<span class="deals-banner-title"${localeAttrs}>${enTitle}</span>`;
       return `<span class="deals-banner-item">${provider}: ${link}</span>`;
     }).join('');
 
@@ -32,6 +37,8 @@ export async function renderDealsBanner(container) {
         <span class="deals-banner-items">${items}</span>
         <a class="deals-banner-more" href="/deals/">${escapeHtml(t('deals.banner.viewAll'))}</a>
       </div>`;
+    // 按当前语言立即应用一次（默认英文文本 + data-locale 标记）。
+    applyI18n(container);
   } catch {
     // 公告条为增强内容，deals.json 缺失/解析失败时静默隐藏
   }

@@ -648,6 +648,12 @@ export function applyI18n(root = document) {
       el.textContent = value;
     }
   });
+  // 官方活动链接按语言区分：data-href-en / data-href-zh（缺失时回退 en，再回退原 href）。
+  scope.querySelectorAll('a[data-href-en], a[data-href-zh]').forEach(el => {
+    const lang = getLang();
+    const value = el.getAttribute(`data-href-${lang}`) || el.getAttribute('data-href-en') || '';
+    if (value) el.setAttribute('href', value);
+  });
   // Translate server-rendered status badges by their status code, while
   // keeping the original (Chinese) text as a fallback for unknown codes.
   scope.querySelectorAll('[data-status]').forEach(el => {
