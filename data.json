@@ -9891,13 +9891,13 @@
       "seo_slug": "z-ai",
       "seo_intro": "Z.ai 国际站 GLM Coding 提供 Lite / Pro / Max 三档个人编程订阅，支持 Claude Code、Cursor 等 20+ 编程工具，按月度 / 季度 / 年度订阅。",
       "seo_intro_en": "Z.ai international GLM Coding offers Lite, Pro, and Max individual coding subscriptions, supporting 20+ coding tools including Claude Code and Cursor, with monthly, quarterly, and annual billing.",
-      "data_training": "unclear",
+      "data_training": "yes",
       "training_opt_out": "未明确提供",
-      "training_opt_out_en": "Not explicitly provided",
+      "training_opt_out_en": "No self-service opt-out found for individual users",
       "data_retention": "未披露",
       "data_retention_en": "Undisclosed",
-      "privacy_policy_url": "https://docs.z.ai/legal-agreement/privacy-policy",
-      "privacy_verified_at": "2026-07-27"
+      "privacy_policy_url": "https://docs.z.ai/legal-agreement/terms-of-use",
+      "privacy_verified_at": "2026-08-03"
     },
     "BytePlus": {
       "name": "BytePlus",
@@ -9918,7 +9918,7 @@
       "data_retention": "未披露",
       "data_retention_en": "Undisclosed",
       "privacy_policy_url": null,
-      "privacy_verified_at": "2026-07-27"
+      "privacy_verified_at": "2026-08-03"
     },
     "OpenCode": {
       "name": "OpenCode",
@@ -9933,13 +9933,13 @@
       "seo_slug": "opencode-go",
       "seo_intro": "OpenCode Go 是一款低成本订阅服务：首月 $5，之后 $10/月。它提供充裕的额度，并让您能可靠地使用最强大的开源模型。\n\n\n[*]低成本订阅定价\n[*]充裕的限额和可靠的访问\n[*]为尽可能多的程序员打造\n[*]包含 Grok 4.5, GLM-5.2, GLM-5.1, Kimi K3, Kimi K2.7 Code、Kimi K2.6, MiMo-V2.5-Pro, MiMo-V2.5, Qwen3.7 Max, Qwen3.7 Plus, Qwen3.6 Plus, MiniMax M2.7、MiniMax M3、DeepSeek V4 Pro 和 DeepSeek V4 Flash",
       "seo_intro_en": "OpenCode Go is a low cost subscription: $5 for your first month, then $10/month. It provides generous limits and reliable access to the most capable open source models.\n\n\n[*]Low cost subscription pricing\n[*]Generous limits and reliable access\n[*]Built for as many programmers as possible\n[*]Includes Grok 4.5, GLM-5.2, GLM-5.1, Kimi K3, Kimi K2.7 Code, Kimi K2.6, MiMo-V2.5-Pro, MiMo-V2.5, Qwen3.7 Max, Qwen3.7 Plus, Qwen3.6 Plus, MiniMax M2.7, MiniMax M3, DeepSeek V4 Pro, and DeepSeek V4 Flash",
-      "data_training": "unclear",
+      "data_training": "no",
       "training_opt_out": "未明确提供",
       "training_opt_out_en": "Not explicitly provided",
       "data_retention": "未披露",
       "data_retention_en": "Undisclosed",
-      "privacy_policy_url": null,
-      "privacy_verified_at": "2026-07-27"
+      "privacy_policy_url": "https://opencode.ai",
+      "privacy_verified_at": "2026-08-03"
     },
     "ChatGPT": {
       "name": "ChatGPT",
@@ -10059,13 +10059,13 @@
       "seo_slug": null,
       "seo_intro": "Google 提供 Gemini 系列大模型的 API 按量计费服务，覆盖 Gemini 2.5 与 3.x 的 Pro、Flash、Flash Lite 等档位，支持长上下文与多模态能力，面向开发者集成场景，具体价格以 Google AI 官方页面为准。",
       "seo_intro_en": "Google offers pay-as-you-go API access to the Gemini model family, covering Pro, Flash, and Flash Lite tiers across Gemini 2.5 and 3.x, with long-context and multimodal capabilities. See the official Google AI pricing page for details.",
-      "data_training": "unclear",
+      "data_training": "no",
       "training_opt_out": "未明确提供",
-      "training_opt_out_en": "Not explicitly provided",
+      "training_opt_out_en": "Paid Gemini API does not train on prompts/responses by default",
       "data_retention": "未披露",
       "data_retention_en": "Undisclosed",
       "privacy_policy_url": "https://policies.google.com/privacy",
-      "privacy_verified_at": "2026-07-27"
+      "privacy_verified_at": "2026-08-03"
     },
     "Trae": {
       "name": "Trae",
@@ -10082,11 +10082,11 @@
       "seo_intro_en": "Trae is an AI-powered IDE by ByteDance, offering agentic coding, code completion, and project-level understanding, with SOLO mode for autonomous task completion. Built for individual developers and teams; see trae.ai for subscription details.",
       "data_training": "unclear",
       "training_opt_out": "未明确提供",
-      "training_opt_out_en": "Not explicitly provided",
+      "training_opt_out_en": "TRAE SOLO privacy mode excludes chat content from training",
       "data_retention": "未披露",
       "data_retention_en": "Undisclosed",
       "privacy_policy_url": "https://www.trae.ai/privacy-policy",
-      "privacy_verified_at": "2026-07-27"
+      "privacy_verified_at": "2026-08-03"
     },
     "阿里云": {
       "name": "阿里云",
@@ -10127,8 +10127,8 @@
       "training_opt_out_en": "Not explicitly provided",
       "data_retention": "未披露",
       "data_retention_en": "Undisclosed",
-      "privacy_policy_url": null,
-      "privacy_verified_at": "2026-07-27"
+      "privacy_policy_url": "https://platform.stepfun.com/docs/zh/agreement/userprivacy",
+      "privacy_verified_at": "2026-08-03"
     },
     "快手StreamLake": {
       "name": "快手StreamLake",
@@ -10149,7 +10149,7 @@
       "data_retention": "仅在必要期限及法定期限内保留，超期删除或匿名化",
       "data_retention_en": "Retained only as long as necessary or required by law, then deleted or anonymized",
       "privacy_policy_url": "https://www.streamlake.com/document/POL/me16yzjnvq2ssojcjz",
-      "privacy_verified_at": "2026-07-29"
+      "privacy_verified_at": "2026-08-03"
     },
     "GitHub Copilot": {
       "name": "GitHub Copilot",
