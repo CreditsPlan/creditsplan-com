@@ -5,7 +5,7 @@
 import { escapeHtml } from './render.js';
 import { t, numberLocale } from './i18n.js';
 import { PROVIDER_NAME_MAP, brandForProvider } from './shared/brands.js';
-import { providerMetadata } from './shared/plan-utils.js';
+import { providerMetadata, displayNameForProvider } from './shared/plan-utils.js';
 import { renderBrandIcon } from './plans-table.js';
 
 // ─── 数据工具 ───────────────────────────────────────────────────────────────
@@ -48,7 +48,9 @@ function formatContextShort(value) {
 }
 
 function providerDisplayName(provider) {
-  return PROVIDER_NAME_MAP[provider] || provider || t('pricing.unknownVendor');
+  // 优先品牌主数据 name_en（随 currentProviderInfo 注入），其次静态映射，避免中文品牌键泄漏到英文界面
+  const fromInfo = displayNameForProvider(provider, currentProviderInfo, PROVIDER_NAME_MAP);
+  return fromInfo || PROVIDER_NAME_MAP[provider] || provider || t('pricing.unknownVendor');
 }
 
 function providerBrandName(provider) {

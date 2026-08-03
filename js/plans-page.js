@@ -8,6 +8,7 @@ import {
 } from './plans-filters.js';
 import { getModelPriceExportModels, renderModelPriceView } from './model-price-table.js';
 import { initPlanAdvisor } from './plan-advisor.js';
+import { initPlanTableSticky } from './plan-table-sticky.js';
 import { renderAllPlansDualView, renderBrandIcon } from './plans-table.js';
 import { loadPlanDataset } from './public-data.js';
 import { escapeHtml } from './render.js';
@@ -309,6 +310,8 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   const modelTabs = els.codingPlanOverview.querySelector('#modelTabs');
   const detail = els.codingPlanOverview.querySelector('#brandDetail');
   initPlansBackTop(workbench);
+  // 表头吸顶（横向滚动容器下 CSS sticky 失效，改用 JS 浮条）
+  initPlanTableSticky(detail);
   const advisorFab = els.codingPlanOverview.querySelector('#planAdvisorFab');
   const advisor = initPlanAdvisor({ plans: displayablePlans, providerInfo, modelCatalog, fab: advisorFab });
   // SEO 落地页导流：通过 /#advisor 进入首页时自动打开计算器

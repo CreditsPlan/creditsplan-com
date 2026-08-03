@@ -1,5 +1,5 @@
 import { escapeHtml } from './render.js';
-import { t, numberLocale } from './i18n.js';
+import { t, numberLocale, getLang } from './i18n.js';
 import { PROVIDER_NAME_MAP } from './shared/brands.js';
 import {
   cleanValue,
@@ -48,7 +48,7 @@ export function planBillingUnitIsDisclosed(plan) {
 }
 
 export const PLAN_TABLE_FILTER_COLUMNS = [
-  { key: 'provider', labelKey: 'table.col.provider', value: plan => displayNameForProvider(plan.provider) || EMPTY_TABLE_VALUE },
+  { key: 'provider', labelKey: 'table.col.provider', value: plan => displayNameForProvider(plan.provider, privacyProviderInfo, PROVIDER_NAME_MAP) || EMPTY_TABLE_VALUE },
   { key: 'name', labelKey: 'table.col.name', value: plan => cleanValue(plan.name) || EMPTY_TABLE_VALUE },
   { key: 'monthlyPrice', labelKey: 'table.col.monthly', value: plan => planTablePriceValue(plan.monthlyPrice) },
   { key: 'quarterlyPrice', labelKey: 'table.col.quarterly', value: plan => planTablePriceValue(plan.quarterlyPrice) },
@@ -119,7 +119,7 @@ export function renderPlanTableQuickFilters(filteredPlans, plans) {
   if (!availableOnly) return '';
   return `
     <div class="plan-table-quick-filters">
-      <span class="plan-table-filter-count">${escapeHtml(t('table.quick.availableOnly'))}：${filteredPlans.length} / ${plans.length}</span>
+      <span class="plan-table-filter-count">${escapeHtml(t('table.quick.availableOnly'))}${getLang() === 'en' ? ': ' : '：'}${filteredPlans.length} / ${plans.length}</span>
     </div>
   `;
 }

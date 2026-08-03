@@ -28,7 +28,7 @@ export function parseQuota(text) {
 export function monthlyQuota(plan) {
   const monthly = parseQuota(plan.monthlyRequests);
   if (monthly != null) {
-    return { value: monthly, estimated: /约|估算/.test(plan.monthlyRequests), basis: '月额度' };
+    return { value: monthly, estimated: /约|估算|≈|approx|estimat/i.test(plan.monthlyRequests), basis: '月额度' };
   }
   const weekly = parseQuota(plan.weeklyRequests);
   if (weekly != null) {

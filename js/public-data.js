@@ -1,6 +1,6 @@
 import { isLocalHostname, modelDataUrl } from './data-source.js';
 import { VENDOR_NAMES } from './shared/brands.js';
-import { t, numberLocale, getLang } from './i18n.js';
+import { t, numberLocale, getLang, hasCjk, toEnglishDisplay } from './i18n.js';
 
 const blockedNewsHosts = new Set(['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com']);
 const domesticPlanCategories = [];
@@ -204,7 +204,7 @@ function normalizeBackendModel(model, source) {
     vendor: stringValue(model.provider, 'Pending'),
     providerIconUrl: stringValue(model.provider_icon_url, model.icon_url || ''),
     logoUrl: stringValue(model.logo_url, ''),
-    modelName: stringValue(pickLang(model.name, model.name_en), 'Pending'),
+    modelName: stringValue(pickLang(model.name, model.name_en), hasCjk(model.name) && !hasCjk(model.provider) ? stringValue(model.provider, '') : '', 'Pending'),
     inputPrice: formatPrice(model.input_price, model.currency),
     outputPrice: formatPrice(model.output_price, model.currency),
     contextLength: formatContext(model.context_length),
@@ -258,7 +258,9 @@ function normalizePlansFromModel(model, providerInfo = {}) {
             const translated = t(`status.${plan.status}`);
             if (!translated.startsWith('status.')) return translated;
           }
-          return stringValue(plan.status_label, t('status.pending'));
+          // 英文模式下后台原始中文状态文案不外泄，回退通用待确认文案
+          const rawLabel = stringValue(plan.status_label, '');
+          return rawLabel && !hasCjk(rawLabel) ? rawLabel : t('status.pending');
         })(),
         url: pickLangUrl(plan.url_cn, plan.url_en),
         monthlyPrice: formatMonthlyPrice(plan.monthly_price, monthlyCurrency),
@@ -569,9 +571,14 @@ function isMostlyLatin(text) {
   return latinCount / value.length > 0.6;
 }
 
-// 当前为英文且英文值非空时取英文；中文模式下若基础值为英文且英文字段有不同内容则取英文字段，否则回退基础值。
+// 当前为英文时优先取英文字段；英文字段缺失时经 toEnglishDisplay 兜底（可机械转换的
+// 中文额度文案转英文，其余返回空串），保证英文界面不出现中文。
+// 中文模式下若基础值为英文且英文字段有不同内容则取英文字段，否则回退基础值。
 function pickLang(base, en) {
-  if (getLang() === 'en' && en != null && String(en).trim()) return en;
+  if (getLang() === 'en') {
+    if (en != null && String(en).trim()) return en;
+    return toEnglishDisplay(base);
+  }
   if (getLang() === 'zh' && isMostlyLatin(base) && en != null && String(en).trim() && String(en).trim() !== String(base).trim()) return en;
   return base;
 }

@@ -1,5 +1,5 @@
 import { escapeHtml, safeExternalUrl } from './render.js';
-import { t } from './i18n.js';
+import { t, getLang } from './i18n.js';
 import { PROVIDER_NAME_MAP } from './shared/brands.js';
 import {
   currencySymbol,
@@ -56,14 +56,14 @@ function addPlanExtraRow(rows, label, value, keepInline, wide, compactInline, no
   }
 }
 
-function notesWithoutTableDuplicates(plan) {
+function notesWithoutTableDuplicates(plan, providerInfo = {}) {
   const notes = optionalDetailText(plan.notes);
   if (!notes) return '';
   const resetRule = optionalDetailText(plan.resetRule);
   if (resetRule && notes.includes(resetRule)) return '';
   const tableValues = [
     plan.name,
-    displayNameForProvider(plan.provider),
+    displayNameForProvider(plan.provider, providerInfo, PROVIDER_NAME_MAP),
     supportedModelDisplay(plan),
     plan.monthlyPrice,
     plan.quarterlyPrice,
@@ -175,7 +175,7 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
     && optionalDetailText(plan.includedCalls).replace(/\s+/g, '').includes(compactTokenLimit);
 
   addPlanExtraRow(rows, t('detail.type'), typeLabel, false, false, true);
-  addPlanExtraRow(rows, t('detail.supportedModels'), (plan.supportedModelNames || []).join('、'), false, true);
+  addPlanExtraRow(rows, t('detail.supportedModels'), (plan.supportedModelNames || []).join(getLang() === 'en' ? ', ' : '、'), false, true);
   if (plan.firstMonthPrice != null) {
     const firstMonthPrice = Number(plan.firstMonthPrice);
     addPlanExtraRow(rows, t('detail.firstMonth'), Number.isFinite(firstMonthPrice)
@@ -206,7 +206,7 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
   addPlanExtraRow(rows, t('detail.weeklyTokens'), plan.measuredWeeklyTokens);
   addPlanExtraRow(rows, t('detail.monthlyTokens'), plan.measuredMonthlyTokens);
   if (quotaField !== 'tokenLimit' && !tokenLimitDuplicated) addPlanExtraRow(rows, t('detail.tokenLimit'), plan.tokenLimit);
-  addPlanExtraRow(rows, t('detail.benefits'), plan.benefits ? plan.benefits.replace(/\n/g, '；') : undefined);
+  addPlanExtraRow(rows, t('detail.benefits'), plan.benefits ? plan.benefits.replace(/\n/g, getLang() === 'en' ? '; ' : '；') : undefined);
   addPlanExtraRow(rows, t('detail.inputPrice'), plan.modelInputPrice);
   addPlanExtraRow(rows, t('detail.outputPrice'), plan.modelOutputPrice);
   if (plan.monthlyCurrency === 'USD') {
@@ -227,15 +227,17 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
   if (privacy.training) {
     const trainingLabel = t(`privacy.training.${privacy.training}`) || privacy.training;
     const privacyFresh = privacyFreshness(privacy.verifiedAt);
+    const openParen = getLang() === 'en' ? ' (' : '（';
+    const closeParen = getLang() === 'en' ? ')' : '）';
     const freshnessNote = privacyFresh.state === 'stale'
-      ? `（${t('privacy.verifiedStale', { date: privacyFresh.date })}）`
-      : (privacyFresh.state === 'fresh' ? `（${t('privacy.verifiedOn', { date: privacyFresh.date })}）` : '');
-    const baseLabel = privacy.note ? `${trainingLabel}（${privacy.note}）` : trainingLabel;
+      ? `${openParen}${t('privacy.verifiedStale', { date: privacyFresh.date })}${closeParen}`
+      : (privacyFresh.state === 'fresh' ? `${openParen}${t('privacy.verifiedOn', { date: privacyFresh.date })}${closeParen}` : '');
+    const baseLabel = privacy.note ? `${trainingLabel}${openParen}${privacy.note}${closeParen}` : trainingLabel;
     addPlanExtraRow(rows, t('privacy.label.dataTraining'), `${baseLabel}${freshnessNote}`, true);
   }
   addPlanExtraRow(rows, t('privacy.label.optOut'), privacy.optOut);
   addPlanExtraRow(rows, t('privacy.label.retention'), privacy.retention);
-  addPlanExtraRow(rows, t('detail.notes'), notesWithoutTableDuplicates(plan), false, true);
+  addPlanExtraRow(rows, t('detail.notes'), notesWithoutTableDuplicates(plan, providerInfo), false, true);
 
   const rowsHtml = rows.length ? rows.map(row => {
     if (row.isRequestsRow) {
@@ -281,7 +283,7 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
       ? t('detail.verifiedStale', { date: verifiedFresh.date })
       : '';
   const sourceMeta = verifiedText
-    ? `${escapeHtml(t('detail.source'))}：${escapeHtml(sourceTypeLabel)} · ${escapeHtml(verifiedText)}`
+    ? `${escapeHtml(t('detail.source'))}${getLang() === 'en' ? ': ' : '：'}${escapeHtml(sourceTypeLabel)} · ${escapeHtml(verifiedText)}`
     : '';
   const privacyPolicyLink = privacy.policyUrl
     ? `<a href="${escapeHtml(privacy.policyUrl)}" target="_blank" rel="noopener noreferrer nofollow">${escapeHtml(t('privacy.policySource'))}</a>`

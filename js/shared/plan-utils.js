@@ -1,4 +1,4 @@
-import { numberLocale, getLang } from '../i18n.js';
+import { numberLocale, getLang, hasCjk, toEnglishDisplay } from '../i18n.js';
 
 const UNKNOWN_VALUES = new Set(['待更新', '待确认', '请以官网为准']);
 
@@ -66,6 +66,7 @@ export function resolvePlanPrivacy(plan, providerInfo = {}, providerNameMap = {}
     const b = String(base || '').trim();
     const e = String(enValue || '').trim();
     if (en && e) return e;
+    if (en) return toEnglishDisplay(b); // 英文界面不展示中文兜底值
     return b || e;
   };
   const training = String(override.data_training || metadata.data_training || '').trim();
@@ -80,9 +81,15 @@ export function resolvePlanPrivacy(plan, providerInfo = {}, providerNameMap = {}
 
 export function displayNameForProvider(provider, providerInfo = {}, providerNameMap = {}) {
   const metadata = providerMetadata(provider, providerInfo, providerNameMap);
-  const en = metadata.name_en;
-  const localized = (getLang() === 'en' && en != null && String(en).trim()) ? en : metadata.name;
-  return String(localized || provider || '');
+  const enName = String(metadata.name_en ?? '').trim();
+  const baseName = String(metadata.name || provider || '').trim();
+  if (getLang() === 'en') {
+    if (enName) return enName;
+    if (!hasCjk(baseName)) return baseName;
+    // 混合型中文品牌键（如「快手StreamLake」）在英文界面只保留拉丁部分
+    return baseName.replace(/[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]/g, '').trim();
+  }
+  return baseName;
 }
 
 export function providerSortOrder(provider, providerInfo = {}, providerNameMap = {}) {
@@ -130,7 +137,7 @@ export function getRiskDisplayText(plan) {
   if (plan.riskText && !isGarbledText(plan.riskText)) return plan.riskText;
   if (plan.risk && Array.isArray(plan.risk.risks)) {
     const validRisks = plan.risk.risks.filter(risk => risk && !isGarbledText(risk));
-    if (validRisks.length) return validRisks.join('；');
+    if (validRisks.length) return validRisks.join(getLang() === 'en' ? '; ' : '；');
   }
   return '';
 }

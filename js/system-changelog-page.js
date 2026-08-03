@@ -1,10 +1,15 @@
 import { initAppShell } from './app.js';
 import { escapeHtml } from './render.js';
-import { t, numberLocale, getLang } from './i18n.js';
+import { t, numberLocale, getLang, hasCjk, toEnglishDisplay } from './i18n.js';
 import { isLocalHostname } from './data-source.js';
 
+// 英文优先取英文字段；缺失时经 toEnglishDisplay 兜底，仍含中文则返回空串（不展示）。
 function pickLang(base, en) {
-  return (getLang() === 'en' && en != null && String(en).trim()) ? en : base;
+  if (getLang() === 'en') {
+    if (en != null && String(en).trim()) return en;
+    return toEnglishDisplay(base);
+  }
+  return base;
 }
 
 const kindLabels = {
@@ -127,7 +132,7 @@ function renderEntry(entry) {
           <span class="changelog-kind changelog-kind--${escapeHtml(kind)}">${escapeHtml(t(kindLabels[kind]))}</span>
         </div>
         <h3>${escapeHtml(pickLang(entry?.title, entry?.title_en) || t('changelog.entry.default'))}</h3>
-        ${entry?.summary || entry?.summary_en ? `<p class="changelog-release-summary">${escapeHtml(pickLang(entry.summary, entry.summary_en))}</p>` : ''}
+        ${(() => { const summary = pickLang(entry?.summary, entry?.summary_en); return summary ? `<p class="changelog-release-summary">${escapeHtml(summary)}</p>` : ''; })()}
         <ul>
           ${items.map(item => `
             <li><span class="changelog-item-mark" aria-hidden="true"></span><span>${escapeHtml(item)}</span></li>`).join('')}
@@ -147,7 +152,9 @@ function setVisible(element, visible) {
 function renderRoadmapItem(item) {
   const st = roadmapStatus[item?.status] || roadmapStatus.planned;
   const votes = Number(item?.votes) > 0 ? Number(item.votes) : 0;
-  const users = Array.isArray(item?.users) ? item.users.filter(Boolean) : [];
+  const rawUsers = Array.isArray(item?.users) ? item.users.filter(Boolean) : [];
+  // 英文界面不展示中文用户名（来自小红书等国内渠道的反馈者昵称）
+  const users = getLang() === 'en' ? rawUsers.filter(user => !hasCjk(user)) : rawUsers;
   const userLabel = users.length
     ? (users.length > 2
         ? t('changelog.roadmap.usersMany', { a: users[0], b: users[1], n: users.length })
@@ -164,7 +171,7 @@ function renderRoadmapItem(item) {
       <span class="roadmap-status">${escapeHtml(t(st.key))}</span>
       <div class="roadmap-body">
         <h3>${escapeHtml(pickLang(item?.title, item?.title_en) || '')}</h3>
-        ${item?.note || item?.note_en ? `<p>${escapeHtml(pickLang(item.note, item.note_en))}</p>` : ''}
+        ${(() => { const note = pickLang(item?.note, item?.note_en); return note ? `<p>${escapeHtml(note)}</p>` : ''; })()}
         ${metaParts ? `<p class="roadmap-meta">${metaParts}</p>` : ''}
       </div>
       ${votes ? `<span class="roadmap-votes" title="${escapeHtml(t('changelog.roadmap.votesTitle'))}">${escapeHtml(t('changelog.roadmap.votes', { n: votes }))}</span>` : ''}

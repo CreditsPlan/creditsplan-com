@@ -8,7 +8,7 @@ import { renderBrandIcon } from './plans-table.js';
 import { outboundTrackingAttributes, purchaseLinkTarget } from './plans-detail.js';
 import { PROVIDER_NAME_MAP } from './shared/brands.js';
 import { displayNameForProvider } from './shared/plan-utils.js';
-import { t, numberLocale } from './i18n.js';
+import { t, numberLocale, getLang } from './i18n.js';
 
 // Fixed CNY-per-USD rate used only to normalize the single CNY plan for cross-plan ranking.
 const CNY_PER_USD = 7.2;
@@ -33,8 +33,12 @@ const PROVIDER_FAMILY_MAP = {
   'Z.ai': 'GLM',
   'BytePlus': 'Doubao',
   '阿里云': 'Qwen',
+  'Alibaba Cloud': 'Qwen',
   'StepFun': 'Step',
   '阶跃星辰': 'Step',
+  '快手StreamLake': 'KAT-Coder',
+  'Kwai StreamLake': 'KAT-Coder',
+  'StreamLake': 'KAT-Coder',
   'Cursor': 'Cursor',
   'Qoder': 'Qoder',
   'Trae': 'Trae',
@@ -93,14 +97,18 @@ export function effectiveMonthlyPrice(plan) {
 
 // ---------- Model family options ----------
 
-function familyForCatalogModel(model) {
-  return PROVIDER_FAMILY_MAP[model.provider] || model.provider || 'Other';
+function familyForCatalogModel(model, providerInfo = {}) {
+  const mapped = PROVIDER_FAMILY_MAP[model.provider];
+  if (mapped) return mapped;
+  // 未收录的供应商回退英文显示名，避免中文品牌键直接展示
+  const display = displayNameForProvider(model.provider, providerInfo, PROVIDER_NAME_MAP);
+  return display || model.provider || 'Other';
 }
 
-export function buildFamilyOptions(modelCatalog, plans) {
+export function buildFamilyOptions(modelCatalog, plans, providerInfo = {}) {
   const familyByModelId = new Map();
   for (const model of modelCatalog) {
-    if (model.id) familyByModelId.set(model.id, familyForCatalogModel(model));
+    if (model.id) familyByModelId.set(model.id, familyForCatalogModel(model, providerInfo));
   }
   const counts = new Map();
   for (const plan of plans) {
@@ -191,7 +199,9 @@ function renderResultItem(item, providerInfo) {
   else if (tier === 3) chips.push(`<span class="plan-advisor-chip plan-advisor-chip--muted">${escapeHtml(t('advisor.chip.unknown'))}</span>`);
   else chips.push(`<span class="plan-advisor-chip plan-advisor-chip--muted">${escapeHtml(t('advisor.chip.unlabeled'))}</span>`);
   if (quota) {
-    const suffix = quota.estimated ? `（${escapeHtml(t('advisor.chip.estimated', { basis: t(`advisor.basis.${quota.basis}`) }))}）` : '';
+    const open = getLang() === 'en' ? ' (' : '（';
+    const close = getLang() === 'en' ? ')' : '）';
+    const suffix = quota.estimated ? `${open}${escapeHtml(t('advisor.chip.estimated', { basis: t(`advisor.basis.${quota.basis}`) }))}${close}` : '';
     chips.push(`<span class="plan-advisor-chip">${escapeHtml(t('advisor.chip.monthlyQuota', { n: formatCount(quota.value) }))}${suffix}</span>`);
   }
   if (costPer1k != null) {
@@ -293,7 +303,7 @@ function renderDialogShell() {
 // ---------- Calculator app (form interactions + result rendering, mounts into any container) ----------
 
 export function createAdvisorApp({ root, plans, providerInfo = {}, modelCatalog = [], initialState = {}, onStateChange = null }) {
-  const { options: familyOptions, familyByModelId } = buildFamilyOptions(modelCatalog, plans);
+  const { options: familyOptions, familyByModelId } = buildFamilyOptions(modelCatalog, plans, providerInfo);
   const knownFamilies = new Set(familyOptions.map(option => option.family));
 
   const state = {

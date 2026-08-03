@@ -81,7 +81,7 @@ export const translations = {
   'header.menu.label': { en: 'Menu', zh: '菜单' },
   'lang.toggle.aria': { en: 'Switch language', zh: '切换语言' },
   // Label shows the language you can switch TO.
-  'lang.toggle.label': { en: '中文', zh: 'EN' },
+  'lang.toggle.label': { en: 'Chinese', zh: 'EN' },
 
   // —— Footer ——
   'footer.aria': { en: 'Footer navigation', zh: '页脚导航' },
@@ -528,6 +528,40 @@ export const translations = {
   'seo.priceAnnualRecurring': { en: 'Annual (recurring)', zh: '年付（续费）' },
   'seo.noBenefits': { en: 'The official page does not detail benefits; please see the official site.', zh: '官方页面未详列权益，请以官网为准。' },
 
+  // —— Deals page (/deals/, build-seo-pages.mjs) & site-wide deals banner ——
+  'deals.pageTitle': { en: 'Official Deals - CreditsPlan', zh: '官方活动 - CreditsPlan' },
+  'deals.kicker': { en: 'Deals / Official Promotions', zh: '活动 / 官方优惠' },
+  'deals.title': { en: 'Never miss an official deal.', zh: '官方优惠活动，一站掌握。' },
+  'deals.lead.empty': {
+    en: 'A roundup of official promotions from AI platforms (limited-time discounts, top-up bonuses, new user gifts, referral rewards). New deals are listed here as soon as we verify them.',
+    zh: '汇总 AI 平台的官方优惠活动（限时折扣、充值赠送、新人礼包、邀请奖励）。活动一经核实即会收录到这里。'
+  },
+  'deals.lead.active': {
+    en: 'There are currently <strong class="text-slate-900 dark:text-white">{n} official deals running</strong>. All come from official announcements — click "Join" to visit the official activity page.',
+    zh: '当前有 <strong class="text-slate-900 dark:text-white">{n} 个官方活动正在进行</strong>。全部来自官方公告——点击「参加」前往官方活动页。'
+  },
+  'deals.overview.aria': { en: 'Deals summary', zh: '活动概览' },
+  'deals.overview.running': { en: 'Running', zh: '进行中' },
+  'deals.overview.upcoming': { en: 'Upcoming', zh: '即将开始' },
+  'deals.overview.updated': { en: 'Last updated', zh: '最近更新' },
+  'deals.subscribeRss': { en: 'Subscribe to deals RSS →', zh: '订阅活动 RSS →' },
+  'deals.group.running': { en: 'Running now', zh: '进行中' },
+  'deals.group.upcoming': { en: 'Upcoming', zh: '即将开始' },
+  'deals.group.ended': { en: 'Ended', zh: '已结束' },
+  'deals.ongoing': { en: 'Ongoing', zh: '长期有效' },
+  'deals.join': { en: 'Join', zh: '参加' },
+  'deals.note': {
+    en: 'Deal information comes from official announcements; eligibility and terms are subject to the official activity page. We also track plan price changes — subscribe to the <a class="focus-ring" href="/price-changes.xml">price-change RSS</a>.',
+    zh: '活动信息来自官方公告，参与条件与条款以官方活动页为准。我们也在持续跟踪套餐价格变化——可订阅<a class="focus-ring" href="/price-changes.xml">价格变动 RSS</a>。'
+  },
+  'deals.type.discount': { en: 'Discount', zh: '限时折扣' },
+  'deals.type.recharge': { en: 'Top-up Bonus', zh: '充值赠送' },
+  'deals.type.gift': { en: 'New User Gift', zh: '新人礼包' },
+  'deals.type.invite': { en: 'Referral Reward', zh: '邀请奖励' },
+  'deals.type.other': { en: 'Promotion', zh: '优惠活动' },
+  'deals.banner.label': { en: 'Official Deals', zh: '官方活动' },
+  'deals.banner.viewAll': { en: 'View all →', zh: '查看全部 →' },
+
   // —— AIHot categories / dates (aihot-service.js) ——
   'aihot.cat.models': { en: 'Model releases / updates', zh: '模型发布/更新' },
   'aihot.cat.products': { en: 'Product releases / updates', zh: '产品发布/更新' },
@@ -539,6 +573,35 @@ export const translations = {
   'aihot.date.yesterday': { en: 'Yesterday', zh: '昨天' },
   'aihot.date.daysAgo': { en: '{n}d ago', zh: '{n}天前' },
 };
+
+// 检测文本是否含中日韩统一表意文字（含扩展 A 与兼容区）。
+export function hasCjk(value) {
+  return /[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]/.test(String(value ?? ''));
+}
+
+// 英文环境展示层兜底：数据侧缺英文字段时，先尝试把常见中文额度/文案模式
+// 机械转为英文；转换后仍含中文则返回空串（交由调用方回退下一字段或占位），
+// 保证英文界面绝不出现中文。
+export function toEnglishDisplay(text) {
+  let value = String(text ?? '').trim();
+  if (!value) return '';
+  if (getLang() !== 'en') return value;
+  if (!hasCjk(value)) return value;
+  value = value
+    .replace(/(\d+(?:\.\d+)?)\s*万/g, (_, n) => String(Math.round(parseFloat(n) * 10000)))
+    .replace(/按模型不同/g, 'Varies by model')
+    .replace(/约/g, '≈')
+    .replace(/估算/g, 'estimated')
+    .replace(/请求|次/g, 'requests')
+    .replace(/：/g, ': ')
+    .replace(/；/g, '; ')
+    .replace(/、|，/g, ', ')
+    .replace(/（/g, ' (')
+    .replace(/）/g, ')')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+  return hasCjk(value) ? '' : value;
+}
 
 export function t(key, vars) {
   const entry = translations[key];
@@ -558,7 +621,13 @@ export function applyI18n(root = document) {
     el.textContent = t(el.getAttribute('data-i18n'));
   });
   scope.querySelectorAll('[data-i18n-html]').forEach(el => {
-    el.innerHTML = t(el.getAttribute('data-i18n-html'));
+    // 可选 data-i18n-vars（JSON 对象）为译文填充 {name} 占位符，如活动数 {n}。
+    let vars;
+    const varsAttr = el.getAttribute('data-i18n-vars');
+    if (varsAttr) {
+      try { vars = JSON.parse(varsAttr); } catch { /* 非法 JSON 时按无变量处理 */ }
+    }
+    el.innerHTML = t(el.getAttribute('data-i18n-html'), vars);
   });
   scope.querySelectorAll('[data-i18n-attr]').forEach(el => {
     el.getAttribute('data-i18n-attr').split(';').forEach(pair => {
@@ -568,8 +637,9 @@ export function applyI18n(root = document) {
   });
   scope.querySelectorAll('[data-locale]').forEach(el => {
     const lang = getLang();
+    // 英文环境绝不回退中文文案：缺失 data-locale-en 时保留标记原有的（英文）默认文本。
     const value = el.getAttribute(`data-locale-${lang}`)
-      || el.getAttribute(lang === 'zh' ? 'data-locale-en' : 'data-locale-zh')
+      || (lang === 'zh' ? el.getAttribute('data-locale-en') : '')
       || '';
     if (!value) return;
     if (el.tagName === 'META') {
