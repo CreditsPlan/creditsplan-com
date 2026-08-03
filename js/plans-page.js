@@ -238,11 +238,15 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
     .sort((a, b) => (a.sortOrder - b.sortOrder) || a.label.localeCompare(b.label, 'zh-CN'));
   const counts = { all: displayablePlans.length, free: filterFreePlans(displayablePlans).length };
   const avgMonthly = averageMonthlyPrice(displayablePlans);
+  // Stats row hierarchy: avg. monthly as the primary stat (large number + brand card), counts as secondary chips
   const statsHtml = `
-            <span>${displayablePlans.length} ${escapeHtml(t('home.meta.records'))}</span>
-            <span>${visibleBrands.length} ${escapeHtml(t('home.meta.brands'))}</span>
-            <span>${visibleModels.length} ${escapeHtml(t('home.meta.models'))}</span>
-            ${avgMonthly != null ? `<span>${escapeHtml(t('home.meta.avgMonthly'))} $${Math.round(avgMonthly)}</span>` : ''}`;
+            ${avgMonthly != null ? `<span class="workbench-stat workbench-stat--primary">
+              <span class="workbench-stat-value">$${Math.round(avgMonthly)}</span>
+              <span class="workbench-stat-label">${escapeHtml(t('home.meta.avgMonthly'))}</span>
+            </span>` : ''}
+            <span class="workbench-stat"><strong>${displayablePlans.length}</strong> ${escapeHtml(t('home.meta.records'))}</span>
+            <span class="workbench-stat"><strong>${visibleBrands.length}</strong> ${escapeHtml(t('home.meta.brands'))}</span>
+            <span class="workbench-stat"><strong>${visibleModels.length}</strong> ${escapeHtml(t('home.meta.models'))}</span>`;
 
   els.codingPlanOverview.innerHTML = `
     <section class="plans-workbench" aria-labelledby="codingPlanTitle">
@@ -426,7 +430,7 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
     if (mode === 'pricing') {
       const priced = models.filter(modelHasPrice);
       const vendorCount = new Set(priced.map(m => PROVIDER_NAME_MAP[m.vendor] || m.vendor)).size;
-      stats.innerHTML = `<span>${priced.length} ${escapeHtml(t('pricing.meta.models'))}</span><span>${vendorCount} ${escapeHtml(t('pricing.meta.vendors'))}</span>`;
+      stats.innerHTML = `<span><strong>${priced.length}</strong> ${escapeHtml(t('pricing.meta.models'))}</span><span><strong>${vendorCount}</strong> ${escapeHtml(t('pricing.meta.vendors'))}</span>`;
     } else {
       stats.innerHTML = statsHtml;
     }
