@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CreditsPlan Official Deals</title>
+    <link>https://www.creditsplan.com/deals/</link>
+    <description>Official AI platform deals: limited-time discounts, top-up bonuses, new user gifts and referral rewards.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 03 Aug 2026 04:00:00 GMT</lastBuildDate>
+    <atom:link href="https://www.creditsplan.com/deals.xml" rel="self" type="application/rss+xml"/>
+  </channel>
+</rss>
