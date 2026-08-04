@@ -5,8 +5,36 @@
     <link>https://www.creditsplan.com/</link>
     <description>Initial price listings and subsequent price-change alerts for international AI Coding subscription plans.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Aug 2026 04:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2026 04:00:00 GMT</lastBuildDate>
     <atom:link href="https://www.creditsplan.com/price-changes.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Trae Lite: first recorded monthly price $3</title>
+      <link>https://www.creditsplan.com/plans/trae.lite/</link>
+      <guid isPermaLink="false">trae.lite:2026-08-04:3</guid>
+      <pubDate>Tue, 04 Aug 2026 04:00:00 GMT</pubDate>
+      <description>CreditsPlan first archived this plan&#39;s monthly price of $3 on 2026-08-04; subsequent price changes will keep being published to this feed.</description>
+    </item>
+    <item>
+      <title>Trae Pro: first recorded monthly price $10</title>
+      <link>https://www.creditsplan.com/plans/trae.pro/</link>
+      <guid isPermaLink="false">trae.pro:2026-08-04:10</guid>
+      <pubDate>Tue, 04 Aug 2026 04:00:00 GMT</pubDate>
+      <description>CreditsPlan first archived this plan&#39;s monthly price of $10 on 2026-08-04; subsequent price changes will keep being published to this feed.</description>
+    </item>
+    <item>
+      <title>Trae Pro+: first recorded monthly price $30</title>
+      <link>https://www.creditsplan.com/plans/trae.proplus/</link>
+      <guid isPermaLink="false">trae.proplus:2026-08-04:30</guid>
+      <pubDate>Tue, 04 Aug 2026 04:00:00 GMT</pubDate>
+      <description>CreditsPlan first archived this plan&#39;s monthly price of $30 on 2026-08-04; subsequent price changes will keep being published to this feed.</description>
+    </item>
+    <item>
+      <title>Trae Ultra: first recorded monthly price $100</title>
+      <link>https://www.creditsplan.com/plans/trae.ultra/</link>
+      <guid isPermaLink="false">trae.ultra:2026-08-04:100</guid>
+      <pubDate>Tue, 04 Aug 2026 04:00:00 GMT</pubDate>
+      <description>CreditsPlan first archived this plan&#39;s monthly price of $100 on 2026-08-04; subsequent price changes will keep being published to this feed.</description>
+    </item>
     <item>
       <title>GitHub Copilot Free: first recorded monthly price $0</title>
       <link>https://www.creditsplan.com/plans/github-copilot.free/</link>
@@ -64,11 +92,11 @@
       <description>CreditsPlan first archived this plan&#39;s monthly price of $10 on 2026-07-29; subsequent price changes will keep being published to this feed.</description>
     </item>
     <item>
-      <title>Ollama Free: first recorded monthly price ￥0</title>
+      <title>Ollama Free: first recorded monthly price $0</title>
       <link>https://www.creditsplan.com/plans/ollama.free/</link>
       <guid isPermaLink="false">ollama.free:2026-07-29:0</guid>
       <pubDate>Wed, 29 Jul 2026 04:00:00 GMT</pubDate>
-      <description>CreditsPlan first archived this plan&#39;s monthly price of ￥0 on 2026-07-29; subsequent price changes will keep being published to this feed.</description>
+      <description>CreditsPlan first archived this plan&#39;s monthly price of $0 on 2026-07-29; subsequent price changes will keep being published to this feed.</description>
     </item>
     <item>
       <title>Ollama Max: first recorded monthly price $100</title>

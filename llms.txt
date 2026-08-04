@@ -1,6 +1,6 @@
 # CreditsPlan (International)
 
-> International AI Coding subscription plan price comparison: 13 verified brands and 57 plans with prices, quotas and representative models — each manually verified against the vendor's official pricing page, with full price-change history. CN site (CNY plans): https://creditsplan.cn/.
+> International AI Coding subscription plan price comparison: 14 verified brands and 61 plans with prices, quotas and representative models — each manually verified against the vendor's official pricing page, with full price-change history. CN site (CNY plans): https://creditsplan.cn/.
 
 ## Key pages
 
@@ -24,6 +24,7 @@
 - [Google Antigravity](https://www.creditsplan.com/brands/google-antigravity/): Google Antigravity is Google's agent development platform, offering a free Individual tier plus Goo… (4 plans)
 - [Grok](https://www.creditsplan.com/brands/grok/): Grok is an AI assistant by xAI (SpaceXAI), offering SuperGrok Lite / SuperGrok / SuperGrok Heavy in… (4 plans)
 - [Cursor](https://www.creditsplan.com/brands/cursor/): Cursor is an AI code editor offering Hobby (free), Pro/Pro+/Ultra individual plans, and Teams/Enter… (7 plans)
+- [Trae](https://www.creditsplan.com/brands/trae/): Trae is an AI-powered IDE by ByteDance, offering agentic coding, code completion, and project-level… (4 plans)
 - [StepFun](https://www.creditsplan.com/brands/stepfun/): Step API · Stable · High-Performance · Easy Integration. Leading models and tools to accelerate the… (4 plans)
 - [Kwai StreamLake](https://www.creditsplan.com/brands/streamlake/): Use KAT-Coder-Pro V2.5 with Claude Code and major IDEs for code generation, refactoring, and reposi… (4 plans)
 - [GitHub Copilot](https://www.creditsplan.com/brands/github-copilot/): GitHub Copilot is the AI coding assistant from GitHub, offering Free, Pro, Pro+, and Max subscripti… (4 plans)
@@ -31,7 +32,8 @@
 
 ## Reports
 
-- [July 2026 report](https://www.creditsplan.com/reports/2026-07/): 59 price records
+- [August 2026 report](https://www.creditsplan.com/reports/2026-08/): 4 price records
+- [July 2026 report](https://www.creditsplan.com/reports/2026-07/): 58 price records
 
 ## Data feeds
 

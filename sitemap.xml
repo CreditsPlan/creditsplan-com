@@ -10,11 +10,11 @@
   </url>
   <url>
     <loc>https://www.creditsplan.com/changelog.html</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-04</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/deals/</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-04</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/methodology.html</loc>
@@ -26,7 +26,7 @@
   </url>
   <url>
     <loc>https://www.creditsplan.com/price-changes/</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-04</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/brands/</loc>
@@ -46,7 +46,11 @@
   </url>
   <url>
     <loc>https://www.creditsplan.com/reports/</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/reports/2026-08/</loc>
+    <lastmod>2026-08-04</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/reports/2026-07/</loc>
@@ -83,6 +87,10 @@
   <url>
     <loc>https://www.creditsplan.com/compare/cursor-vs-qoder/</loc>
     <lastmod>2026-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/qoder-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/compare/qoder-vs-stepfun/</loc>
@@ -129,6 +137,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/trae-vs-z-ai/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/stepfun-vs-z-ai/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -169,6 +181,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/byteplus-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/byteplus-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -205,6 +221,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/opencode-go-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/opencode-go-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -237,6 +257,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/chatgpt-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/chatgpt-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -265,6 +289,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/claude-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/claude-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -289,6 +317,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/google-antigravity-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/google-antigravity-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -309,6 +341,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/grok-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/grok-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -325,6 +361,10 @@
     <lastmod>2026-07-29</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/compare/cursor-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/compare/cursor-vs-stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -339,6 +379,22 @@
   <url>
     <loc>https://www.creditsplan.com/compare/cursor-vs-ollama/</loc>
     <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/stepfun-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/streamlake-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/github-copilot-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/compare/ollama-vs-trae/</loc>
+    <lastmod>2026-08-04</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/compare/stepfun-vs-streamlake/</loc>
@@ -401,6 +457,10 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/brands/trae/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/brands/stepfun/</loc>
     <lastmod>2026-07-26</lastmod>
   </url>
@@ -417,8 +477,76 @@
     <lastmod>2026-07-29</lastmod>
   </url>
   <url>
+    <loc>https://www.creditsplan.com/plans/trae.lite/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/trae.pro/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/trae.proplus/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/trae.ultra/</loc>
+    <lastmod>2026-08-04</lastmod>
+  </url>
+  <url>
     <loc>https://www.creditsplan.com/plans/opencode-go-coding-plan/</loc>
     <lastmod>2026-07-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.mini/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.starter/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.pro/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/streamlake.max/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.free/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.pro/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.proplus/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/github-copilot.max/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.free/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.pro/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.max/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.team/</loc>
+    <lastmod>2026-07-29</lastmod>
+  </url>
+  <url>
+    <loc>https://www.creditsplan.com/plans/ollama.enterprise/</loc>
+    <lastmod>2026-07-29</lastmod>
   </url>
   <url>
     <loc>https://www.creditsplan.com/plans/byteplus-coding-lite/</loc>
@@ -541,42 +669,6 @@
     <lastmod>2026-07-22</lastmod>
   </url>
   <url>
-    <loc>https://www.creditsplan.com/plans/github-copilot.free/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/github-copilot.pro/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/github-copilot.proplus/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/github-copilot.max/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/ollama.free/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/ollama.pro/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/ollama.max/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/ollama.team/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/ollama.enterprise/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
     <loc>https://www.creditsplan.com/plans/z-ai-glm-coding-lite/</loc>
     <lastmod>2026-07-19</lastmod>
   </url>
@@ -627,21 +719,5 @@
   <url>
     <loc>https://www.creditsplan.com/plans/stepfun.flash-max/</loc>
     <lastmod>2026-07-26</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/streamlake.mini/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/streamlake.starter/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/streamlake.pro/</loc>
-    <lastmod>2026-07-29</lastmod>
-  </url>
-  <url>
-    <loc>https://www.creditsplan.com/plans/streamlake.max/</loc>
-    <lastmod>2026-07-29</lastmod>
   </url>
 </urlset>
