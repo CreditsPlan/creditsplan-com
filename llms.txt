@@ -32,7 +32,7 @@
 
 ## Reports
 
-- [August 2026 report](https://www.creditsplan.com/reports/2026-08/): 4 price records
+- [August 2026 report](https://www.creditsplan.com/reports/2026-08/): 12 price records
 - [July 2026 report](https://www.creditsplan.com/reports/2026-07/): 58 price records
 
 ## Data feeds
