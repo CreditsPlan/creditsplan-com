@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/creditsplan-logo-original-arrow-600.webp">
   <meta name="twitter:image:alt" content="CreditsPlan logo">
   <link rel="icon" href="https://creditsplan.oss-cn-hangzhou.aliyuncs.com/favicon-sharp.ico" type="image/x-icon">
-  <link rel="stylesheet" href="./styles.tailwind.6ceae8256aaa.css">
+  <link rel="stylesheet" href="./styles.tailwind.771bb68f9126.css">
   <script src="./js/theme-init.js"></script>
 </head>
 <body class="text-slate-950 antialiased dark:text-slate-100" data-page="changelog.html">
@@ -73,52 +73,107 @@
     </div>
 
     <main>
-      <section class="changelog-shell" aria-labelledby="changelogTitle">
-        <header class="changelog-hero">
-          <p class="changelog-kicker"><span aria-hidden="true"></span><span data-i18n="changelog.kicker">Changelog</span></p>
-          <h1 id="changelogTitle" data-i18n="changelog.title">Every content expansion, recorded.</h1>
-          <p class="changelog-lead" data-i18n="changelog.lead">See which brands, plans and site capabilities CreditsPlan has added, and when key data was verified.</p>
+      <div class="aihot-layout">
+        <aside class="aihot-sidebar" aria-label="Changelog filters">
+          <div class="aihot-sidebar-inner">
+            <div class="aihot-sidebar-brand">
+              <span class="aihot-logo-dot"></span>
+              <span class="aihot-logo-text" data-i18n="changelog.sidebar.brand">Changelog</span>
+            </div>
+            <nav class="aihot-sidebar-nav" id="changelogSidebarNav">
+              <button type="button" class="aihot-nav-item is-active" data-view="all">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                <span data-i18n="changelog.view.all">All updates</span>
+                <span class="aihot-cat-count" id="countAll">-</span>
+              </button>
+              <button type="button" class="aihot-nav-item" data-view="roadmap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <span data-i18n="changelog.view.roadmap">In progress</span>
+                <span class="aihot-cat-count" id="countRoadmap">-</span>
+              </button>
+              <div class="aihot-nav-divider"></div>
+              <p class="aihot-nav-label" data-i18n="changelog.filter.label">Filter by category</p>
+              <button type="button" class="aihot-nav-item aihot-cat-item is-active" data-category="">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg>
+                <span data-i18n="changelog.cat.all">All categories</span>
+                <span class="aihot-cat-count" id="catAll">-</span>
+              </button>
+              <button type="button" class="aihot-nav-item aihot-cat-item" data-category="catalog">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                <span data-i18n="changelog.kind.catalog">Plans &amp; brands</span>
+                <span class="aihot-cat-count" id="catCatalog">-</span>
+              </button>
+              <button type="button" class="aihot-nav-item aihot-cat-item" data-category="data">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                <span data-i18n="changelog.kind.data">Data update</span>
+                <span class="aihot-cat-count" id="catData">-</span>
+              </button>
+              <button type="button" class="aihot-nav-item aihot-cat-item" data-category="feature">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span data-i18n="changelog.kind.feature">Site feature</span>
+                <span class="aihot-cat-count" id="catFeature">-</span>
+              </button>
+              <div class="aihot-nav-divider"></div>
+              <p class="aihot-nav-label" data-i18n="changelog.date.label">Filter by date</p>
+              <div id="dateFilterList"></div>
+            </nav>
+          </div>
+        </aside>
+
+        <section class="aihot-main" aria-labelledby="changelogTitle">
+          <div class="aihot-sticky-head">
+            <h1 class="aihot-page-title" id="changelogTitle" data-i18n="changelog.title">Every content expansion, recorded.</h1>
+            <div class="aihot-toolbar" id="changelogToolbar">
+              <div class="aihot-search-box">
+                <svg class="aihot-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="search" id="changelogSearchInput" class="aihot-search-input" placeholder="Search title or summary..." autocomplete="off" data-i18n-attr="placeholder:changelog.search.placeholder;aria-label:changelog.search.aria" aria-label="Search changelog titles and summaries">
+              </div>
+              <div class="aihot-filter-chips" id="changelogChips">
+                <button type="button" class="aihot-chip is-active" data-filter="all" aria-pressed="true" data-i18n="changelog.view.all">All updates</button>
+                <button type="button" class="aihot-chip" data-filter="roadmap" aria-pressed="false" data-i18n="changelog.view.roadmap">In progress</button>
+              </div>
+              <span class="changelog-filter-result" id="filterResult" aria-live="polite"></span>
+            </div>
+          </div>
 
           <dl class="changelog-overview" aria-label="Changelog summary" aria-live="polite">
             <div><dt data-i18n="changelog.overview.updated">Last updated</dt><dd><time id="changelogUpdatedAt">—</time></dd></div>
             <div><dt data-i18n="changelog.overview.count">Public records</dt><dd><strong id="changelogEntryCount">—</strong> <span data-i18n="changelog.overview.countUnit">entries</span></dd></div>
             <div><dt data-i18n="changelog.overview.scope">Scope</dt><dd data-i18n="changelog.overview.scopeValue">Brands · Plans · Features</dd></div>
           </dl>
-        </header>
 
-        <section class="changelog-section changelog-roadmap" aria-labelledby="roadmapTitle" id="roadmapSection" hidden>
-          <div class="changelog-section-head">
-            <div><p data-i18n="changelog.roadmap.kicker">Roadmap</p><h2 id="roadmapTitle" data-i18n="changelog.roadmap.title">In progress</h2></div>
-            <p data-i18n="changelog.roadmap.order">Feature plans sourced from user feedback; items move into the changelog below once shipped</p>
+          <div id="changelogView">
+            <div id="changelogLoading" class="changelog-loading" aria-label="Loading changelog">
+              <span></span><span></span><span></span>
+            </div>
+
+            <div id="changelogError" class="changelog-message" role="alert" hidden>
+              <span class="changelog-message-icon" aria-hidden="true">!</span>
+              <div><h3 data-i18n="changelog.error.title">Changelog is temporarily unavailable</h3><p data-i18n="changelog.error.body">Please refresh later, or return to the plans page for currently listed content.</p></div>
+            </div>
+
+            <div id="changelogList" class="changelog-list" aria-live="polite" hidden></div>
+
+            <div id="changelogEmpty" class="changelog-empty" hidden>
+              <h3 data-i18n="changelog.filter.emptyTitle">No matching entries</h3>
+              <p data-i18n="changelog.filter.emptyBody">No entries match the current filters. Try adjusting the filter criteria.</p>
+            </div>
           </div>
-          <ul id="roadmapList" class="roadmap-list" aria-live="polite"></ul>
+
+          <div id="roadmapView" hidden>
+            <p class="changelog-section-head-note" data-i18n="changelog.roadmap.order">Feature plans sourced from user feedback; items move into the changelog below once shipped</p>
+            <ul id="roadmapList" class="roadmap-list" aria-live="polite"></ul>
+            <div id="roadmapEmpty" class="changelog-empty" hidden>
+              <h3 data-i18n="changelog.empty.roadmap.title">Nothing planned yet</h3>
+              <p data-i18n="changelog.empty.roadmap.body">Feature plans sourced from user feedback appear here once added.</p>
+            </div>
+          </div>
+
+          <aside class="changelog-note">
+            <p><span data-i18n="changelog.note">The changelog records site content and feature changes; subscribe to ongoing plan price changes via the price-change RSS.</span> <a class="focus-ring" href="./price-changes.xml" data-i18n="changelog.note.rss">price-change RSS</a></p>
+          </aside>
         </section>
-
-        <section class="changelog-section" aria-labelledby="allChangesTitle">
-          <div class="changelog-section-head">
-            <div><p data-i18n="changelog.section.kicker">All updates</p><h2 id="allChangesTitle" data-i18n="changelog.section.title">All updates</h2></div>
-            <p data-i18n="changelog.section.order">Sorted by publish date, newest first</p>
-          </div>
-
-          <div id="changelogLoading" class="changelog-loading" aria-label="Loading changelog">
-            <span></span><span></span><span></span>
-          </div>
-
-          <div id="changelogError" class="changelog-message" role="alert" hidden>
-            <span class="changelog-message-icon" aria-hidden="true">!</span>
-            <div><h3 data-i18n="changelog.error.title">Changelog is temporarily unavailable</h3><p data-i18n="changelog.error.body">Please refresh later, or return to the plans page for currently listed content.</p></div>
-          </div>
-
-          <div id="changelogList" class="changelog-list" aria-live="polite" hidden></div>
-        </section>
-
-        <aside class="changelog-note">
-          <p><span data-i18n="changelog.note">The changelog records site content and feature changes; subscribe to ongoing plan price changes via the price-change RSS.</span> <a class="focus-ring" href="./price-changes.xml" data-i18n="changelog.note.rss">price-change RSS</a></p>
-        </aside>
-      </section>
-    </main>
-
-    <div id="footer-root">
+        <div id="footer-root">
       <footer>
         <div class="footer-shell mx-auto flex flex-col gap-2 px-4 py-3 text-sm text-slate-500 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <nav class="flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="Footer navigation" data-i18n-attr="aria-label:footer.aria">
@@ -129,9 +184,22 @@
             <span>© 2026 CreditsPlan</span>
           </div>
         </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
+      </div>
+    </main>
+
+    <nav class="aihot-tabbar" id="changelogTabbar" aria-label="Changelog views">
+      <button type="button" class="aihot-tab is-active" data-view="all">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span data-i18n="changelog.view.all">All updates</span>
+      </button>
+      <button type="button" class="aihot-tab" data-view="roadmap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span data-i18n="changelog.view.roadmap">In progress</span>
+      </button>
+    </nav>
   </div>
-  <script type="module" src="./js/system-changelog-page.041cbcd74ff4.js"></script>
+  <script type="module" src="./js/system-changelog-page.46917a646662.js"></script>
 </body>
 </html>

@@ -2,6 +2,22 @@
   "last_updated": "2026-08-06",
   "deals": [
     {
+      "id": "promotion-1786008328429",
+      "provider": "Qoder",
+      "title": "Qoder 高级模型错峰折扣：最高省 80%",
+      "title_en": "Qoder Premium Model Off-Peak Discount: Save up to 80%",
+      "summary": "Qoder 对部分高级模型提供分时段 Credits 倍率折扣，错峰时段（每日 22:00 至次日 08:00）最高可节省 80%。Pro Trial 及付费用户自动生效，无需报名。",
+      "summary_en": "Qoder offers time-based Credits rate discounts on select premium models. During off-peak hours (10 PM - 8 AM), save up to 80%. Auto-applies for Pro Trial and paid users.",
+      "type": "discount",
+      "url": "https://docs.qoder.com/zh/events/offpeakrate",
+      "url_en": "https://docs.qoder.com/events/offpeakrate",
+      "start_date": "",
+      "end_date": "",
+      "status": "active",
+      "date_range": "Ongoing",
+      "published_at": "2026-08-06"
+    },
+    {
       "id": "promotion-1785729584998",
       "provider": "Qoder",
       "title": "Qoder 一周年：领最高 2800 次 Qwen3.8-Max 免费调用，错峰时段 5 折",

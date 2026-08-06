@@ -69,10 +69,25 @@ const els = {
   error: document.getElementById('changelogError'),
   list: document.getElementById('changelogList'),
   loading: document.getElementById('changelogLoading'),
+  empty: document.getElementById('changelogEmpty'),
+  changelogView: document.getElementById('changelogView'),
   roadmapList: document.getElementById('roadmapList'),
-  roadmapSection: document.getElementById('roadmapSection'),
+  roadmapView: document.getElementById('roadmapView'),
+  roadmapEmpty: document.getElementById('roadmapEmpty'),
   updatedAt: document.getElementById('changelogUpdatedAt'),
+  filterResult: document.getElementById('filterResult'),
+  dateFilterList: document.getElementById('dateFilterList'),
+  sidebarNav: document.getElementById('changelogSidebarNav'),
+  chips: document.getElementById('changelogChips'),
+  tabbar: document.getElementById('changelogTabbar'),
+  searchInput: document.getElementById('changelogSearchInput'),
 };
+
+// 筛选状态：view 为 all（更新日志）或 roadmap（正在推进）；category/month/query 仅在 all 视图生效
+const state = { view: 'all', category: '', month: '', query: '' };
+let entries = [];
+let roadmapItems = [];
+let searchTimer = null;
 
 function formatDate(value) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
@@ -179,21 +194,30 @@ function renderRoadmapItem(item) {
 }
 
 function renderRoadmap(roadmap) {
-  const items = Array.isArray(roadmap) ? roadmap.filter(item => item && (item.title || item.title_en)) : [];
-  if (!items.length || !els.roadmapList || !els.roadmapSection) return;
-  const sorted = [...items].sort((a, b) => {
-    const rank = item => {
-      const idx = roadmapOrder.indexOf(item.status);
-      return idx === -1 ? roadmapOrder.length : idx;
-    };
-    return rank(a) - rank(b) || (Number(b.votes) || 0) - (Number(a.votes) || 0);
-  });
-  els.roadmapList.innerHTML = sorted.map(renderRoadmapItem).join('');
-  setVisible(els.roadmapSection, true);
+  roadmapItems = Array.isArray(roadmap) ? roadmap.filter(item => item && (item.title || item.title_en)) : [];
+  if (!els.roadmapList || !els.roadmapView) return;
+  if (!roadmapItems.length) {
+    els.roadmapList.innerHTML = '';
+    setVisible(els.roadmapList, false);
+    setVisible(els.roadmapEmpty, true);
+  } else {
+    const sorted = [...roadmapItems].sort((a, b) => {
+      const rank = item => {
+        const idx = roadmapOrder.indexOf(item.status);
+        return idx === -1 ? roadmapOrder.length : idx;
+      };
+      return rank(a) - rank(b) || (Number(b.votes) || 0) - (Number(a.votes) || 0);
+    });
+    els.roadmapList.innerHTML = sorted.map(renderRoadmapItem).join('');
+    setVisible(els.roadmapList, true);
+    setVisible(els.roadmapEmpty, false);
+  }
+  const countEl = document.getElementById('countRoadmap');
+  if (countEl) countEl.textContent = roadmapItems.length.toLocaleString(numberLocale());
 }
 
 function renderChangelog(data) {
-  const entries = Array.isArray(data?.entries)
+  entries = Array.isArray(data?.entries)
     ? [...data.entries].sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')))
     : [];
   const updatedAt = data?.last_updated || entries[0]?.date || '';
@@ -201,13 +225,169 @@ function renderChangelog(data) {
   els.updatedAt.textContent = formatDate(updatedAt);
   els.updatedAt.dateTime = updatedAt;
   els.count.textContent = entries.length.toLocaleString(numberLocale());
-  els.list.innerHTML = entries.length
-    ? entries.map(renderEntry).join('')
-    : `<div class="changelog-empty"><h3>${escapeHtml(t('changelog.empty.title'))}</h3><p>${escapeHtml(t('changelog.empty.body'))}</p></div>`;
+  const countAllEl = document.getElementById('countAll');
+  if (countAllEl) countAllEl.textContent = entries.length.toLocaleString(numberLocale());
+  updateCategoryCounts();
+  renderDateFilter();
+  applyFilters();
 
   setVisible(els.loading, false);
   setVisible(els.error, false);
-  setVisible(els.list, true);
+}
+
+// —— 侧边栏筛选：分类计数、日期分组、过滤与视图切换 ——
+
+function updateCategoryCounts() {
+  const counts = { catalog: 0, data: 0, feature: 0 };
+  for (const entry of entries) {
+    const kind = Object.hasOwn(kindLabels, entry?.kind) ? entry.kind : 'data';
+    counts[kind] = (counts[kind] || 0) + 1;
+  }
+  const setCount = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value.toLocaleString(numberLocale());
+  };
+  setCount('catAll', entries.length);
+  setCount('catCatalog', counts.catalog);
+  setCount('catData', counts.data);
+  setCount('catFeature', counts.feature);
+}
+
+function renderDateFilter() {
+  if (!els.dateFilterList) return;
+  const monthCounts = new Map();
+  for (const entry of entries) {
+    const match = /^(\d{4})-(\d{2})/.exec(entry.date || '');
+    if (match) {
+      const key = `${match[1]}.${match[2]}`;
+      monthCounts.set(key, (monthCounts.get(key) || 0) + 1);
+    }
+  }
+  const months = [...monthCounts.keys()].sort((a, b) => b.localeCompare(a));
+  const calendarIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+  els.dateFilterList.innerHTML = `
+    <button type="button" class="aihot-nav-item aihot-cat-item is-active" data-month="">
+      ${calendarIcon}
+      <span>${escapeHtml(t('changelog.date.all'))}</span>
+      <span class="aihot-cat-count">${entries.length.toLocaleString(numberLocale())}</span>
+    </button>
+    ${months.map(month => `
+    <button type="button" class="aihot-nav-item aihot-cat-item" data-month="${escapeHtml(month)}">
+      ${calendarIcon}
+      <span>${escapeHtml(month)}</span>
+      <span class="aihot-cat-count">${(monthCounts.get(month) || 0).toLocaleString(numberLocale())}</span>
+    </button>`).join('')}`;
+}
+
+function applyFilters() {
+  const q = state.query.trim().toLowerCase();
+  const normalizedKind = entry => (Object.hasOwn(kindLabels, entry?.kind) ? entry.kind : 'data');
+  const filtered = entries.filter(entry => {
+    if (state.category && normalizedKind(entry) !== state.category) return false;
+    if (state.month) {
+      const month = (entry.date || '').slice(0, 7).replace('-', '.');
+      if (month !== state.month) return false;
+    }
+    if (q) {
+      const haystack = [entry.title, entry.title_en, entry.summary, entry.summary_en,
+        ...(Array.isArray(entry.items) ? entry.items : []),
+        ...(Array.isArray(entry.items_en) ? entry.items_en : [])]
+        .filter(Boolean).join(' ').toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    return true;
+  });
+  els.list.innerHTML = filtered.length ? filtered.map(renderEntry).join('') : '';
+  setVisible(els.list, filtered.length > 0);
+  setVisible(els.empty, filtered.length === 0);
+  els.filterResult.textContent = filtered.length === entries.length
+    ? ''
+    : t('changelog.filter.result', { shown: filtered.length.toLocaleString(numberLocale()), total: entries.length.toLocaleString(numberLocale()) });
+}
+
+function syncFilterHighlights() {
+  document.querySelectorAll('#changelogSidebarNav [data-category]').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.category === state.category);
+  });
+  document.querySelectorAll('#changelogSidebarNav [data-month]').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.month === state.month);
+  });
+}
+
+function switchView(view) {
+  state.view = view === 'roadmap' ? 'roadmap' : 'all';
+  document.querySelectorAll('#changelogSidebarNav [data-view], #changelogTabbar [data-view]').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.view === state.view);
+  });
+  document.querySelectorAll('#changelogChips [data-filter]').forEach(btn => {
+    const active = btn.dataset.filter === state.view;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-pressed', String(active));
+  });
+  const isRoadmap = state.view === 'roadmap';
+  setVisible(els.roadmapView, isRoadmap);
+  setVisible(els.changelogView, !isRoadmap);
+  setVisible(els.roadmapList, isRoadmap && roadmapItems.length > 0);
+  setVisible(els.roadmapEmpty, isRoadmap && roadmapItems.length === 0);
+  // 分类/日期筛选仅作用于 all 视图：切到 roadmap 时取消侧边栏高亮（保留选中值，切回时恢复）
+  if (isRoadmap) {
+    document.querySelectorAll('#changelogSidebarNav [data-category], #changelogSidebarNav [data-month]').forEach(btn => btn.classList.remove('is-active'));
+    if (els.filterResult) els.filterResult.textContent = '';
+  } else {
+    syncFilterHighlights();
+    setVisible(els.loading, false);
+    setVisible(els.error, entries.length === 0);
+    applyFilters();
+  }
+}
+
+function switchCategory(category) {
+  state.category = category;
+  if (state.view !== 'all') switchView('all');
+  syncFilterHighlights();
+  applyFilters();
+}
+
+function switchMonth(month) {
+  state.month = month;
+  if (state.view !== 'all') switchView('all');
+  syncFilterHighlights();
+  applyFilters();
+}
+
+function bindEvents() {
+  if (els.sidebarNav) {
+    els.sidebarNav.addEventListener('click', e => {
+      const viewBtn = e.target.closest('[data-view]');
+      if (viewBtn) return switchView(viewBtn.dataset.view);
+      const catBtn = e.target.closest('[data-category]');
+      if (catBtn) return switchCategory(catBtn.dataset.category);
+      const monthBtn = e.target.closest('[data-month]');
+      if (monthBtn) return switchMonth(monthBtn.dataset.month);
+    });
+  }
+  if (els.chips) {
+    els.chips.addEventListener('click', e => {
+      const chip = e.target.closest('[data-filter]');
+      if (chip) switchView(chip.dataset.filter);
+    });
+  }
+  if (els.tabbar) {
+    els.tabbar.addEventListener('click', e => {
+      const tab = e.target.closest('[data-view]');
+      if (tab) switchView(tab.dataset.view);
+    });
+  }
+  if (els.searchInput) {
+    els.searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        state.query = els.searchInput.value;
+        if (state.view !== 'all') switchView('all');
+        applyFilters();
+      }, 200);
+    });
+  }
 }
 
 function parseDetailsToItems(details) {
@@ -259,6 +439,7 @@ async function loadChangelog() {
   } catch {
     setVisible(els.loading, false);
     setVisible(els.list, false);
+    setVisible(els.empty, false);
     setVisible(els.error, true);
   }
 }
@@ -274,5 +455,6 @@ async function loadRoadmap() {
 }
 
 initAppShell();
+bindEvents();
 loadChangelog();
 loadRoadmap();
