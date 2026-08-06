@@ -1,6 +1,526 @@
 {
-  "last_updated": "2026-08-03",
+  "last_updated": "2026-08-06",
   "entries": [
+    {
+      "id": "changelog-1785988748423",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "data",
+      "title": "Z.ai：更新 1 项模型价格",
+      "title_en": "Z.ai: 1 model prices updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Z.ai · GLM-5.1：最大输出 128000 → 131072"
+      ],
+      "items_en": [
+        "Z.ai · GLM-5.1: Max output 128000 → 131072"
+      ],
+      "change_items": [
+        {
+          "scope": "model",
+          "action": "update",
+          "provider": "Z.ai",
+          "brand_slug": "zai",
+          "canonical_id": "glm-5-1",
+          "model_name": "GLM-5.1",
+          "changes": {
+            "max_output": {
+              "from": 128000,
+              "to": 131072
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785988573408",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "data",
+      "title": "Qoder：更新 2 项套餐",
+      "title_en": "Qoder: 2 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Qoder · Teams：备注 Teams 为 $40/席位/月，包含 3,000 Credits 每席位/月、… → 按席计费（每席 $40）",
+        "Qoder · Enterprise：备注 Enterprise 为 $20/席位/月，席位不含 Credits，Credi… → 按席计费（每席 $20）"
+      ],
+      "items_en": [
+        "Qoder · Teams: Notes Teams 为 $40/席位/月，包含 3,000 Credits 每席位/月、… → 按席计费（每席 $40）",
+        "Qoder · Enterprise: Notes Enterprise 为 $20/席位/月，席位不含 Credits，Credi… → 按席计费（每席 $20）"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Qoder",
+          "brand_slug": "qoder",
+          "plan_id": "qoder-teams",
+          "plan_name": "Teams",
+          "changes": {
+            "notes": {
+              "from": "Teams 为 $40/席位/月，包含 3,000 Credits 每席位/月、集中计费与资源管理、统一账号与资源管理、SAML/OIDC 单点登录支持、IM 统一管控、基于团队知识引擎的智能体、隐私模式管控和研发度量。",
+              "to": "按席计费（每席 $40）"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Qoder",
+          "brand_slug": "qoder",
+          "plan_id": "qoder-enterprise",
+          "plan_name": "Enterprise",
+          "changes": {
+            "notes": {
+              "from": "Enterprise 为 $20/席位/月，席位不含 Credits，Credits 需额外购买；包含 Teams 的全部功能，同时提供 Credits 资源池自由分配、基于群组的权限和计费管理、多维度模型策略管控、插件分享与下发管控、企业私有能力市场、操作审计和优先服务支持。",
+              "to": "按席计费（每席 $20）"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785988543546",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "catalog",
+      "title": "Antigravity：新增 1 项套餐",
+      "title_en": "Antigravity: 1 new plans",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Antigravity · Google AI Plus：新增套餐"
+      ],
+      "items_en": [
+        "Antigravity · Google AI Plus: new plan"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "create",
+          "provider": "Antigravity",
+          "brand_slug": "google-antigravity",
+          "plan_id": "google-antigravity.google-ai-plus",
+          "plan_name": "Google AI Plus"
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785988531885",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "data",
+      "title": "Antigravity：更新 1 项套餐",
+      "title_en": "Antigravity: 1 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Antigravity · Google AI Ultra：name Google AI Ultra 5x → Google AI Ultra"
+      ],
+      "items_en": [
+        "Antigravity · Google AI Ultra: name Google AI Ultra 5x → Google AI Ultra"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Antigravity",
+          "brand_slug": "google-antigravity",
+          "plan_id": "google-antigravity.google-ai-ultra-5x",
+          "plan_name": "Google AI Ultra",
+          "changes": {
+            "name": {
+              "from": "Google AI Ultra 5x",
+              "to": "Google AI Ultra"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785988505040",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "data",
+      "title": "Cursor：更新 1 项套餐",
+      "title_en": "Cursor: 1 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Cursor · Teams：name Teams Standard → Teams"
+      ],
+      "items_en": [
+        "Cursor · Teams: name Teams Standard → Teams"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Cursor",
+          "brand_slug": "cursor",
+          "plan_id": "cursor.teams-standard",
+          "plan_name": "Teams",
+          "changes": {
+            "name": {
+              "from": "Teams Standard",
+              "to": "Teams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785987043227",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "data",
+      "title": "Ollama：更新 3 项套餐",
+      "title_en": "Ollama: 3 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Ollama · Pro：权益 Access larger, more powerful cloud model… → Solve harder tasks, faster / or $200/yr …",
+        "Ollama · Max：权益 For your most demanding work → For your most demanding work / Everythin…；status_label 暂停新订 → 不可购买",
+        "Ollama · Team：权益 Access to powerful open models; High per… → Introductory pricing / Bring open models…；备注 Minimum seat charge is $125 per month fo… → 每席位月价，5 席位起"
+      ],
+      "items_en": [
+        "Ollama · Pro: Benefits Access larger, more powerful cloud model… → Solve harder tasks, faster / or $200/yr …",
+        "Ollama · Max: Benefits For your most demanding work → For your most demanding work / Everythin…; status_label 暂停新订 → 不可购买",
+        "Ollama · Team: Benefits Access to powerful open models; High per… → Introductory pricing / Bring open models…; Notes Minimum seat charge is $125 per month fo… → 每席位月价，5 席位起"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Ollama",
+          "brand_slug": "ollama",
+          "plan_id": "ollama.pro",
+          "plan_name": "Pro",
+          "changes": {
+            "benefits": {
+              "from": "Access larger, more powerful cloud models; Upload and share private models",
+              "to": "Solve harder tasks, faster\nor $200/yr billed annually\nEverything in Free, plus:\nAccess larger, more powerful cloud models\nRun 3 cloud models at a time"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Ollama",
+          "brand_slug": "ollama",
+          "plan_id": "ollama.max",
+          "plan_name": "Max",
+          "changes": {
+            "benefits": {
+              "from": "For your most demanding work",
+              "to": "For your most demanding work\nEverything in Pro, plus:\nRun 10 cloud models at a time\n5x more usage than Pro"
+            },
+            "status_label": {
+              "from": "暂停新订",
+              "to": "不可购买"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Ollama",
+          "brand_slug": "ollama",
+          "plan_id": "ollama.team",
+          "plan_name": "Team",
+          "changes": {
+            "benefits": {
+              "from": "Access to powerful open models; High performance; Zero data retention and logging; Priority support",
+              "to": "Introductory pricing\nBring open models to your whole team.\n5-seat minimum, usage included\nWhat's included:\nAccess to powerful open models in the US and Europe"
+            },
+            "notes": {
+              "from": "Minimum seat charge is $125 per month for 5 seats.",
+              "to": "每席位月价，5 席位起"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785987017168",
+      "date": "2026-08-06",
+      "edition": "2026.08.06",
+      "kind": "data",
+      "title": "GitHub Copilot：更新 3 项套餐",
+      "title_en": "GitHub Copilot: 3 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "GitHub Copilot · Pro：权益 Access to Cloud agent and code review → For everyday coding with agents in GitHu…；备注 ∅ → per user / month",
+        "GitHub Copilot · Pro+：权益 Access to premium models, including Opus → For more complex development with premiu…；备注 ∅ → per user / month",
+        "GitHub Copilot · Max：权益 Priority access to new models and featur… → For sustained, high-volume agent workflo…；备注 ∅ → per user / month"
+      ],
+      "items_en": [
+        "GitHub Copilot · Pro: Benefits Access to Cloud agent and code review → For everyday coding with agents in GitHu…; Notes ∅ → per user / month",
+        "GitHub Copilot · Pro+: Benefits Access to premium models, including Opus → For more complex development with premiu…; Notes ∅ → per user / month",
+        "GitHub Copilot · Max: Benefits Priority access to new models and featur… → For sustained, high-volume agent workflo…; Notes ∅ → per user / month"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "GitHub Copilot",
+          "brand_slug": "github-copilot",
+          "plan_id": "github-copilot.pro",
+          "plan_name": "Pro",
+          "changes": {
+            "benefits": {
+              "from": "Access to Cloud agent and code review",
+              "to": "For everyday coding with agents in GitHub Copilot.\nAccess to Cloud agent and code review 1\nUnlimited code completion and next edit suggestions 2\nAccess to 3rd party agents (Claude Code and Codex)\nModel selection"
+            },
+            "notes": {
+              "from": "",
+              "to": "per user / month"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "GitHub Copilot",
+          "brand_slug": "github-copilot",
+          "plan_id": "github-copilot.proplus",
+          "plan_name": "Pro+",
+          "changes": {
+            "benefits": {
+              "from": "Access to premium models, including Opus",
+              "to": "For more complex development with premium models.\nAccess to premium models, including Opus\nAudit logs\n4x+ included usage than Pro"
+            },
+            "notes": {
+              "from": "",
+              "to": "per user / month"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "GitHub Copilot",
+          "brand_slug": "github-copilot",
+          "plan_id": "github-copilot.max",
+          "plan_name": "Max",
+          "changes": {
+            "benefits": {
+              "from": "Priority access to new models and features",
+              "to": "For sustained, high-volume agent workflows with GitHub Copilot.\nPriority access to new models and features\n2.9x+ included usage than Pro+"
+            },
+            "notes": {
+              "from": "",
+              "to": "per user / month"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785916244299",
+      "date": "2026-08-05",
+      "edition": "2026.08.05",
+      "kind": "data",
+      "title": "Grok：更新 1 项套餐",
+      "title_en": "Grok: 1 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Grok · SuperGrok Plus：购买链接 ∅ → https://grok.com/plans"
+      ],
+      "items_en": [
+        "Grok · SuperGrok Plus: Purchase URL ∅ → https://grok.com/plans"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Grok",
+          "brand_slug": "grok",
+          "plan_id": "grok.supergrok-plus",
+          "plan_name": "SuperGrok Plus",
+          "changes": {
+            "url_en": {
+              "from": null,
+              "to": "https://grok.com/plans"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785914794487",
+      "date": "2026-08-05",
+      "edition": "2026.08.05",
+      "kind": "catalog",
+      "title": "Grok：新增 1 项套餐",
+      "title_en": "Grok: 1 new plans",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Grok · SuperGrok Plus：新增套餐"
+      ],
+      "items_en": [
+        "Grok · SuperGrok Plus: new plan"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "create",
+          "provider": "Grok",
+          "brand_slug": "grok",
+          "plan_id": "grok.supergrok-plus",
+          "plan_name": "SuperGrok Plus"
+        }
+      ]
+    },
+    {
+      "id": "changelog-1785830550415",
+      "date": "2026-08-04",
+      "edition": "2026.08.04",
+      "kind": "data",
+      "title": "Trae：更新 4 项套餐",
+      "title_en": "Trae: 4 plans updated",
+      "summary": "",
+      "summary_en": null,
+      "items": [
+        "Trae · Lite：年费 ∅ → 27；按年价 ∅ → 27；包含额度 ∅ → $5 Basic usage + Bonus usage；concurrency_limit ∅ → 2；备注 ∅ → One-month purchase: $4.5",
+        "Trae · Pro：年费 ∅ → 90；按年价 ∅ → 90；包含额度 ∅ → $20 Basic usage + Bonus usage；concurrency_limit ∅ → 10；备注 ∅ → One-month purchase: $15; 600 fast premiu…",
+        "Trae · Pro+：年费 ∅ → 270；按年价 ∅ → 270；包含额度 ∅ → $90 Basic usage + Bonus usage；concurrency_limit ∅ → 15；备注 ∅ → One-month purchase: $45",
+        "Trae · Ultra：年费 ∅ → 900；按年价 ∅ → 900；包含额度 ∅ → $400 Basic usage + Bonus usage；concurrency_limit ∅ → 20；备注 ∅ → One-month purchase: $150"
+      ],
+      "items_en": [
+        "Trae · Lite: Yearly price ∅ → 27; Annual price ∅ → 27; Included quota ∅ → $5 Basic usage + Bonus usage; concurrency_limit ∅ → 2; Notes ∅ → One-month purchase: $4.5",
+        "Trae · Pro: Yearly price ∅ → 90; Annual price ∅ → 90; Included quota ∅ → $20 Basic usage + Bonus usage; concurrency_limit ∅ → 10; Notes ∅ → One-month purchase: $15; 600 fast premiu…",
+        "Trae · Pro+: Yearly price ∅ → 270; Annual price ∅ → 270; Included quota ∅ → $90 Basic usage + Bonus usage; concurrency_limit ∅ → 15; Notes ∅ → One-month purchase: $45",
+        "Trae · Ultra: Yearly price ∅ → 900; Annual price ∅ → 900; Included quota ∅ → $400 Basic usage + Bonus usage; concurrency_limit ∅ → 20; Notes ∅ → One-month purchase: $150"
+      ],
+      "change_items": [
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Trae",
+          "brand_slug": "trae",
+          "plan_id": "trae.lite",
+          "plan_name": "Lite",
+          "changes": {
+            "yearly_price": {
+              "from": null,
+              "to": 27
+            },
+            "annual_price": {
+              "from": null,
+              "to": 27
+            },
+            "included_calls": {
+              "from": null,
+              "to": "$5 Basic usage + Bonus usage"
+            },
+            "concurrency_limit": {
+              "from": null,
+              "to": "2"
+            },
+            "notes": {
+              "from": null,
+              "to": "One-month purchase: $4.5"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Trae",
+          "brand_slug": "trae",
+          "plan_id": "trae.pro",
+          "plan_name": "Pro",
+          "changes": {
+            "yearly_price": {
+              "from": null,
+              "to": 90
+            },
+            "annual_price": {
+              "from": null,
+              "to": 90
+            },
+            "included_calls": {
+              "from": null,
+              "to": "$20 Basic usage + Bonus usage"
+            },
+            "concurrency_limit": {
+              "from": null,
+              "to": "10"
+            },
+            "notes": {
+              "from": null,
+              "to": "One-month purchase: $15; 600 fast premium model requests"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Trae",
+          "brand_slug": "trae",
+          "plan_id": "trae.proplus",
+          "plan_name": "Pro+",
+          "changes": {
+            "yearly_price": {
+              "from": null,
+              "to": 270
+            },
+            "annual_price": {
+              "from": null,
+              "to": 270
+            },
+            "included_calls": {
+              "from": null,
+              "to": "$90 Basic usage + Bonus usage"
+            },
+            "concurrency_limit": {
+              "from": null,
+              "to": "15"
+            },
+            "notes": {
+              "from": null,
+              "to": "One-month purchase: $45"
+            }
+          }
+        },
+        {
+          "scope": "plan",
+          "action": "update",
+          "provider": "Trae",
+          "brand_slug": "trae",
+          "plan_id": "trae.ultra",
+          "plan_name": "Ultra",
+          "changes": {
+            "yearly_price": {
+              "from": null,
+              "to": 900
+            },
+            "annual_price": {
+              "from": null,
+              "to": 900
+            },
+            "included_calls": {
+              "from": null,
+              "to": "$400 Basic usage + Bonus usage"
+            },
+            "concurrency_limit": {
+              "from": null,
+              "to": "20"
+            },
+            "notes": {
+              "from": null,
+              "to": "One-month purchase: $150"
+            }
+          }
+        }
+      ]
+    },
     {
       "id": "changelog-1785722712093",
       "date": "2026-08-03",
