@@ -1,9 +1,14 @@
 import { initAppShell } from './app.js';
 import {
   applyPlanTableFilter,
+  bindPlanColumnSettings,
   bindPlanTableFilters,
   clearPlanTableFilter,
+  fitPlanTableToViewport,
   isAvailableOnlyActive,
+  planTableContainerWidth,
+  renderPlanColumnSettings,
+  syncPlanColumnVisibilityWithWidth,
   toggleAvailableOnly
 } from './plans-filters.js';
 import { getModelPriceExportModels, renderModelPriceView } from './model-price-table.js';
@@ -229,6 +234,8 @@ function bindExportMenu(root, getExportPayload, providerInfo) {
 
 function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], models = []) {
   if (!els.codingPlanOverview) return;
+  // 首屏列集按容器宽度匹配：宽屏（容器 ≥ 1520px）直接展开全部列，窄屏保持核心列
+  syncPlanColumnVisibilityWithWidth(planTableContainerWidth());
   const displayablePlans = filterPlansByProviderInfo(plans, providerInfo, PROVIDER_NAME_MAP);
   const grouped = groupPlansByBrand(displayablePlans, providerInfo);
   const visibleBrands = [...grouped.values()]
@@ -278,6 +285,7 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
               <svg class="brand-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4 4" stroke-linecap="round"/></svg>
               <input id="brandSearchInput" type="search" class="brand-search-input" placeholder="${escapeHtml(t('home.search.brand'))}" autocomplete="off" aria-label="${escapeHtml(t('home.search.aria'))}">
             </div>
+            ${renderPlanColumnSettings()}
           </div>
           <div id="brandTabs" class="brand-tab-list">
             ${VIRTUAL_TABS.map(tab => `
@@ -325,6 +333,9 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
   `;
 
   finishPlansLoading();
+  // 初次渲染走 HTML 模板路径（不经 renderCurrentView），挂载后需按表格实际可视宽度封顶，
+  // 避免窄视口下最后一列被横向滚动挤出可视区（模板求值时 wrap 尚未挂载只能按容器估算）
+  fitPlanTableToViewport();
 
   const workbench = els.codingPlanOverview.querySelector('.plans-workbench');
   const filterBar = els.codingPlanOverview.querySelector('#brandFilterBar');
@@ -370,7 +381,18 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
       expandedProviders,
       activeBrandId !== 'all'
     );
+    fitPlanTableToViewport(); // 渲染后按表格实际可视宽度封顶（初次渲染时 wrap 未挂载只能估算）
   };
+  // 宽度档位自动匹配：resize 防抖后按容器宽度调整列集（自动模式），跨阈值才重渲染；手动模式下不覆盖
+  let columnResizeTimer = null;
+  window.addEventListener('resize', () => {
+    if (columnResizeTimer) return;
+    columnResizeTimer = setTimeout(() => {
+      columnResizeTimer = null;
+      if (syncPlanColumnVisibilityWithWidth(planTableContainerWidth())) renderCurrentView();
+      else fitPlanTableToViewport(); // 列集未变但可视宽度变化时，仅修正表格宽度
+    }, 200);
+  });
   const resetViewState = () => {
     clearPlanTableFilter();
     selectedPlanKey = '';
@@ -386,6 +408,8 @@ function renderCodingPlanOverview(plans, providerInfo = {}, modelCatalog = [], m
     selectedPlanKey = selectedPlanKey === key ? '' : key;
     renderCurrentView();
   });
+  // 列设置按钮已并入筛选行（表格容器 detail 之外），事件独立绑定；每次渲染重建 DOM 后重新绑定，无重复监听
+  bindPlanColumnSettings(filterBar, renderCurrentView);
   const togglePlanGroup = provider => {
     if (expandedProviders.has(provider)) expandedProviders.delete(provider);
     else expandedProviders.add(provider);

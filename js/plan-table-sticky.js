@@ -1,7 +1,10 @@
-// 表格吸顶浮条：.plan-table-wrap 为支持横向滚动设置了 overflow-x: auto，
+// 表格吸顶浮条：.plan-table-wrap / .model-price-table-wrap 为支持横向滚动设置了 overflow-x: auto，
 // 这会使它成为滚动容器，导致 CSS sticky 表头的 top 偏移相对容器生效（表头被下推产生空白）。
 // 因此改用 scroll 监听 + fixed 浮条复刻表头：表头滚出导航栏下方时固定显示，并同步横向滚动位置。
 const BAR_CLASS = 'plan-table-sticky-bar';
+
+// 需要吸顶的表格容器（套餐对比表 + 模型价格表共用同一套浮条逻辑）
+const WRAP_SELECTORS = ['.plan-table-wrap', '.model-price-table-wrap'];
 
 export function initPlanTableSticky(detail) {
   if (!detail) return;
@@ -13,7 +16,14 @@ export function initPlanTableSticky(detail) {
   let clonedThead = null;
   let rafId = 0;
 
+  // 吸顶基准线取顶部固定导航（#header-root）的实际下边缘：活动横幅存在时导航整体下移
+  // （--deals-banner-height 叠加在 --header-height 之上），仅读 --header-height 会让浮条被导航遮挡
   const headerOffset = () => {
+    const header = document.getElementById('header-root');
+    if (header) {
+      const bottom = header.getBoundingClientRect().bottom;
+      if (Number.isFinite(bottom) && bottom > 0) return bottom;
+    }
     const raw = window.getComputedStyle(document.documentElement).getPropertyValue('--header-height');
     const value = parseFloat(raw);
     return Number.isFinite(value) && value > 0 ? value : 64;
@@ -38,7 +48,23 @@ export function initPlanTableSticky(detail) {
     const colgroup = table.querySelector('colgroup');
     barTable.className = table.className;
     barTable.innerHTML = '';
-    if (colgroup) barTable.appendChild(colgroup.cloneNode(true));
+    if (colgroup) {
+      barTable.appendChild(colgroup.cloneNode(true));
+    } else {
+      // 无 colgroup 的表格（如模型价格表，table-layout: auto）按当前真实列宽生成，
+      // 保证浮条表头列宽与表格一致
+      const cols = [...thead.querySelectorAll('th')];
+      if (cols.length) {
+        const cg = document.createElement('colgroup');
+        cols.forEach(th => {
+          const col = document.createElement('col');
+          const width = th.getBoundingClientRect().width;
+          if (width > 0) col.style.width = `${width}px`;
+          cg.appendChild(col);
+        });
+        barTable.appendChild(cg);
+      }
+    }
     barTable.appendChild(thead.cloneNode(true));
     clonedThead = thead;
     return true;
@@ -51,10 +77,15 @@ export function initPlanTableSticky(detail) {
   const update = () => {
     rafId = 0;
     const viewTable = detail.querySelector('.plan-view-table');
-    const wrap = detail.querySelector('.plan-table-wrap');
+    const wrap = WRAP_SELECTORS.map(selector => detail.querySelector(selector)).find(Boolean);
     const table = wrap?.querySelector('table');
-    // 移动端卡片视图 / 表格未渲染时不吸顶
-    if (!viewTable || !wrap || !table || window.getComputedStyle(viewTable).display === 'none') {
+    // 横向滚动遮罩状态：可滚动时显示右缘渐隐提示，滚到最右淡出（CSS 类驱动，复用本函数 scroll 链路，无额外监听器）
+    if (wrap) {
+      wrap.classList.toggle('can-scroll', wrap.scrollWidth > wrap.clientWidth + 1);
+      wrap.classList.toggle('is-scrolled-end', wrap.scrollLeft >= wrap.scrollWidth - wrap.clientWidth - 1);
+    }
+    // 移动端卡片视图 / 表格未渲染时不吸顶（模型价格视图无 .plan-view-table，不受卡片判断限制）
+    if (!wrap || !table || (viewTable && window.getComputedStyle(viewTable).display === 'none')) {
       hideBar();
       return;
     }

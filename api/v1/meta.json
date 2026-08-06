@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-04T08:48:39.776Z",
+  "generated_at": "2026-08-06T04:57:59.461Z",
   "site": "com",
   "docs": "https://www.creditsplan.com/developers.html",
   "endpoints": [
@@ -8,6 +8,6 @@
     "/api/v1/price-history.json",
     "/api/v1/meta.json"
   ],
-  "plan_count": 61,
-  "price_history_plan_count": 61
+  "plan_count": 63,
+  "price_history_plan_count": 63
 }

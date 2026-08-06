@@ -15,7 +15,7 @@ import {
   hasActivePlanTableFilter,
   planTablePriceValue
 } from './shared/plan-table-utils.js';
-import { planQuotaDisplay, planUnitPriceDisplay } from './shared/quota-utils.js';
+import { planQuotaDisplay } from './shared/quota-utils.js';
 
 let privacyProviderInfo = {};
 export function setPlanTablePrivacyContext(providerInfo) {
@@ -47,23 +47,161 @@ export function planBillingUnitIsDisclosed(plan) {
   return Boolean(BILLING_UNIT_KEYS[plan.limitType]);
 }
 
+// width 与 colgroup 列宽一致；defaultVisible=false 的次要列默认隐藏（避免常见桌面分辨率出现横向滚动条），
+// 用户可在「列设置」菜单勾选恢复；provider 为品牌图标列，minWidth 防止图标被挤压
 export const PLAN_TABLE_FILTER_COLUMNS = [
-  { key: 'provider', labelKey: 'table.col.provider', value: plan => displayNameForProvider(plan.provider, privacyProviderInfo, PROVIDER_NAME_MAP) || EMPTY_TABLE_VALUE },
-  { key: 'name', labelKey: 'table.col.name', value: plan => cleanValue(plan.name) || EMPTY_TABLE_VALUE },
-  { key: 'monthlyPrice', labelKey: 'table.col.monthly', value: plan => planTablePriceValue(plan.monthlyPrice) },
-  { key: 'quarterlyPrice', labelKey: 'table.col.quarterly', value: plan => planTablePriceValue(plan.quarterlyPrice) },
-  { key: 'annualPrice', labelKey: 'table.col.annual', value: plan => planTablePriceValue(plan.annualPrice) },
-  { key: 'billingUnit', labelKey: 'table.col.billingUnit', value: plan => planBillingUnitLabel(plan) },
-  { key: 'quota', labelKey: 'table.col.quota', value: plan => planQuotaDisplay(plan)?.text || EMPTY_TABLE_VALUE },
-  { key: 'unitPrice', labelKey: 'table.col.unitPrice', value: plan => planUnitPriceDisplay(plan)?.text || EMPTY_TABLE_VALUE },
-  { key: 'model', labelKey: 'table.col.model', value: plan => supportedModelDisplay(plan) || EMPTY_TABLE_VALUE },
-  { key: 'status', labelKey: 'table.col.status', value: plan => cleanValue(plan.statusLabel) || EMPTY_TABLE_VALUE },
-  { key: 'domesticPayment', labelKey: 'table.col.domesticPayment', value: plan => plan.domesticPayment ? t('common.supported') : '—' },
-  { key: 'intlNetwork', labelKey: 'table.col.intlNetwork', value: plan => plan.intlNetwork ? t('common.required') : '—' },
-  { key: 'dataTraining', labelKey: 'table.col.dataTraining', value: plan => planDataTrainingLabel(plan) },
-  { key: 'verifiedAt', labelKey: 'table.col.verified', value: plan => cleanValue(plan.lastVerifiedAt) || t('table.verified.pending') },
-  { key: 'source', labelKey: 'table.col.source', value: plan => plan.url ? t('table.source.name') : EMPTY_TABLE_VALUE }
+  { key: 'provider', labelKey: 'table.col.provider', width: 8, minWidth: 150, defaultVisible: true, value: plan => displayNameForProvider(plan.provider, privacyProviderInfo, PROVIDER_NAME_MAP) || EMPTY_TABLE_VALUE },
+  { key: 'name', labelKey: 'table.col.name', width: 13, defaultVisible: true, value: plan => cleanValue(plan.name) || EMPTY_TABLE_VALUE },
+  { key: 'monthlyPrice', labelKey: 'table.col.monthly', width: 7, defaultVisible: true, value: plan => planTablePriceValue(plan.monthlyPrice) },
+  { key: 'quarterlyPrice', labelKey: 'table.col.quarterly', width: 7, defaultVisible: true, value: plan => planTablePriceValue(plan.quarterlyPrice) },
+  { key: 'annualPrice', labelKey: 'table.col.annual', width: 7, defaultVisible: true, value: plan => planTablePriceValue(plan.annualPrice) },
+  { key: 'billingUnit', labelKey: 'table.col.billingUnit', width: 7, defaultVisible: false, value: plan => planBillingUnitLabel(plan) },
+  { key: 'quota', labelKey: 'table.col.quota', width: 11, defaultVisible: true, value: plan => planQuotaDisplay(plan)?.text || EMPTY_TABLE_VALUE },
+  { key: 'model', labelKey: 'table.col.model', width: 7, defaultVisible: true, value: plan => supportedModelDisplay(plan) || EMPTY_TABLE_VALUE },
+  { key: 'domesticPayment', labelKey: 'table.col.domesticPayment', width: 7, defaultVisible: false, value: plan => plan.domesticPayment ? t('common.supported') : '—' },
+  { key: 'intlNetwork', labelKey: 'table.col.intlNetwork', width: 7, defaultVisible: false, value: plan => plan.intlNetwork ? t('common.required') : '—' },
+  { key: 'dataTraining', labelKey: 'table.col.dataTraining', width: 7, defaultVisible: false, value: plan => planDataTrainingLabel(plan) },
+  { key: 'verifiedAt', labelKey: 'table.col.verified', width: 7, defaultVisible: false, value: plan => cleanValue(plan.lastVerifiedAt) || t('table.verified.pending') },
+  { key: 'status', labelKey: 'table.col.status', width: 6, minWidth: 110, defaultVisible: true, value: plan => cleanValue(plan.statusLabel) || EMPTY_TABLE_VALUE }
 ];
+
+// —— 列显隐设置 ——
+// 默认只显示核心列；隐藏列不删除，用户随时可在「列设置」菜单勾选恢复。
+// 自动模式：未手动设置时按表格容器宽度自动增减列（容器 ≥ 全列最小宽度时展开全部列）；
+// 用户勾选/取消任意列即进入手动模式（localStorage 持久化），此后宽度变化不再覆盖手动选择。
+const PLAN_TABLE_COLUMNS_STORAGE_KEY = 'plan-table-columns';
+const PLAN_TABLE_MIN_WIDTH = 1520;       // 全部列展开时的最小表格宽度（与历史 colgroup 总宽一致）
+const PLAN_TABLE_MIN_WIDTH_FLOOR = 1080; // 宽度下限：保证默认 9 列时各列内容可读且 1280/1366 视口无横向滚动
+
+const DEFAULT_VISIBLE_COLUMN_KEYS = PLAN_TABLE_FILTER_COLUMNS
+  .filter(column => column.defaultVisible)
+  .map(column => column.key);
+
+const ALL_COLUMN_KEYS = PLAN_TABLE_FILTER_COLUMNS.map(column => column.key);
+
+// 自动模式列集：容器可用宽度 ≥ 全列最小宽度时显示全部列，否则核心列
+function autoVisibleColumnKeysForWidth(containerWidth) {
+  return containerWidth >= PLAN_TABLE_MIN_WIDTH ? ALL_COLUMN_KEYS : DEFAULT_VISIBLE_COLUMN_KEYS;
+}
+
+// 读取页面容器宽度用于列数档位判断（DOM 未就绪时退回视口宽度）。
+// 注意不能优先读 .plan-table-wrap：它是横向滚动容器，clientWidth 是可见区宽度，
+// 全列展开时总比页面容器窄（如 1600px 容器下仅 1492px），会把宽屏误判为窄屏。
+export function planTableContainerWidth() {
+  const el = document.querySelector('.plans-page-shell') || document.querySelector('.page-shell') || document.querySelector('.plan-table-wrap');
+  return el ? el.clientWidth : window.innerWidth;
+}
+
+let planColumnVisibilityManual = false;
+
+function loadPlanColumnVisibility() {
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(PLAN_TABLE_COLUMNS_STORAGE_KEY));
+    // 新版 { v, manual, cols }；旧版纯数组视为手动记录（兼容历史设置）
+    const cols = Array.isArray(stored) ? stored : (stored && Array.isArray(stored.cols) ? stored.cols : null);
+    if (cols && cols.length) {
+      const valid = cols.filter(key => PLAN_TABLE_FILTER_COLUMNS.some(column => column.key === key));
+      if (valid.length) {
+        planColumnVisibilityManual = Array.isArray(stored) || stored.manual === true;
+        return new Set(valid);
+      }
+    }
+  } catch {
+    // localStorage 不可用/数据损坏时回退自动默认集
+  }
+  planColumnVisibilityManual = false;
+  return new Set(DEFAULT_VISIBLE_COLUMN_KEYS);
+}
+
+let planColumnVisibility = loadPlanColumnVisibility();
+
+function persistPlanColumnVisibility() {
+  try {
+    window.localStorage.setItem(PLAN_TABLE_COLUMNS_STORAGE_KEY, JSON.stringify({
+      v: 1,
+      manual: planColumnVisibilityManual,
+      cols: [...planColumnVisibility]
+    }));
+  } catch {
+    // 隐私模式等场景下持久化失败不影响本次会话
+  }
+}
+
+export function isPlanColumnVisible(key) {
+  return planColumnVisibility.has(key);
+}
+
+export function isPlanColumnVisibilityManual() {
+  return planColumnVisibilityManual;
+}
+
+export function togglePlanColumn(key) {
+  if (!PLAN_TABLE_FILTER_COLUMNS.some(column => column.key === key)) return;
+  if (planColumnVisibility.has(key)) planColumnVisibility.delete(key);
+  else planColumnVisibility.add(key);
+  planColumnVisibilityManual = true; // 用户显式选择进入手动模式
+  persistPlanColumnVisibility();
+}
+
+export function resetPlanColumnVisibility() {
+  planColumnVisibilityManual = false;
+  try { window.localStorage.removeItem(PLAN_TABLE_COLUMNS_STORAGE_KEY); } catch { /* 隐私模式等场景忽略 */ }
+  planColumnVisibility = new Set(autoVisibleColumnKeysForWidth(planTableContainerWidth()));
+}
+
+// 自动模式下按容器宽度调整列集；返回是否发生变化（调用方据此决定是否重渲染）
+export function syncPlanColumnVisibilityWithWidth(containerWidth) {
+  if (planColumnVisibilityManual) return false;
+  const next = autoVisibleColumnKeysForWidth(containerWidth);
+  const changed = next.length !== planColumnVisibility.size
+    || next.some(key => !planColumnVisibility.has(key));
+  if (changed) {
+    planColumnVisibility = new Set(next);
+    // 自动模式下列集随宽度变化，同步列设置按钮的隐藏数列标签与勾选态（按钮在表格容器之外，不随表格重渲染）
+    syncPlanColumnSettingsMenu();
+  }
+  return changed;
+}
+
+export function visiblePlanTableColumns() {
+  return PLAN_TABLE_FILTER_COLUMNS.filter(column => planColumnVisibility.has(column.key));
+}
+
+// 表格可视宽度：优先取滚动容器 .plan-table-wrap 的内容宽（表格实际可显示区域，比外层 shell 窄一层内边距），
+// 用于 min-width 封顶；DOM 未就绪时退回页面容器宽度。
+// 注意：列数档位判断（autoVisibleColumnKeysForWidth）仍用 planTableContainerWidth，两处口径不同不可混用。
+function planTableViewportWidth() {
+  const wrap = document.querySelector('.plan-table-wrap');
+  return wrap ? wrap.clientWidth : planTableContainerWidth();
+}
+
+// 表格最小宽度随可见列权重折算：列越少表格越窄（默认无横向滚动），全部恢复时回到原始宽度自动横滚。
+// 默认列集（自然宽 ≤ 下限）时再以表格可视宽度封顶，避免窄视口下最后一列被横向滚动挤出可视区；
+// 手动展开全列（自然宽 > 下限）时保持原始宽度，允许用户横向滚动查看全部列。
+export function planTableMinWidth() {
+  const totalWidth = PLAN_TABLE_FILTER_COLUMNS.reduce((sum, column) => sum + (column.width || 0), 0);
+  const visibleWidth = visiblePlanTableColumns().reduce((sum, column) => sum + (column.width || 0), 0);
+  const natural = Math.round(PLAN_TABLE_MIN_WIDTH * visibleWidth / totalWidth);
+  if (natural <= PLAN_TABLE_MIN_WIDTH_FLOOR) {
+    return Math.min(PLAN_TABLE_MIN_WIDTH_FLOOR, planTableViewportWidth());
+  }
+  return natural;
+}
+
+// 渲染后/窗口变化后自适应：初次渲染时 .plan-table-wrap 尚未挂载，min-width 只能按页面容器估算；
+// 即使挂载后 CSS 也可能尚未应用（异步加载），此时容器宽度是未加内边距的值，
+// 故下一帧再校准一次，避免窄视口下最后一列被横向滚动挤出可视区。
+export function fitPlanTableToViewport() {
+  const wrap = document.querySelector('.plan-table-wrap');
+  const table = wrap && wrap.querySelector('table');
+  if (!table) return;
+  table.style.minWidth = planTableMinWidth() + 'px';
+  requestAnimationFrame(() => {
+    const wrap2 = document.querySelector('.plan-table-wrap');
+    const table2 = wrap2 && wrap2.querySelector('table');
+    if (table2) table2.style.minWidth = planTableMinWidth() + 'px';
+  });
+}
 
 let planTableFilterState = createPlanTableFilterState();
 // “只看可购买”快捷开关（与列筛选独立，可叠加）
@@ -179,12 +317,48 @@ export function renderPlanTableFilterSummary(filteredPlans, plans) {
   `;
 }
 
+let planColumnSettingsOpen = false;
+
+export function setPlanColumnSettingsOpen(open) {
+  planColumnSettingsOpen = open;
+}
+
+// 「列设置」菜单：勾选切换表格列显隐；隐藏列不删除（信息零丢失），菜单打开状态跨重渲染保持
+export function renderPlanColumnSettings() {
+  const hiddenCount = PLAN_TABLE_FILTER_COLUMNS.length - visiblePlanTableColumns().length;
+  return `
+    <div class="plan-column-settings">
+      <button type="button" class="plan-column-settings-trigger" data-plan-column-settings aria-haspopup="menu" aria-expanded="${planColumnSettingsOpen ? 'true' : 'false'}" title="${escapeHtml(t('table.colSettings.title'))}">
+        <span class="plan-column-settings-label">${escapeHtml(t('table.colSettings.trigger'))}${hiddenCount ? ` · ${escapeHtml(t('table.colSettings.hidden', { n: hiddenCount }))}` : ''}</span>
+        <span class="plan-column-filter-caret" aria-hidden="true"></span>
+      </button>
+      <div class="plan-column-settings-menu" role="menu"${planColumnSettingsOpen ? '' : ' hidden'}>
+        ${PLAN_TABLE_FILTER_COLUMNS.map(column => `
+          <button type="button" class="plan-column-settings-option${isPlanColumnVisible(column.key) ? ' is-active' : ''}" role="menuitemcheckbox" aria-checked="${isPlanColumnVisible(column.key) ? 'true' : 'false'}" data-plan-column-toggle="${escapeHtml(column.key)}">
+            <span class="plan-column-settings-check" aria-hidden="true">✓</span>
+            <span class="plan-column-settings-option-label">${escapeHtml(t(column.labelKey))}</span>
+          </button>
+        `).join('')}
+        <button type="button" class="plan-column-settings-reset" data-plan-column-reset>${escapeHtml(t('table.colSettings.reset'))}</button>
+      </div>
+    </div>
+  `;
+}
+
 function closePlanColumnFilterMenus(root) {
   if (!root) return;
-  root.querySelectorAll('.plan-column-filter-menu').forEach(menu => {
+  planColumnSettingsOpen = false;
+  // 列设置按钮/菜单在筛选行（表格容器之外），不随表格重渲染重建，显隐直接操作 DOM 全局关闭，保证与表格筛选菜单互斥
+  document.querySelectorAll('.plan-column-filter-menu').forEach(menu => {
     menu.hidden = true;
   });
-  root.querySelectorAll('[data-plan-filter-column]').forEach(button => {
+  document.querySelectorAll('[data-plan-filter-column]').forEach(button => {
+    button.setAttribute('aria-expanded', 'false');
+  });
+  document.querySelectorAll('.plan-column-settings-menu').forEach(menu => {
+    menu.hidden = true;
+  });
+  document.querySelectorAll('[data-plan-column-settings]').forEach(button => {
     button.setAttribute('aria-expanded', 'false');
   });
 }
@@ -222,6 +396,29 @@ export function bindPlanTableFilters(detail, getPlans, renderCurrentView, select
       return;
     }
 
+    const columnSettings = event.target.closest('[data-plan-column-settings]');
+    if (columnSettings && detail.contains(columnSettings)) {
+      const wasOpen = planColumnSettingsOpen;
+      closePlanColumnFilterMenus(detail);
+      if (!wasOpen) setPlanColumnSettingsOpen(true);
+      renderCurrentView();
+      return;
+    }
+
+    const columnToggle = event.target.closest('[data-plan-column-toggle]');
+    if (columnToggle && detail.contains(columnToggle)) {
+      togglePlanColumn(columnToggle.dataset.planColumnToggle);
+      renderCurrentView();
+      return;
+    }
+
+    const columnReset = event.target.closest('[data-plan-column-reset]');
+    if (columnReset && detail.contains(columnReset)) {
+      resetPlanColumnVisibility();
+      renderCurrentView();
+      return;
+    }
+
     const planTrigger = event.target.closest('[data-plan-key]');
     if (planTrigger && detail.contains(planTrigger) && !event.target.closest('a')) {
       const key = planTrigger.dataset.planKey || '';
@@ -229,7 +426,9 @@ export function bindPlanTableFilters(detail, getPlans, renderCurrentView, select
       return;
     }
 
-    if (!event.target.closest('.plan-column-filter')) closePlanColumnFilterMenus(detail);
+    if (!event.target.closest('.plan-column-filter') && !event.target.closest('.plan-column-settings')) {
+      closePlanColumnFilterMenus(detail);
+    }
   });
 
   detail.addEventListener('keydown', event => {
@@ -242,9 +441,64 @@ export function bindPlanTableFilters(detail, getPlans, renderCurrentView, select
   });
 
   document.addEventListener('click', event => {
-    if (!detail.contains(event.target)) closePlanColumnFilterMenus(detail);
+    // 列设置菜单保持打开依赖重渲染后不误关：点击导致重渲染时 event.target 已脱离 DOM，
+    // body.contains 为 false 时视为点击发生在页面内（旧节点），不做外部点击关闭处理；
+    // 列设置按钮/菜单在筛选行（detail 之外），点击其内部由独立绑定处理，此处不关闭
+    if (!detail.contains(event.target) && document.body.contains(event.target) && !event.target.closest('.plan-column-settings')) {
+      closePlanColumnFilterMenus(detail);
+    }
   });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closePlanColumnFilterMenus(detail);
+  });
+}
+
+// 同步所有「列设置」按钮的勾选态与隐藏数列标签：与列集变化同一时机调用，
+// 避免 resize 同步监听与防抖回调之间的时序错位（列集先变，标签随后同步）
+export function syncPlanColumnSettingsMenu() {
+  document.querySelectorAll('.plan-column-settings').forEach(container => {
+    container.querySelectorAll('[data-plan-column-toggle]').forEach(button => {
+      const active = isPlanColumnVisible(button.dataset.planColumnToggle);
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-checked', String(active));
+    });
+    container.querySelectorAll('[data-plan-column-settings]').forEach(button => {
+      const label = button.querySelector('.plan-column-settings-label');
+      if (!label) return;
+      const hiddenCount = PLAN_TABLE_FILTER_COLUMNS.length - visiblePlanTableColumns().length;
+      label.textContent = `${t('table.colSettings.trigger')}${hiddenCount ? ` · ${t('table.colSettings.hidden', { n: hiddenCount })}` : ''}`;
+    });
+  });
+}
+
+// 「列设置」按钮/菜单在筛选行（表格容器 detail 之外），不随表格重渲染重建，
+// 事件独立绑定：菜单显隐、勾选态与隐藏数标签直接操作 DOM 保持同步。
+export function bindPlanColumnSettings(settingsRoot, renderCurrentView) {
+  settingsRoot.addEventListener('click', event => {
+    const trigger = event.target.closest('[data-plan-column-settings]');
+    if (trigger && settingsRoot.contains(trigger)) {
+      const wasOpen = planColumnSettingsOpen;
+      closePlanColumnFilterMenus(settingsRoot);
+      if (wasOpen) return;
+      planColumnSettingsOpen = true;
+      const menu = trigger.closest('.plan-column-settings')?.querySelector('.plan-column-settings-menu');
+      if (menu) menu.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      return;
+    }
+    const columnToggle = event.target.closest('[data-plan-column-toggle]');
+    if (columnToggle && settingsRoot.contains(columnToggle)) {
+      togglePlanColumn(columnToggle.dataset.planColumnToggle);
+      renderCurrentView();
+      syncPlanColumnSettingsMenu();
+      return;
+    }
+    const columnReset = event.target.closest('[data-plan-column-reset]');
+    if (columnReset && settingsRoot.contains(columnReset)) {
+      resetPlanColumnVisibility();
+      renderCurrentView();
+      syncPlanColumnSettingsMenu();
+      return;
+    }
   });
 }

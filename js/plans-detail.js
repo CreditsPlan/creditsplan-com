@@ -14,7 +14,7 @@ import {
   supportedModelDisplay,
   verifiedFreshness
 } from './shared/plan-utils.js';
-import { planQuotaDisplay } from './shared/quota-utils.js';
+import { planQuotaDisplay, planUnitPriceDisplay } from './shared/quota-utils.js';
 
 export const PLAN_TYPE_LABELS = {
   coding_plan: t('planType.codingPlan'),
@@ -162,10 +162,18 @@ export function renderPlanPriceBlock(plan) {
     </div>`;
 }
 
-export function renderSelectedPlanDetail(plan, providerInfo = {}) {
+// 表格列 → 详情已覆盖：价格块/明细行/footer 已展示这些列的信息，列隐藏时不在详情中重复展示
+const DETAIL_COVERED_COLUMN_KEYS = new Set([
+  'monthlyPrice', 'quarterlyPrice', 'annualPrice', 'quota', 'model',
+  'domesticPayment', 'dataTraining', 'verifiedAt'
+]);
+
+export function renderSelectedPlanDetail(plan, providerInfo = {}, hiddenTableColumns = [], visibleColumnKeys = null) {
   if (!plan) return '';
   const typeLabel = PLAN_TYPE_LABELS[plan.planType] || plan.planType || '';
   const rows = [];
+  // 列可见时表格已展示该字段，详情不再重复展示；visibleColumnKeys 为空（卡片视图等）时不裁剪
+  const columnVisible = key => visibleColumnKeys ? visibleColumnKeys.has(key) : false;
   const hasRmb = plan.rmbRecharge && plan.rmbRecharge !== 'TBD' && plan.rmbRecharge !== 'See official site';
   const hasInvoice = plan.invoice && plan.invoice !== 'TBD' && plan.invoice !== 'See official site';
   const privacy = resolvePlanPrivacy(plan, providerInfo, PROVIDER_NAME_MAP);
@@ -176,20 +184,22 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
     && optionalDetailText(plan.includedCalls).replace(/\s+/g, '').includes(compactTokenLimit);
 
   addPlanExtraRow(rows, t('detail.type'), typeLabel, false, false, true);
-  addPlanExtraRow(rows, t('detail.supportedModels'), (plan.supportedModelNames || []).join(getLang() === 'en' ? ', ' : '、'), false, true);
+  if (!columnVisible('model')) {
+    addPlanExtraRow(rows, t('detail.supportedModels'), (plan.supportedModelNames || []).join(getLang() === 'en' ? ', ' : '、'), false, true);
+  }
   if (plan.firstMonthPrice != null) {
     const firstMonthPrice = Number(plan.firstMonthPrice);
     addPlanExtraRow(rows, t('detail.firstMonth'), Number.isFinite(firstMonthPrice)
       ? `${currencySymbol(plan.monthlyCurrency || 'USD')}${formatPriceNumber(firstMonthPrice)}`
       : plan.firstMonthPrice);
   }
-  if (plan.domesticPayment) addPlanExtraRow(rows, t('detail.domesticPay'), t('common.supported'), false, false, true);
-  if (quotaField !== 'includedCalls') addPlanExtraRow(rows, t('detail.includedCalls'), plan.includedCalls, false, false, true);
+  if (!columnVisible('domesticPayment') && plan.domesticPayment) addPlanExtraRow(rows, t('detail.domesticPay'), t('common.supported'), false, false, true);
+  if (!columnVisible('quota') && quotaField !== 'includedCalls') addPlanExtraRow(rows, t('detail.includedCalls'), plan.includedCalls, false, false, true);
   // Combine five-hour, weekly, monthly requests into a single row to prevent wrapping
   const fiveHourText = optionalDetailText(plan.fiveHoursRequests);
   const weeklyText = optionalDetailText(plan.weeklyRequests);
   const monthlyText = quotaField === 'monthlyRequests' ? '' : optionalDetailText(plan.monthlyRequests);
-  if (fiveHourText || weeklyText || monthlyText) {
+  if (!columnVisible('quota') && (fiveHourText || weeklyText || monthlyText)) {
     rows.push({
       label: '',
       value: '',
@@ -203,10 +213,23 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
       monthlyText
     });
   }
+  // Unit price is derived from the quota and price columns; hidden from the table, shown in expanded detail only
+  const unitPrice = planUnitPriceDisplay(plan);
+  if (unitPrice) {
+    rows.push({
+      label: t('table.col.unitPrice'),
+      value: unitPrice.text,
+      keepInline: false,
+      wide: false,
+      compactInline: true,
+      nowrapValue: true,
+      title: unitPrice.estimated ? t('table.unitPrice.estimated') : ''
+    });
+  }
   addPlanExtraRow(rows, t('detail.fiveHourTokens'), plan.measuredFiveHoursTokens);
   addPlanExtraRow(rows, t('detail.weeklyTokens'), plan.measuredWeeklyTokens);
   addPlanExtraRow(rows, t('detail.monthlyTokens'), plan.measuredMonthlyTokens);
-  if (quotaField !== 'tokenLimit' && !tokenLimitDuplicated) addPlanExtraRow(rows, t('detail.tokenLimit'), plan.tokenLimit);
+  if (!columnVisible('quota') && quotaField !== 'tokenLimit' && !tokenLimitDuplicated) addPlanExtraRow(rows, t('detail.tokenLimit'), plan.tokenLimit);
   addPlanExtraRow(rows, t('detail.benefits'), plan.benefits ? plan.benefits.replace(/\n/g, getLang() === 'en' ? '; ' : '；') : undefined);
   addPlanExtraRow(rows, t('detail.inputPrice'), plan.modelInputPrice);
   addPlanExtraRow(rows, t('detail.outputPrice'), plan.modelOutputPrice);
@@ -225,7 +248,7 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
   addPlanExtraRow(rows, t('detail.suitableScene'), plan.suitableFor);
   addPlanExtraRow(rows, t('detail.recommendedFor'), plan.recommendationText, false, true);
   addPlanExtraRow(rows, t('detail.caution'), getRiskDisplayText(plan), false, true);
-  if (privacy.training) {
+  if (!columnVisible('dataTraining') && privacy.training) {
     const trainingLabel = t(`privacy.training.${privacy.training}`) || privacy.training;
     const privacyFresh = privacyFreshness(privacy.verifiedAt);
     const openParen = getLang() === 'en' ? ' (' : '（';
@@ -264,11 +287,20 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
       : (isLong ? 'plan-extra-item plan-extra-wide' : `plan-extra-item ${row.compactInline ? 'plan-extra-compact-inline' : 'plan-extra-inline'}`);
     const nowrapClass = row.nowrapValue ? ' plan-extra-nowrap' : '';
     return `
-    <div class="${itemClass}${nowrapClass}">
+    <div class="${itemClass}${nowrapClass}"${row.title ? ` title="${escapeHtml(row.title)}"` : ''}>
       <span class="plan-extra-label">${escapeHtml(row.label)}</span>
       <span class="plan-extra-value">${escapeHtml(row.value)}</span>
     </div>`;
-  }).join('') : `<p class="plan-extra-empty">${escapeHtml(t('detail.empty'))}</p>`;
+  }).join('') : '';
+  // 列设置中隐藏的表格列兜底展示（值复用表格单元格渲染，含徽标/链接等格式）
+  const hiddenRowsHtml = hiddenTableColumns
+    .filter(column => !DETAIL_COVERED_COLUMN_KEYS.has(column.key) && column.html)
+    .map(column => `
+      <div class="plan-extra-item plan-extra-inline">
+        <span class="plan-extra-label">${escapeHtml(column.label)}</span>
+        <span class="plan-extra-value">${column.html}</span>
+      </div>`)
+    .join('');
   const planUrl = safeExternalUrl(plan.url);
   const purchaseLink = purchaseLinkTarget(plan, planUrl);
   const sourceKind = sourceTypeKind(plan.sourceType);
@@ -276,14 +308,16 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
     ? t(`source.${sourceKind}`)
     : (plan.sourceType || t('detail.sourceMaintained'));
   const verifiedFresh = verifiedFreshness(plan.lastVerifiedAt);
-  const verifiedText = verifiedFresh.state === 'fresh'
-    ? t('detail.verifiedFresh', {
-      date: verifiedFresh.date,
-      rel: verifiedFresh.days === 0 ? t('verified.relToday') : t('verified.relDaysAgo', { n: verifiedFresh.days })
-    })
-    : verifiedFresh.state === 'stale'
-      ? t('detail.verifiedStale', { date: verifiedFresh.date })
-      : '';
+  const verifiedText = columnVisible('verifiedAt')
+    ? ''
+    : (verifiedFresh.state === 'fresh'
+      ? t('detail.verifiedFresh', {
+        date: verifiedFresh.date,
+        rel: verifiedFresh.days === 0 ? t('verified.relToday') : t('verified.relDaysAgo', { n: verifiedFresh.days })
+      })
+      : verifiedFresh.state === 'stale'
+        ? t('detail.verifiedStale', { date: verifiedFresh.date })
+        : '');
   const sourceMeta = verifiedText
     ? `${escapeHtml(t('detail.source'))}${getLang() === 'en' ? ': ' : '：'}${escapeHtml(sourceTypeLabel)} · ${escapeHtml(verifiedText)}`
     : '';
@@ -306,6 +340,8 @@ export function renderSelectedPlanDetail(plan, providerInfo = {}) {
       <div class="selected-plan-detail-body">
         <div class="plan-extra-list">
           ${rowsHtml}
+          ${hiddenRowsHtml}
+          ${rows.length || hiddenRowsHtml ? '' : `<p class="plan-extra-empty">${escapeHtml(t('detail.empty'))}</p>`}
         </div>
         ${footerHtml}
       </div>

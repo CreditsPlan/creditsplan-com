@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-04T08:48:39.776Z",
+  "generated_at": "2026-08-06T04:57:59.461Z",
   "site": "com",
   "docs": "https://www.creditsplan.com/developers.html",
-  "plan_count": 61,
+  "plan_count": 63,
   "plans": {
     "trae.lite": {
       "currency": "USD",
@@ -306,6 +306,15 @@
         }
       ]
     },
+    "google-antigravity.google-ai-plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-08-06",
+          "monthly_price": 4.99
+        }
+      ]
+    },
     "google-antigravity.google-ai-pro": {
       "currency": "USD",
       "points": [
@@ -339,6 +348,15 @@
         {
           "date": "2026-07-19",
           "monthly_price": 10
+        }
+      ]
+    },
+    "grok.supergrok-plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-08-05",
+          "monthly_price": 100
         }
       ]
     },

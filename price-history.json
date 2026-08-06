@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04",
+  "generated_at": "2026-08-06",
   "schema_version": 1,
   "plans": {
     "trae.lite": {
@@ -303,6 +303,15 @@
         }
       ]
     },
+    "google-antigravity.google-ai-plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-08-06",
+          "monthly_price": 4.99
+        }
+      ]
+    },
     "google-antigravity.google-ai-pro": {
       "currency": "USD",
       "points": [
@@ -336,6 +345,15 @@
         {
           "date": "2026-07-19",
           "monthly_price": 10
+        }
+      ]
+    },
+    "grok.supergrok-plus": {
+      "currency": "USD",
+      "points": [
+        {
+          "date": "2026-08-05",
+          "monthly_price": 100
         }
       ]
     },
