@@ -177,13 +177,17 @@ function planTableViewportWidth() {
 
 // 表格最小宽度随可见列权重折算：列越少表格越窄（默认无横向滚动），全部恢复时回到原始宽度自动横滚。
 // 默认列集（自然宽 ≤ 下限）时再以表格可视宽度封顶，避免窄视口下最后一列被横向滚动挤出可视区；
-// 手动展开全列（自然宽 > 下限）时保持原始宽度，允许用户横向滚动查看全部列。
+// 自动模式展开全列（自然宽 > 下限）时同样以表格可视宽度封顶——列集是随容器宽度自动增减的，
+// 表格不应超出可视区；仅手动展开全列时保持原始宽度，允许用户横向滚动查看全部列。
 export function planTableMinWidth() {
   const totalWidth = PLAN_TABLE_FILTER_COLUMNS.reduce((sum, column) => sum + (column.width || 0), 0);
   const visibleWidth = visiblePlanTableColumns().reduce((sum, column) => sum + (column.width || 0), 0);
   const natural = Math.round(PLAN_TABLE_MIN_WIDTH * visibleWidth / totalWidth);
   if (natural <= PLAN_TABLE_MIN_WIDTH_FLOOR) {
     return Math.min(PLAN_TABLE_MIN_WIDTH_FLOOR, planTableViewportWidth());
+  }
+  if (!planColumnVisibilityManual) {
+    return Math.min(natural, planTableViewportWidth());
   }
   return natural;
 }

@@ -1,6 +1,38 @@
 {
-  "last_updated": "2026-08-06",
+  "last_updated": "2026-08-08",
   "deals": [
+    {
+      "id": "promotion-1786180649056",
+      "provider": "ChatGPT",
+      "title": "ChatGPT 桌面版推荐奖励",
+      "title_en": "ChatGPT Desktop Referral Promotions",
+      "summary": "符合条件的用户可邀请他人试用 Codex，受邀者完成所需操作后，推荐人可获得 Codex 使用额度、速率限制重置、临时额外使用量等福利。具体福利、上限和兑换要求因优惠而异。",
+      "summary_en": "Eligible users can invite others to try Codex and earn promotional benefits such as Codex credits, rate limit resets, or temporary extra usage after the invitee completes qualifying actions. Specific benefits, limits, and redemption requirements vary by offer.",
+      "type": "invite",
+      "url": "https://help.openai.com/articles/20001271",
+      "url_en": "https://help.openai.com/en/articles/20001271",
+      "start_date": "",
+      "end_date": "",
+      "status": "active",
+      "date_range": "Ongoing",
+      "published_at": "2026-08-08"
+    },
+    {
+      "id": "promotion-1786180090239",
+      "provider": "OpenCode",
+      "title": "DeepSeek V4 Flash 限时享受 2 倍使用额度",
+      "title_en": "DeepSeek V4 Flash - Limited-Time 2x Usage Quota",
+      "summary": "",
+      "summary_en": "",
+      "type": "gift",
+      "url": "https://opencode.ai/go",
+      "url_en": "",
+      "start_date": "",
+      "end_date": "",
+      "status": "active",
+      "date_range": "Ongoing",
+      "published_at": "2026-08-08"
+    },
     {
       "id": "promotion-1786008328429",
       "provider": "Qoder",
