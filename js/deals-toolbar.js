@@ -1,5 +1,5 @@
 // deals-toolbar.js —— 活动页筛选/搜索/视图工具栏（渐进增强）。
-// 静态页已按状态分组渲染全部卡片；本模块在其上叠加：状态筛选、类型筛选、关键词搜索、
+// 静态页已按状态分组渲染全部卡片；本模块在其上叠加：状态筛选、类型筛选、品牌筛选、关键词搜索、
 // 「按状态 / 按时间」双视图（时间视图按开始日期生成日期标记时间线，风格对齐 AI 动态）。
 // 计数/空态/视图文案写在 DOM dataset 上（com 站由 i18n data-i18n-attr 翻译），模块本身不依赖语言。
 export function initDealsToolbar(main = document) {
@@ -13,6 +13,7 @@ export function initDealsToolbar(main = document) {
 
   let status = 'all';
   let type = 'all';
+  let brand = 'all';
   let query = '';
   let view = 'status';
   let timeline = null;
@@ -89,9 +90,10 @@ export function initDealsToolbar(main = document) {
     cards.forEach(card => {
       const matchStatus = status === 'all' || card.dataset.status === status;
       const matchType = type === 'all' || card.dataset.type === type;
+      const matchBrand = brand === 'all' || card.dataset.provider === brand;
       const haystack = `${card.dataset.title || ''} ${card.dataset.provider || ''} ${card.dataset.summary || ''}`;
       const matchQuery = !query || haystack.includes(query);
-      const show = matchStatus && matchType && matchQuery;
+      const show = matchStatus && matchType && matchBrand && matchQuery;
       card.hidden = !show;
       if (show) visible += 1;
     });
@@ -106,7 +108,7 @@ export function initDealsToolbar(main = document) {
       });
     }
     if (!countEl) return;
-    const filtering = status !== 'all' || type !== 'all' || query;
+    const filtering = status !== 'all' || type !== 'all' || brand !== 'all' || query;
     if (!filtering) {
       countEl.textContent = '';
       return;
@@ -142,6 +144,13 @@ export function initDealsToolbar(main = document) {
       const value = chip.dataset.dealType || 'all';
       type = type === value ? 'all' : value; // 再次点击同一类型 = 取消筛选
       syncChips('[data-deal-type]', 'dealType', type);
+      apply();
+    });
+  });
+  toolbar.querySelectorAll('[data-deal-brand]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      brand = chip.dataset.dealBrand || 'all';
+      syncChips('[data-deal-brand]', 'dealBrand', brand);
       apply();
     });
   });

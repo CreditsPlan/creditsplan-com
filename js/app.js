@@ -4,6 +4,7 @@ import { initTheme } from './theme.js';
 import { initI18n, applyI18n, t } from './i18n.js';
 import { initDealsToolbar } from './deals-toolbar.js';
 import { initPriceChangesFilter } from './price-changes-filter.js';
+import { initFitDescription } from './fit-description.js';
 import { installOutboundTracker, trackPageView } from './shared/outbound-tracker.js';
 
 initI18n();
@@ -23,6 +24,8 @@ export function initAppShell() {
   // 在 applyI18n 之后初始化：计数文案模板由 data-i18n-attr 先行翻译
   initDealsToolbar();
   initPriceChangesFilter();
+  // 活动描述能容纳就单行（SSR 卡片已在 DOM 中，直接测量）
+  initFitDescription();
 }
 
 function pageFromLocation() {

@@ -1,4 +1,5 @@
 import { initAppShell } from './app.js';
+import { initFitDescription } from './fit-description.js';
 import { escapeHtml } from './render.js';
 import { t, numberLocale, getLang, hasCjk, toEnglishDisplay } from './i18n.js';
 import { isLocalHostname } from './data-source.js';
@@ -230,6 +231,8 @@ function renderChangelog(data) {
   updateCategoryCounts();
   renderDateFilter();
   applyFilters();
+  // 摘要能容纳就单行：列表已渲染且可见，测量容器宽度
+  initFitDescription();
 
   setVisible(els.loading, false);
   setVisible(els.error, false);
